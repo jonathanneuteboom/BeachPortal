@@ -1,0 +1,32 @@
+<table mat-table [dataSource]="stand" class="mat-elevation-z8 stand">
+    <ng-container matColumnDef="team">
+        <th mat-header-cell *matHeaderCellDef> Stand </th>
+        <td mat-cell *matCellDef="let element"> {{element.team.naam}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="gewonnenWedstrijden">
+        <th mat-header-cell *matHeaderCellDef> Gewonnen </th>
+        <td mat-cell *matCellDef="let element"> {{element.gewonnenWedstrijden}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="puntenVoor">
+        <th mat-header-cell *matHeaderCellDef> Punten+ </th>
+        <td mat-cell *matCellDef="let element"> {{element.puntenVoor}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="puntenTegen">
+        <th mat-header-cell *matHeaderCellDef> Punten- </th>
+        <td mat-cell *matCellDef="let element"> {{element.puntenTegen}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="puntenquotient">
+        <th mat-header-cell *matHeaderCellDef> Q </th>
+        <td mat-cell *matCellDef="let element"> {{element.puntenquotient}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

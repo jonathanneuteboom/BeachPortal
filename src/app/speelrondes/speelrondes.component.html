@@ -1,0 +1,21 @@
+<div class="toggles">
+    <div>
+        <mat-button-toggle-group [formControl]="typeControl" [(ngModel)]="type">
+            <mat-button-toggle value="heren">Heren</mat-button-toggle>
+            <mat-button-toggle value="dames">Dames</mat-button-toggle>
+            <mat-button-toggle value="mix">Mix</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+    <div>
+        <mat-button-toggle-group [formControl]="speelrondeControl" [(ngModel)]="nummer">
+            <mat-button-toggle value="0">1</mat-button-toggle>
+            <mat-button-toggle value="1">2</mat-button-toggle>
+            <mat-button-toggle value="2">3</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+</div>
+
+
+<div *ngFor="let poule of speelrondes[nummer][type]">
+    <app-poule [poule]="poule"></app-poule>
+</div>

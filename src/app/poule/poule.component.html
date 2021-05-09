@@ -1,0 +1,10 @@
+<mat-card class="card" *ngIf="poule">
+    <mat-card-header>
+        <mat-card-title>Poule {{poule.naam}}</mat-card-title>
+        <mat-card-subtitle>Speelronde 4, {{ poule.speeltijd | date: 'MMM d, HH:mm' }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <app-stand [stand]="poule.stand"></app-stand>
+        <app-wedstrijden [wedstrijden]="poule.wedstrijden"></app-wedstrijden>
+    </mat-card-content>
+</mat-card>

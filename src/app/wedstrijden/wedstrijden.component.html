@@ -1,0 +1,29 @@
+<table mat-table [dataSource]="wedstrijden" class="mat-elevation-z8 wedstrijden">
+
+    <ng-container matColumnDef="team1">
+        <th mat-header-cell *matHeaderCellDef>Wedstrijden </th>
+        <td mat-cell *matCellDef="let wedstrijd"> {{wedstrijd.team1.naam}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="team2">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let wedstrijd"> {{wedstrijd.team2.naam}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="uitslag">
+        <th mat-header-cell *matHeaderCellDef> Uitslag </th>
+        <td mat-cell *matCellDef="let wedstrijd"> {{wedstrijd.puntenTeam1}} - {{wedstrijd.puntenTeam2}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="wijzigen">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let wedstrijd">
+            <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
