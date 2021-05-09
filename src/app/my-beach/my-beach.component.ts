@@ -1,10 +1,10 @@
+import { Categorie, Poule } from '../models/Poule';
 import { Component, OnInit } from '@angular/core';
-import { Poule } from '../models/Poule';
+
 import { Speler } from '../models/Speler';
 import { StandItem } from '../models/StandItem';
 import { Team } from '../models/Team';
 import { Wedstrijd } from '../models/Wedstrijd';
-
 
 @Component({
   selector: 'app-my-beach',
@@ -13,22 +13,6 @@ import { Wedstrijd } from '../models/Wedstrijd';
 })
 export class MyBeachComponent implements OnInit {
 
-
-  myTeams = [
-    <Team>{
-      spelers: [
-        {
-          naam: "Jonathan Neuteboom",
-          id: 1
-        },
-        {
-          naam: "Sjoerd Verbeek",
-          id: 2
-        },
-      ],
-      naam: "STXD"
-    }
-  ];
 
   teams: Team[] = [
     new Team("Binkies Alfa", [new Speler(1, "Jonathan Neuteboom"), new Speler(2, "Sjoerd Verbeek")]),
@@ -54,8 +38,8 @@ export class MyBeachComponent implements OnInit {
   ];
 
   poules = [
-    new Poule(1, "A", new Date(), this.stand, this.wedstrijden),
-    new Poule(1, "D", new Date(), this.stand, this.wedstrijden)
+    new Poule(1, "A", Categorie.Heren, new Date(), this.stand, this.wedstrijden, []),
+    new Poule(1, "D", Categorie.Dames, new Date(), this.stand, this.wedstrijden, [])
   ];
 
   constructor() { }

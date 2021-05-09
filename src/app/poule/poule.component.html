@@ -1,10 +1,12 @@
-<mat-card class="card" *ngIf="poule">
+<mat-card class="card" *ngIf="poule"
+    [ngClass]="{ heren: poule.categorie === heren, dames: poule.categorie === dames, mix: poule.categorie === mix }">
     <mat-card-header>
-        <mat-card-title>Poule {{poule.naam}}</mat-card-title>
-        <mat-card-subtitle>Speelronde 4, {{ poule.speeltijd | date: 'MMM d, HH:mm' }}</mat-card-subtitle>
+        <mat-card-title>Poule {{getCategorie(poule.categorie)}} {{poule.naam}}</mat-card-title>
+        <mat-card-subtitle>Speelronde 1, {{ poule.speeltijd | date: 'MMM d, HH:mm' }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <app-stand [stand]="poule.stand"></app-stand>
-        <app-wedstrijden [wedstrijden]="poule.wedstrijden"></app-wedstrijden>
+        <app-teams *ngIf="poule.teams" [teams]="poule.teams"></app-teams>
+        <app-stand *ngIf="poule.stand" [stand]="poule.stand"></app-stand>
+        <app-wedstrijden *ngIf="poule.wedstrijden" [wedstrijden]="poule.wedstrijden"></app-wedstrijden>
     </mat-card-content>
 </mat-card>

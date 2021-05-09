@@ -1,6 +1,7 @@
+import { Categorie, Poule } from '../models/Poule';
 import { Component, OnInit } from '@angular/core';
+
 import { FormControl } from '@angular/forms';
-import { Poule } from '../models/Poule';
 import { Speelronde } from '../models/Speelronde';
 import { Speler } from '../models/Speler';
 import { StandItem } from '../models/StandItem';
@@ -43,30 +44,30 @@ export class SpeelrondesComponent implements OnInit {
 
   speelrondes: Speelronde[] = [
     new Speelronde(10, 1, [
-      new Poule(1, "A", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "B", new Date(), this.stand, this.wedstrijden),
+      new Poule(1, "A", Categorie.Heren, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "B", Categorie.Dames, new Date(), this.stand, this.wedstrijden, []),
     ], [
-      new Poule(1, "C", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "D", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "E", new Date(), this.stand, this.wedstrijden)
+      new Poule(1, "C", Categorie.Heren, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "D", Categorie.Dames, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "E", Categorie.Mix, new Date(), this.stand, this.wedstrijden, [])
     ], [
-      new Poule(1, "F", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "G", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "H", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "I", new Date(), this.stand, this.wedstrijden)
+      new Poule(1, "F", Categorie.Heren, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "G", Categorie.Dames, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "H", Categorie.Heren, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "I", Categorie.Dames, new Date(), this.stand, this.wedstrijden, [])
     ]),
     new Speelronde(10, 2, [
-      new Poule(1, "J", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "K", new Date(), this.stand, this.wedstrijden),
+      new Poule(1, "J", Categorie.Heren, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "K", Categorie.Dames, new Date(), this.stand, this.wedstrijden, []),
     ], [
-      new Poule(1, "L", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "M", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "N", new Date(), this.stand, this.wedstrijden)
+      new Poule(1, "L", Categorie.Heren, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "M", Categorie.Dames, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "N", Categorie.Mix, new Date(), this.stand, this.wedstrijden, [])
     ], [
-      new Poule(1, "O", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "P", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "Q", new Date(), this.stand, this.wedstrijden),
-      new Poule(1, "R", new Date(), this.stand, this.wedstrijden)
+      new Poule(1, "O", Categorie.Heren, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "P", Categorie.Dames, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "Q", Categorie.Heren, new Date(), this.stand, this.wedstrijden, []),
+      new Poule(1, "R", Categorie.Dames, new Date(), this.stand, this.wedstrijden, [])
     ])
   ]
 

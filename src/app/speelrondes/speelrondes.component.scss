@@ -1,8 +1,14 @@
-.toggles{
+.toggles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  div {
+    padding: 10px;
+  }
+}
+
+.speelrondes{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    div{
-        padding: 10px;
-    }
+    justify-content: flex-start;
 }

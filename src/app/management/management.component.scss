@@ -1,0 +1,22 @@
+.toevoegen {
+  button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.teams {
+  padding: 10px;  
+  max-width: 600px;
+  width: 100%;
+
+}
+
+.management{
+    margin:20px;
+}

@@ -1,0 +1,6 @@
+<mat-list>
+    <div *ngFor="let team of teams; last as isLast">
+        <mat-list-item>{{team.naam}}</mat-list-item>
+        <mat-divider *ngIf="!isLast"></mat-divider>
+    </div>
+</mat-list>

@@ -1,1 +1,10 @@
-<p>calendar works!</p>
+<div class="calendar">
+    <mat-card class="example-card" *ngFor="let dag of dagen">
+        <mat-card-header>
+            <mat-card-title>{{dag.dag|date:'EEEE d MMMM'}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <app-poule [poule]="poule" *ngFor="let poule of dag.poules"></app-poule>
+        </mat-card-content>
+    </mat-card>
+</div>

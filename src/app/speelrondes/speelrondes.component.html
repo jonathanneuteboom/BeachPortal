@@ -16,6 +16,6 @@
 </div>
 
 
-<div *ngFor="let poule of speelrondes[nummer][type]">
-    <app-poule [poule]="poule"></app-poule>
+<div class="speelrondes">
+    <app-poule *ngFor="let poule of speelrondes[nummer][type]" [poule]="poule"></app-poule>
 </div>
