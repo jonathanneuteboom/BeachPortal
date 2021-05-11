@@ -2,7 +2,7 @@
 
 namespace BeachPortal\Entities;
 
-class Persoon
+class Speler
 {
     public int $id;
     public string $naam;

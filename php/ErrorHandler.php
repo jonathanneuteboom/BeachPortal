@@ -1,8 +1,11 @@
 <?php
 
+namespace BeachPortal;
+
 use Slim\Interfaces\ErrorHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 
 class ErrorHandler implements ErrorHandlerInterface
 {

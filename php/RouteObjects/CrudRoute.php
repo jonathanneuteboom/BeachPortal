@@ -2,8 +2,8 @@
 
 namespace BeachPortal\RouteObjects;
 
-use BeachPortal\Gateways\JoomlaGateway;
-use GuzzleHttp\Psr7\Response;
+use BeachPortal\UseCases\IUserManager;
+use Slim\Psr7\Response;
 use Slim\Routing\RouteCollectorProxy;
 use UnauthorizedException;
 use UnexpectedValueException;
@@ -36,7 +36,7 @@ abstract class CrudRoute
         return $result;
     }
 
-    function Authorize(JoomlaGateway $joomlaGateway, ?int $role)
+    function Authorize(IUserManager $joomlaGateway, ?int $role)
     {
         $user = $joomlaGateway->GetUser();
         switch ($role) {
@@ -48,16 +48,7 @@ abstract class CrudRoute
                 $isAuthorized = $user !== null;
                 break;
             case 2:
-                $isAuthorized = $joomlaGateway->IsBarcie($user);
-                break;
-            case 3:
-                $isAuthorized =  $joomlaGateway->IsScheidsrechter($user);
-                break;
-            case 4:
-                $isAuthorized =  $joomlaGateway->IsTeamcoordinator($user);
-                break;
-            case 5:
-                $isAuthorized =  $joomlaGateway->IsWebcie($user);
+                $isAuthorized = $joomlaGateway->IsBeachcie($user) || $joomlaGateway->IsWebcie($user);
                 break;
             default:
                 $isAuthorized = false;

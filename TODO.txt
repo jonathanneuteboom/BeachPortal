@@ -1,0 +1,7 @@
+- wesbite aanmaken
+- algemene informatie naar voren halen
+- letten op vertalen
+- teams toevoegen
+- test-website
+- 4e actie
+- poule kunnen editen

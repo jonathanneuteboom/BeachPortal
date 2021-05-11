@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-setlocale(LC_ALL, 'nl_NL');
+namespace BeachPortal;
 
-use DI\Container;
+setlocale(LC_ALL, 'nl_NL');
 
 use Slim\Factory\AppFactory;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -13,6 +13,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use BeachPortal\UseCases;
 use BeachPortal\Configuration;
 use BeachPortal\Entities\Role;
+use BeachPortal\ErrorHandler;
 use BeachPortal\RouteObjects\DeleteRoute;
 use BeachPortal\RouteObjects\GetRoute;
 use BeachPortal\RouteObjects\PostRoute;
@@ -58,27 +59,27 @@ $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 
 $entryPoint =
-    new RouteGroup('/beach/api', [
-        new GetRoute('/my-beach', UseCases\MijnOverzicht::class, Role::USER),
+    new RouteGroup('/BeachPortal/api', [
+        new GetRoute('/my-beach', UseCases\HelloWorld::class, Role::UNREGISTERED),
 
         new RouteGroup('/team', [
-            new GetRoute('/get', UseCases\GetWedstrijdOverzicht::class),
-            new PostRoute('/edit', UseCases\GetBeschikbaarheid::class, Role::MANAGEMENT),
-            new DeleteRoute('/delete', UseCases\UpdateBeschikbaarheid::class, Role::MANAGEMENT)
+            new GetRoute('/get', UseCases\HelloWorld::class),
+            new PostRoute('/edit', UseCases\HelloWorld::class, Role::MANAGEMENT),
+            new DeleteRoute('/delete', UseCases\HelloWorld::class, Role::MANAGEMENT)
         ], Role::USER),
 
-        new GetRoute('/speelrondes', UseCases\MijnOverzicht::class, Role::USER),
+        new GetRoute('/speelrondes', UseCases\HelloWorld::class, Role::USER),
 
-        new GetRoute('/deze-week', UseCases\MijnOverzicht::class, Role::USER),
+        new GetRoute('/deze-week', UseCases\HelloWorld::class, Role::USER),
 
         new RouteGroup('/management', [
-            new GetRoute('/nieuwe-ronde', UseCases\UpdateAanwezigheid::class),
+            new GetRoute('/nieuwe-ronde', UseCases\HelloWorld::class),
         ], Role::MANAGEMENT),
 
         new RouteGroup('/user', [
-            new GetRoute('/current', UseCases\GetCurrentUser::class, Role::MANAGEMENT),
-            new PostRoute('/get', UseCases\GetCurrentUser::class, Role::MANAGEMENT),
-            new PostRoute('/inloggen', UseCases\Inloggen::class, Role::UNREGISTERED)
+            new GetRoute('/current', UseCases\HelloWorld::class, Role::MANAGEMENT),
+            new PostRoute('/get', UseCases\HelloWorld::class, Role::MANAGEMENT),
+            new PostRoute('/inloggen', UseCases\Login::class, Role::UNREGISTERED)
         ])
     ]);
 
