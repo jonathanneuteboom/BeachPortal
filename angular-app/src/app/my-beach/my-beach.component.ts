@@ -1,6 +1,7 @@
-import { Categorie, Poule } from '../models/Poule';
 import { Component, OnInit } from '@angular/core';
 
+import { Categorie } from "../models/Categorie";
+import { Poule } from '../models/Poule';
 import { Speler } from '../models/Speler';
 import { StandItem } from '../models/StandItem';
 import { Team } from '../models/Team';
@@ -15,10 +16,22 @@ export class MyBeachComponent implements OnInit {
 
 
   teams: Team[] = [
-    new Team("Binkies Alfa", [new Speler(1, "Jonathan Neuteboom"), new Speler(2, "Sjoerd Verbeek")]),
-    new Team("Binkies Beta", [new Speler(3, "Niels Barelds"), new Speler(4, "Coen Versluijs")]),
-    new Team("Binkies Gamma", [new Speler(5, "Jurian Meijerhof"), new Speler(6, "Friso van Bokhorst")]),
-    new Team("Binkies Delta", [new Speler(7, "Huub Adriaanse"), new Speler(8, "Joris Heinsbroek")]),
+    new Team(1, 'Binkies Alfa', [
+      new Speler(1, 'Jonathan Neuteboom'),
+      new Speler(2, 'Sjoerd Verbeek'),
+    ]),
+    new Team(2, 'Binkies Beta', [
+      new Speler(3, 'Niels Barelds'),
+      new Speler(4, 'Coen Versluijs'),
+    ]),
+    new Team(3, 'Binkies Gamma', [
+      new Speler(5, 'Jurian Meijerhof'),
+      new Speler(6, 'Friso van Bokhorst'),
+    ]),
+    new Team(4, 'Binkies Delta', [
+      new Speler(7, 'Huub Adriaanse'),
+      new Speler(8, 'Joris Heinsbroek'),
+    ]),
   ];
 
   stand: StandItem[] = [

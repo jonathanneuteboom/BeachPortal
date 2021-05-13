@@ -1,5 +1,7 @@
-import { Categorie, Poule } from '../models/Poule';
 import { Component, Input, OnInit } from '@angular/core';
+
+import { Categorie } from "../models/Categorie";
+import { Poule } from '../models/Poule';
 
 @Component({
   selector: 'app-poule',

@@ -1,24 +1,31 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 
-import { MatDialog } from '@angular/material/dialog';
-import { UitslagInvoerenDialogComponent } from '../dialogs/uitslag-invoeren-dialog/uitslag-invoeren-dialog.component';
-import { Wedstrijd } from '../models/Wedstrijd';
+import { EditTeamDialogComponent } from '../dialogs/edit-team-dialog/edit-team-dialog.component'
+import { Speler } from '../models/Speler'
+import { Team } from '../models/Team'
+import { Wedstrijd } from '../models/Wedstrijd'
 
 @Component({
   selector: 'app-wedstrijden',
   templateUrl: './wedstrijden.component.html',
-  styleUrls: ['./wedstrijden.component.scss']
+  styleUrls: ['./wedstrijden.component.scss'],
 })
 export class WedstrijdenComponent implements OnInit {
-  @Input() wedstrijden: Wedstrijd[];
+  @Input() wedstrijden: Wedstrijd[]
 
   displayedColumns = ['team1', 'team2', 'uitslag', 'wijzigen']
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  uitslagAanpassen(){
-    this.dialog.open(UitslagInvoerenDialogComponent);
+  uitslagAanpassen() {
+    const config = new MatDialogConfig<Team>()
+    config.data = new Team(1, 'Henk&Piet', [
+      new Speler(1, 'Henk'),
+      new Speler(2, 'Piet'),
+    ])
+
+    this.dialog.open(EditTeamDialogComponent, config)
   }
 }

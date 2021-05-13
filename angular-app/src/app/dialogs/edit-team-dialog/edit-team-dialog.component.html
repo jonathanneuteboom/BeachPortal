@@ -1,1 +1,25 @@
-Hier een formulier om een team te wijzigen/aanmaken
+<div [formGroup]="form">
+    <div>
+        <mat-form-field>
+            <mat-label>Team name</mat-label>
+            <input formFieldControlName="naam" matInput placeholder="">
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
+    </div>
+    <mat-divider></mat-divider>
+
+    <div class="spelers" FormArrayName="spelers">
+        <mat-form-field *ngFor="let speler of spelers.controls; let i = index">
+            <mat-label>{{GetCountName(i)}}</mat-label>
+            <input formFieldControlName="naam" matInput placeholder="">
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <button mat-mini-fab color="accent" (click)="spelerToevoegen()">
+            <mat-icon>plus_one</mat-icon>
+        </button>
+    </div>
+
+</div>

@@ -1,11 +1,9 @@
-import { Speler } from "./Speler";
+import { Speler } from './Speler';
 
 export class Team {
-  spelers: Speler[];
-  naam: string;
-
-  constructor(naam: string, spelers: Speler[]) {
-    this.naam = naam;
-    this.spelers = spelers;
-  }
+  constructor(
+    public id: number,
+    public naam: string,
+    public spelers: Speler[]
+  ) {}
 }

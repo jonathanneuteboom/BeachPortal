@@ -16,19 +16,19 @@ export class ManagementComponent implements OnInit {
   displayedColumns: string[] = ['naam', 'spelers', 'wijzigen'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   teams: Team[] = [
-    new Team('Binkies Alfa', [
+    new Team(1, 'Binkies Alfa', [
       new Speler(1, 'Jonathan Neuteboom'),
       new Speler(2, 'Sjoerd Verbeek'),
     ]),
-    new Team('Binkies Beta', [
+    new Team(2, 'Binkies Beta', [
       new Speler(3, 'Niels Barelds'),
       new Speler(4, 'Coen Versluijs'),
     ]),
-    new Team('Binkies Gamma', [
+    new Team(3, 'Binkies Gamma', [
       new Speler(5, 'Jurian Meijerhof'),
       new Speler(6, 'Friso van Bokhorst'),
     ]),
-    new Team('Binkies Delta', [
+    new Team(4, 'Binkies Delta', [
       new Speler(7, 'Huub Adriaanse'),
       new Speler(8, 'Joris Heinsbroek'),
     ]),
