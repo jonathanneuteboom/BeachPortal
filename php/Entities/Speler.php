@@ -6,5 +6,10 @@ class Speler
 {
     public int $id;
     public string $naam;
-    public string $email;
+
+    function __construct(int $id, string $naam)
+    {
+        $this->id = $id;
+        $this->naam = $naam;
+    }
 }

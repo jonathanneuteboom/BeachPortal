@@ -1,34 +1,85 @@
-<div class="management">
-  <div class="toevoegen">
-    <button mat-raised-button color="primary" (click)="nieuwTeam()"> Team toevoegen </button>
-    <button mat-raised-button color="warn" (click)="nieuweRonde()"> Nieuwe ronde </button>
-  </div>
-  <table mat-table [dataSource]="teams" class="mat-elevation-z8 teams">
-    <ng-container matColumnDef="naam">
-      <th mat-header-cell *matHeaderCellDef> Naam </th>
-      <td mat-cell *matCellDef="let team"> {{team.naam}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="spelers">
-      <th mat-header-cell *matHeaderCellDef> Spelers </th>
-      <td mat-cell *matCellDef="let team">
-        <app-team [team]="team"></app-team>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="wijzigen">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let team">
-        <button mat-icon-button color="primary" (click)="nieuwTeam()">
-          <mat-icon>edit</mat-icon>
+<mat-tab-group>
+  <mat-tab label="Poules">
+    <div class="management" *ngIf="speelronde">
+      <div class="buttons">
+        <button mat-raised-button color="warn" (click)="addSpeelronde()">
+          <mat-icon>add</mat-icon> Speelronde
         </button>
-        <button mat-icon-button color="primary" (click)="deleteTeam()">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</div>
+        <button mat-raised-button color="warn" (click)="deleteSpeelronde()">
+          <mat-icon>delete</mat-icon> Speelronde
+        </button>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="buttons">
+        <button mat-raised-button color="primary" (click)="addPoule(categorie)" *ngFor="let categorie of categorien">
+          <mat-icon>add</mat-icon> {{categorie.viewValue}} poule
+        </button>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="poules">
+        <div *ngFor="let poule of speelronde.poules">
+          <app-poule [isManagement]="true" [poule]="poule" (onChange)="getCurrentSpeelronde()"></app-poule>
+
+          <div class="add-team" *ngIf="poule.teams.length != 4">
+            <mat-form-field appearance="fill" class="max-form-field">
+              <mat-label>Add Team</mat-label>
+              <mat-select (selectionChange)="addTeamToPoule($event, poule)">
+                <mat-option *ngFor="let team of teams" [value]="team">{{team.naam}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div *ngIf="speelronde.poules.length === 0">
+          Er zijn geen poules aanwezig in deze speelronde
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Teams">
+    <table *ngIf="teams" mat-table [dataSource]="teams" class="mat-elevation-z8">
+      <ng-container matColumnDef="naam">
+        <th mat-header-cell *matHeaderCellDef> Naam </th>
+        <td mat-cell *matCellDef="let team"> {{team.naam}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="spelers">
+        <th mat-header-cell *matHeaderCellDef> Spelers</th>
+        <td mat-cell *matCellDef="let team"> {{getSpelers(team)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="categorie">
+        <th mat-header-cell *matHeaderCellDef> Categorie </th>
+        <td mat-cell *matCellDef="let team"> {{getCategorieText(team)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let team">
+          <button mat-icon-button color="primary" (click)="editTeam(team)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="deleteTeam(team)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+    </table>
+    <div *ngIf="!teams" class="geen-teams">
+      Nog geen teams
+    </div>
+    <div class="team-toevoegen">
+      <button mat-raised-button color="primary" (click)="editTeam()">
+        <mat-icon>add</mat-icon> Team
+      </button>
+    </div>
+  </mat-tab>
+</mat-tab-group>

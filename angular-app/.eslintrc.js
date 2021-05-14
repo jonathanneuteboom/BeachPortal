@@ -13,6 +13,8 @@ module.exports = {
   rules: {
     'consistent-return': 2,
     '@typescript-eslint/explicit-function-return-type': ['error'],
-    'space-before-function-paren': 'off'
+    'space-before-function-paren': 'off',
+    semi: 'off',
+    'no-useless-constructor': 'off'
   }
-}
+};

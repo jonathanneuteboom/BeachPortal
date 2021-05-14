@@ -5,12 +5,11 @@ namespace BeachPortal\Gateways;
 use BeachPortal\Configuration;
 use BeachPortal\Common\Database;
 use BeachPortal\Entities\Speler;
-use BeachPortal\UseCases\IUserManager;
-use BeachPortal\Common\Utilities;
 use BeachPortal\Entities\Credentials;
+use BeachPortal\UseCases\IUserGateway;
 use UnexpectedValueException;
 
-class UserManager implements IUserManager
+class UserGateway implements IUserGateway
 {
     public function __construct(
         Configuration $configuration,
@@ -118,15 +117,41 @@ class UserManager implements IUserManager
         return $user;
     }
 
-    private function GetUserById(int $userId): Speler
+    public function GetUsersWithName(string $name): array
     {
-        $query = 'SELECT 
-                    U.id, 
-                    U.name AS naam, 
+        $query = "SELECT 
+                    U.id,
+                    U.name as naam,
                     U.email,
                     C.cb_rugnummer as rugnummer,
                     C.cb_positie as positie,
                     C.cb_nevobocode as relatiecode
+                  FROM J3_users U
+                  LEFT JOIN J3_comprofiler C ON U.id = C.user_id
+                  WHERE name like '%$name%'
+                  ORDER BY 
+                  CASE 
+                    WHEN name LIKE '$name%' THEN 0 ELSE 1 end,
+                  name  
+                  LIMIT 0, 5";
+        $rows = $this->database->Execute($query);
+        return $this->MapToSpelers($rows);
+    }
+
+    private function MapToSpelers(array $rows): array
+    {
+        $result = [];
+        foreach ($rows as $row) {
+            $result[] = new Speler($row->id, $row->naam, $row->email);
+        }
+        return $result;
+    }
+
+    private function GetUserById(int $userId): Speler
+    {
+        $query = 'SELECT 
+                    U.id, 
+                    U.name AS naam
                   FROM J3_users U
                   LEFT JOIN J3_comprofiler C ON U.id = C.user_id
                   WHERE U.id = ?';
@@ -136,9 +161,6 @@ class UserManager implements IUserManager
             throw new UnexpectedValueException("Gebruiker met id '$userId' bestaat niet");
         }
 
-        $persoon = new Speler($users[0]->id, $users[0]->naam, $users[0]->email);
-        $persoon->rugnummer = Utilities::StringToInt($users[0]->rugnummer);
-        $persoon->positie = $users[0]->positie;
-        return $persoon;
+        return new Speler($users[0]->id, $users[0]->naam);
     }
 }

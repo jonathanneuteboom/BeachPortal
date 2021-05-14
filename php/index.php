@@ -63,14 +63,29 @@ $entryPoint =
         new GetRoute('/my-beach', UseCases\HelloWorld::class, Role::UNREGISTERED),
 
         new RouteGroup('/team', [
-            new GetRoute('/get', UseCases\HelloWorld::class),
-            new PostRoute('/edit', UseCases\HelloWorld::class, Role::MANAGEMENT),
-            new DeleteRoute('/delete', UseCases\HelloWorld::class, Role::MANAGEMENT)
+            new GetRoute('/all', UseCases\GetAllTeams::class),
+            new GetRoute('/get/{id}', UseCases\GetTeam::class),
+            new PostRoute('/update', UseCases\UpdateTeam::class, Role::MANAGEMENT),
+            new DeleteRoute('/{id}', UseCases\DeleteTeam::class, Role::MANAGEMENT)
         ], Role::USER),
 
-        new GetRoute('/speelrondes', UseCases\HelloWorld::class, Role::USER),
+        new RouteGroup('/poule', [
+            new PostRoute('/add', UseCases\AddPoule::class),
+            new PostRoute('/team/add', UseCases\AddTeamToPoule::class),
+            new DeleteRoute('/{pouleId}/team/{teamId}', UseCases\DeleteTeamFromPoule::class),
+            new DeleteRoute('/{id}', UseCases\DeletePoule::class, Role::MANAGEMENT)
+        ], Role::USER),
 
-        new GetRoute('/deze-week', UseCases\HelloWorld::class, Role::USER),
+        new RouteGroup('/speelronde', [
+            new GetRoute('/current', UseCases\GetCurrentSpeelronde::class),
+            new PostRoute('/add', UseCases\AddSpeelronde::class),
+            new DeleteRoute('/delete', UseCases\DeleteSpeelronde::class),
+        ], Role::MANAGEMENT),
+
+        new RouteGroup('/wedstrijd', [
+            new GetRoute('/get/{id}', UseCases\HelloWorld::class, Role::USER),
+            new GetRoute('/update', UseCases\HelloWorld::class, Role::USER)
+        ]),
 
         new RouteGroup('/management', [
             new GetRoute('/nieuwe-ronde', UseCases\HelloWorld::class),
@@ -78,8 +93,9 @@ $entryPoint =
 
         new RouteGroup('/user', [
             new GetRoute('/current', UseCases\HelloWorld::class, Role::MANAGEMENT),
+            new GetRoute('/find-by-name', UseCases\FindUserByName::class, Role::MANAGEMENT),
             new PostRoute('/get', UseCases\HelloWorld::class, Role::MANAGEMENT),
-            new PostRoute('/inloggen', UseCases\Login::class, Role::UNREGISTERED)
+            new PostRoute('/login', UseCases\Login::class, Role::UNREGISTERED)
         ])
     ]);
 

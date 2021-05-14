@@ -6,11 +6,19 @@ use DateTime;
 
 class Poule
 {
-    public int $id;
-    public Categorie $categorie;
+    public ?int $id;
+    public int $categorie;
     public string $naam;
-    public DateTime $speeltijd;
+    public string $speeltijd;
     public array $teams = [];
     public array $wedstrijden = [];
     public array $stand = [];
+
+    function __construct(?int $id, string $naam, int $categorie, string $speeltijd)
+    {
+        $this->id = $id;
+        $this->naam = $naam;
+        $this->categorie = $categorie;
+        $this->speeltijd = $speeltijd;
+    }
 }

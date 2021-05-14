@@ -1,25 +1,39 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Categorie } from "../models/Categorie";
+import { Categorie } from '../models/Categorie';
 import { Poule } from '../models/Poule';
+import { PouleService } from '../services/poule.service';
+import { Team } from '../models/Team';
 
 @Component({
   selector: 'app-poule',
   templateUrl: './poule.component.html',
-  styleUrls: ['./poule.component.scss'],
+  styleUrls: ['./poule.component.scss']
 })
-export class PouleComponent implements OnInit {
+export class PouleComponent {
   @Input() poule: Poule;
+  @Input() isManagement: boolean;
+  @Output() onChange: EventEmitter<Poule> = new EventEmitter();
 
   heren = Categorie.Heren;
   dames = Categorie.Dames;
   mix = Categorie.Mix;
 
-  constructor() {}
+  constructor(private pouleService: PouleService) {}
 
   getCategorie(categorie: Categorie): string {
     return Categorie[categorie];
   }
 
-  ngOnInit(): void {}
+  deletePoule(): void {
+    this.pouleService
+      .deletePoule(this.poule)
+      .subscribe(() => this.onChange.emit(this.poule));
+  }
+
+  deleteTeam(poule: Poule, team: Team): void {
+    this.pouleService
+      .deleteTeamFromPoule(poule, team)
+      .subscribe(() => this.onChange.emit(this.poule));
+  }
 }

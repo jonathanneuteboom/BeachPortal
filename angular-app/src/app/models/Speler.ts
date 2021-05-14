@@ -1,3 +1,8 @@
 export class Speler {
-  constructor(public id: number, public naam: string) {}
+  public id: number;
+  public naam: string;
+
+  public constructor(init?: Partial<Speler>) {
+    Object.assign(this, init);
+  }
 }

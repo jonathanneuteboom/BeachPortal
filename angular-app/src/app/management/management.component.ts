@@ -1,58 +1,114 @@
+import { Categorie, CategorieHelper } from '../models/Categorie';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { DeleteTeamDialogComponent } from '../dialogs/delete-team-dialog/delete-team-dialog.component';
 import { EditTeamDialogComponent } from '../dialogs/edit-team-dialog/edit-team-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { NieuweRondeDialogComponent } from '../dialogs/nieuwe-ronde-dialog/nieuwe-ronde-dialog.component';
-import { Speler } from '../models/Speler';
+import { MatSelectChange } from '@angular/material/select';
+import { Poule } from '../models/Poule';
+import { PouleService } from '../services/poule.service';
+import { Speelronde } from '../models/Speelronde';
+import { SpeelrondeService } from '../services/speelronde.service';
 import { Team } from '../models/Team';
+import { TeamService } from '../services/team.service';
 
 @Component({
   selector: 'app-management',
   templateUrl: './management.component.html',
-  styleUrls: ['./management.component.scss'],
+  styleUrls: ['./management.component.scss']
 })
 export class ManagementComponent implements OnInit {
-  displayedColumns: string[] = ['naam', 'spelers', 'wijzigen'];
-  columnsToDisplay: string[] = this.displayedColumns.slice();
-  teams: Team[] = [
-    new Team(1, 'Binkies Alfa', [
-      new Speler(1, 'Jonathan Neuteboom'),
-      new Speler(2, 'Sjoerd Verbeek'),
-    ]),
-    new Team(2, 'Binkies Beta', [
-      new Speler(3, 'Niels Barelds'),
-      new Speler(4, 'Coen Versluijs'),
-    ]),
-    new Team(3, 'Binkies Gamma', [
-      new Speler(5, 'Jurian Meijerhof'),
-      new Speler(6, 'Friso van Bokhorst'),
-    ]),
-    new Team(4, 'Binkies Delta', [
-      new Speler(7, 'Huub Adriaanse'),
-      new Speler(8, 'Joris Heinsbroek'),
-    ]),
-  ];
+  categorien = CategorieHelper.getAllCategorien();
+  columns: string[] = ['naam', 'spelers', 'categorie', 'actions'];
+  teams: Team[];
+  speelronde: Speelronde;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    private teamService: TeamService,
+    private dialog: MatDialog,
+    private speelrondeService: SpeelrondeService,
+    private pouleService: PouleService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getAllTeams();
+    this.getCurrentSpeelronde();
+  }
 
-  nieuwTeam() {
-    this.dialog.open(EditTeamDialogComponent, {
-      data: {
-        animal: 'panda',
-      },
+  getAllTeams(): void {
+    this.teamService.getAll().subscribe((teams) => {
+      this.teams = teams;
     });
   }
 
-  deleteTeam() {
-    this.dialog.open(DeleteTeamDialogComponent);
+  getCurrentSpeelronde(): void {
+    this.speelrondeService.GetCurrentSpeelronde().subscribe((speelronde) => {
+      this.speelronde = speelronde;
+    });
   }
 
-  nieuweRonde() {
-    this.dialog.open(NieuweRondeDialogComponent);
+  editTeam(team: Team = null): void {
+    const config = new MatDialogConfig<Team>();
+    config.width = '400px';
+    config.disableClose = true;
+    config.data = team || new Team();
+
+    const dialogRef = this.dialog.open<EditTeamDialogComponent, Team, Team>(
+      EditTeamDialogComponent,
+      config
+    );
+    dialogRef.afterClosed().subscribe((team) => {
+      this.getAllTeams();
+    });
   }
 
-  addColumn(): void {}
+  deleteTeam(team: Team): void {
+    const config = new MatDialogConfig<Team>();
+    config.data = team;
+
+    const dialogRef = this.dialog.open<DeleteTeamDialogComponent, Team, Team>(
+      DeleteTeamDialogComponent,
+      config
+    );
+    dialogRef.afterClosed().subscribe(() => {
+      this.getAllTeams();
+    });
+  }
+
+  addSpeelronde(): void {
+    this.speelrondeService
+      .AddSpeelronde()
+      .subscribe(() => this.getCurrentSpeelronde());
+  }
+
+  deleteSpeelronde(): void {
+    this.speelrondeService
+      .DeleteSpeelronde()
+      .subscribe(() => this.getCurrentSpeelronde());
+  }
+
+  addPoule(categorie: any): void {
+    const newPoule = new Poule({ categorie: categorie.value });
+    this.pouleService
+      .addPoule(newPoule)
+      .subscribe(() => this.getCurrentSpeelronde());
+  }
+
+  addTeamToPoule(change: MatSelectChange, poule): void {
+    this.pouleService
+      .addTeamToPoule(poule, change.value)
+      .subscribe(() => this.getCurrentSpeelronde());
+  }
+
+  getSpelers(team: Team): string {
+    return team.spelers
+      .map((element) => {
+        return element.naam;
+      })
+      .join(', ');
+  }
+
+  getCategorieText(team: Team): String {
+    return Categorie[team.categorie];
+  }
 }

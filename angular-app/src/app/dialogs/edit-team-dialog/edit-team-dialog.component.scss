@@ -1,0 +1,30 @@
+.form {
+  .teamnaam {
+    mat-form-field {
+      width: 100%;
+    }
+  }
+  .save-button {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .add-button {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .categorie {
+    margin: 10px 0px 10px 0px;
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .spelers {
+    margin-bottom: 20px;
+    mat-form-field {
+      width: calc(100% - 40px);
+    }
+  }
+}

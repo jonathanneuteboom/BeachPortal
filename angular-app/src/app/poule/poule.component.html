@@ -3,10 +3,28 @@
     <mat-card-header>
         <mat-card-title>Poule {{getCategorie(poule.categorie)}} {{poule.naam}}</mat-card-title>
         <mat-card-subtitle>Speelronde 1, {{ poule.speeltijd | date: 'MMM d, HH:mm' }}</mat-card-subtitle>
+        <button *ngIf="isManagement && poule.teams.length === 0" class="delete-button" mat-icon-button color="primary"
+            (click)="deletePoule()">
+            <mat-icon>delete</mat-icon>
+        </button>
     </mat-card-header>
     <mat-card-content>
-        <app-teams *ngIf="poule.teams" [teams]="poule.teams"></app-teams>
-        <app-stand *ngIf="poule.stand" [stand]="poule.stand"></app-stand>
-        <app-wedstrijden *ngIf="poule.wedstrijden" [wedstrijden]="poule.wedstrijden"></app-wedstrijden>
+        <mat-list>
+            <mat-list-item *ngIf="poule.teams.length === 0">Nog geen teams</mat-list-item>
+            <div *ngFor="let team of poule.teams; last as isLast">
+                <mat-list-item>
+                    <div class="team">
+                        <app-team [team]="team"></app-team>
+                        <button mat-icon-button color="primary" (click)="deleteTeam(poule, team)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </mat-list-item>
+                <mat-divider *ngIf="!isLast"></mat-divider>
+            </div>
+        </mat-list>
+        <app-stand *ngIf="poule.stand && poule.stand.length > 0" [stand]="poule.stand"></app-stand>
+        <app-wedstrijden *ngIf="poule.wedstrijden && poule.wedstrijden.length > 0" [wedstrijden]="poule.wedstrijden">
+        </app-wedstrijden>
     </mat-card-content>
 </mat-card>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Categorie } from "../models/Categorie";
+import { Categorie } from '../models/Categorie';
 import { Poule } from '../models/Poule';
 import { Speler } from '../models/Speler';
 import { StandItem } from '../models/StandItem';
@@ -13,52 +13,107 @@ import { Wedstrijd } from '../models/Wedstrijd';
   styleUrls: ['./my-beach.component.scss']
 })
 export class MyBeachComponent implements OnInit {
-
-
   teams: Team[] = [
-    new Team(1, 'Binkies Alfa', [
-      new Speler(1, 'Jonathan Neuteboom'),
-      new Speler(2, 'Sjoerd Verbeek'),
-    ]),
-    new Team(2, 'Binkies Beta', [
-      new Speler(3, 'Niels Barelds'),
-      new Speler(4, 'Coen Versluijs'),
-    ]),
-    new Team(3, 'Binkies Gamma', [
-      new Speler(5, 'Jurian Meijerhof'),
-      new Speler(6, 'Friso van Bokhorst'),
-    ]),
-    new Team(4, 'Binkies Delta', [
-      new Speler(7, 'Huub Adriaanse'),
-      new Speler(8, 'Joris Heinsbroek'),
-    ]),
+    new Team({
+      naam: 'Binkies Alfa',
+      categorie: Categorie.Heren,
+      spelers: [
+        new Speler({ naam: 'Jonathan Neuteboom' }),
+        new Speler({ naam: 'Sjoerd Verbeek' })
+      ]
+    }),
+    new Team({
+      naam: 'Binkies Beta',
+      categorie: Categorie.Dames,
+      spelers: [
+        new Speler({ naam: 'Niels Barelds' }),
+        new Speler({ naam: 'Coen Versluijs' })
+      ]
+    }),
+    new Team({
+      naam: 'Binkies Gamma',
+      categorie: Categorie.Mix,
+      spelers: [
+        new Speler({ naam: 'Jurian Meijerhof' }),
+        new Speler({ naam: 'Friso van Bokhorst' })
+      ]
+    }),
+    new Team({
+      naam: 'Binkies Delta',
+      categorie: Categorie.Heren,
+      spelers: [
+        new Speler({ naam: 'Huub Adriaanse' }),
+        new Speler({ naam: 'Joris Heinsbroek' })
+      ]
+    })
   ];
 
-  stand: StandItem[] = [
-    new StandItem(this.teams[0], 3, 20, 10, 0.534),
-    new StandItem(this.teams[1], 2, 19, 11, 0.782),
-    new StandItem(this.teams[2], 1, 18, 12, 0.3),
-    new StandItem(this.teams[3], 0, 17, 13, 0.237),
+  stand = [
+    new StandItem({
+      team: this.teams[0],
+      gewonnenWedstrijden: 3,
+      puntenVoor: 20,
+      puntenTegen: 10,
+      puntenquotient: 0.534
+    }),
+    new StandItem({
+      team: this.teams[1],
+      gewonnenWedstrijden: 2,
+      puntenVoor: 19,
+      puntenTegen: 11,
+      puntenquotient: 0.782
+    }),
+    new StandItem({
+      team: this.teams[2],
+      gewonnenWedstrijden: 1,
+      puntenVoor: 18,
+      puntenTegen: 12,
+      puntenquotient: 0.3
+    }),
+    new StandItem({
+      team: this.teams[3],
+      gewonnenWedstrijden: 0,
+      puntenVoor: 17,
+      puntenTegen: 13,
+      puntenquotient: 0.237
+    })
   ];
 
   wedstrijden: Wedstrijd[] = [
-    new Wedstrijd(1, this.teams[0], this.teams[1], 21, 19),
-    new Wedstrijd(2, this.teams[2], this.teams[3]),
-    new Wedstrijd(3, this.teams[0], this.teams[2], 21, 1),
-    new Wedstrijd(4, this.teams[1], this.teams[3]),
-    new Wedstrijd(5, this.teams[0], this.teams[3]),
-    new Wedstrijd(6, this.teams[1], this.teams[2])
+    new Wedstrijd({
+      team1: this.teams[0],
+      team2: this.teams[1],
+      puntenTeam1: 21,
+      puntenTeam2: 19
+    }),
+    new Wedstrijd({ team1: this.teams[2], team2: this.teams[3] }),
+    new Wedstrijd({
+      team1: this.teams[0],
+      team2: this.teams[2],
+      puntenTeam1: 21,
+      puntenTeam2: 1
+    }),
+    new Wedstrijd({ team1: this.teams[1], team2: this.teams[3] }),
+    new Wedstrijd({ team1: this.teams[0], team2: this.teams[3] }),
+    new Wedstrijd({ team1: this.teams[1], team2: this.teams[2] })
   ];
 
-  poules = [
-    new Poule(1, "A", Categorie.Heren, new Date(), this.stand, this.wedstrijden, []),
-    new Poule(1, "D", Categorie.Dames, new Date(), this.stand, this.wedstrijden, [])
+  poules: Poule[] = [
+    new Poule({
+      naam: 'A',
+      categorie: Categorie.Heren,
+      speeltijd: new Date(),
+      teams: this.teams
+    }),
+    new Poule({
+      naam: 'B',
+      categorie: Categorie.Heren,
+      speeltijd: new Date(),
+      teams: this.teams
+    })
   ];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
-

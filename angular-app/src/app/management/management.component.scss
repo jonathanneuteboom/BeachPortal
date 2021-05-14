@@ -1,22 +1,44 @@
-.toevoegen {
-  button {
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
+.teams {
+  padding: 10px;
+  max-width: 600px;
+  width: 100%;
+}
 
-  width: 400px;
+.management {
+  margin: 20px;
+}
+
+.geen-teams {
+  padding: 20px;
+}
+
+.team-toevoegen {
+  padding: 10px;
+}
+
+.mat-cell {
+  padding: 10px 10px 10px 0;
+}
+
+.buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  button {
+    width: 140px;
+    margin: 10px;
+  }
 }
 
-.teams {
-  padding: 10px;  
-  max-width: 600px;
-  width: 100%;
-
+.poules {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
-.management{
-    margin:20px;
+.add-team {
+  margin: 0px 30px 0px 30px;
+  mat-form-field {
+    width: 100%;
+  }
 }

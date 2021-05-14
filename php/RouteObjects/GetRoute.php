@@ -2,7 +2,7 @@
 
 namespace BeachPortal\RouteObjects;
 
-use BeachPortal\Gateways\UserManager;
+use BeachPortal\Gateways\UserGateway;
 use Slim\Routing\RouteCollectorProxy;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -23,7 +23,7 @@ class GetRoute extends CrudRoute
         $route = $this;
 
         $group->get($this->route, function (Request $request, Response $response, array $args) use ($interactor, $route) {
-            $joomlaGateway = $this->get(UserManager::class);
+            $joomlaGateway = $this->get(UserGateway::class);
             $route->Authorize($joomlaGateway, $route->role);
 
             $interactor  = $this->get($interactor);

@@ -1,9 +1,13 @@
+import { Categorie } from './Categorie';
 import { Speler } from './Speler';
 
 export class Team {
-  constructor(
-    public id: number,
-    public naam: string,
-    public spelers: Speler[]
-  ) {}
+  public id: number;
+  public naam: string;
+  public categorie: Categorie;
+  public spelers: Speler[] = [];
+
+  public constructor(init?: Partial<Team>) {
+    Object.assign(this, init);
+  }
 }

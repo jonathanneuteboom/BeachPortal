@@ -1,25 +1,54 @@
-<div [formGroup]="form">
-    <div>
+<h1 mat-dialog-title>{{getTitle()}}</h1>
+<div [formGroup]="form" class="form" *ngIf="form">
+    <div class="teamnaam">
         <mat-form-field>
             <mat-label>Team name</mat-label>
-            <input formFieldControlName="naam" matInput placeholder="">
-            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+            <input formControlName="naam" matInput placeholder="">
+            <mat-icon matSuffix>group</mat-icon>
         </mat-form-field>
     </div>
     <mat-divider></mat-divider>
 
-    <div class="spelers" FormArrayName="spelers">
-        <mat-form-field *ngFor="let speler of spelers.controls; let i = index">
-            <mat-label>{{GetCountName(i)}}</mat-label>
-            <input formFieldControlName="naam" matInput placeholder="">
-            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    <div class="categorie">
+        <mat-form-field appearance="fill" class="max-form-field">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="categorie">
+                <mat-option *ngFor="let option of options" [value]="option.value">{{option.viewValue}}</mat-option>
+            </mat-select>
         </mat-form-field>
     </div>
 
-    <div>
-        <button mat-mini-fab color="accent" (click)="spelerToevoegen()">
-            <mat-icon>plus_one</mat-icon>
-        </button>
+    <div class="spelers" formArrayName="spelers">
+        <div *ngFor="let control of spelers.controls; index as i">
+            <mat-form-field>
+                <mat-label>{{getSpelerInputText(i+1)}}</mat-label>
+                <input [formControl]="control" matInput [matAutocomplete]="auto" />
+            </mat-form-field>
+            <button mat-icon-button color="primary" (click)="deleteSpeler(i)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+        <div class="add-button">
+            <button mat-mini-fab color="accent" (click)="addSpeler()">
+                <mat-icon>plus_one</mat-icon>
+            </button>
+        </div>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectedSpeler($event)"
+            [displayWith]="displayFn">
+            <mat-option *ngFor="let user of spelersMetNaam" [value]="user">
+                {{user.naam}}
+            </mat-option>
+        </mat-autocomplete>
     </div>
+
+    <mat-dialog-actions align="end">
+        <button mat-raised-button [mat-dialog-close]="null">
+            <mat-icon>close</mat-icon> Cancel
+        </button>
+
+        <button mat-raised-button color="primary" (click)="save()">
+            <mat-icon>save</mat-icon> Save
+        </button>
+    </mat-dialog-actions>
 
 </div>

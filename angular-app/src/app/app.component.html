@@ -1,17 +1,7 @@
-<mat-tab-group>
-  <mat-tab label="MyBeach">
-    <app-my-beach></app-my-beach>
-  </mat-tab>
-  <mat-tab label="Speelrondes">
-    <app-speelrondes></app-speelrondes>
-  </mat-tab>
-  <mat-tab label="Calendar">
-    <app-calendar></app-calendar>
-  </mat-tab>
-  <mat-tab label="Algemene informatie">
-    <app-algemene-informatie></app-algemene-informatie>
-  </mat-tab>
-  <mat-tab label="Management">
-    <app-management></app-management>
-  </mat-tab>
-</mat-tab-group>
+<nav mat-tab-nav-bar [backgroundColor]="background">
+  <a mat-tab-link *ngFor="let link of links" [routerLink]="link.link" routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive">
+    {{link.label}}
+  </a>
+</nav>
+<router-outlet></router-outlet>

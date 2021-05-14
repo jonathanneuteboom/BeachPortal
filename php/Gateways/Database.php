@@ -25,7 +25,7 @@ class Database
         if ($this->dbc) {
             return $this->dbc;
         }
-        
+
         $this->dbc = new PDO(
             "mysql:host=$this->host;dbname=$this->database",
             $this->username,
@@ -57,5 +57,10 @@ class Database
         }
 
         return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function GetLastInsertedId(): int
+    {
+        return $this->dbc->lastInsertId();
     }
 }

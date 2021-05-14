@@ -2,7 +2,7 @@
 
 namespace BeachPortal\Entities;
 
-abstract class Categorie
+class Categorie
 {
     const Heren = 0;
     const Dames = 1;

@@ -1,0 +1,11 @@
+.login-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.username,
+.password {
+  mat-form-field {
+    width: 100%;
+  }
+}

@@ -1,2 +1,8 @@
-Weet je zeker dat je dit team wilt verwijderen?
-<button mat-raised-button color="warn" [mat-dialog-close]="true">Verwijderen</button>
+<h1 mat-dialog-title>{{getTitle()}}</h1>
+<div class="text">
+    Weet je zeker dat je dit team wilt verwijderen?
+</div>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" [mat-dialog-close] (click)="deleteTeam()">Verwijderen</button>
+</mat-dialog-actions>

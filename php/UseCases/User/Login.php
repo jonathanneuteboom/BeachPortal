@@ -2,15 +2,15 @@
 
 namespace BeachPortal\UseCases;
 
+use BeachPortal\Gateways\UserGateway;
 use InvalidArgumentException;
-use BeachPortal\Gateways\UserManager;
 use UnexpectedValueException;
 
 class Login implements Interactor
 {
-    public function __construct(UserManager $userManager)
+    public function __construct(UserGateway $userGateway)
     {
-        $this->userManager = $userManager;
+        $this->userGateway = $userGateway;
     }
 
     public function Execute(object $data = null)
@@ -19,7 +19,7 @@ class Login implements Interactor
             throw new InvalidArgumentException("Vul alle gegevens in");
         }
 
-        if (!$this->joomlaGateway->Login($data->username, $data->password)) {
+        if (!$this->userGateway->Login($data->username, $data->password)) {
             throw new UnexpectedValueException("Gebruikersnaam/wachtwoord combinatie klopt niet");
         }
     }

@@ -1,11 +1,10 @@
-import { Poule } from './Poule';
+import { Poule } from '../models/Poule';
 
 export class Speelronde {
-  constructor(
-    public id: number,
-    public nummer: number,
-    public heren: Poule[],
-    public dames: Poule[],
-    public mix: Poule[]
-  ) {}
+  public nummer: number;
+  public poules: Poule[];
+
+  public constructor(init?: Partial<Speelronde>) {
+    Object.assign(this, init);
+  }
 }

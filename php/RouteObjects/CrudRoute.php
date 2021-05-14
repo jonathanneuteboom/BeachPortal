@@ -2,7 +2,7 @@
 
 namespace BeachPortal\RouteObjects;
 
-use BeachPortal\UseCases\IUserManager;
+use BeachPortal\UseCases\IUserGateway;
 use Slim\Psr7\Response;
 use Slim\Routing\RouteCollectorProxy;
 use UnauthorizedException;
@@ -36,7 +36,7 @@ abstract class CrudRoute
         return $result;
     }
 
-    function Authorize(IUserManager $joomlaGateway, ?int $role)
+    function Authorize(IUserGateway $joomlaGateway, ?int $role)
     {
         $user = $joomlaGateway->GetUser();
         switch ($role) {
