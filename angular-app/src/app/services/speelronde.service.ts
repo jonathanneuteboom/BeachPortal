@@ -10,6 +10,11 @@ import { environment } from 'src/environments/environment';
 export class SpeelrondeService {
   constructor(private httpClient: HttpClient) {}
 
+  getAllSpeelrondes(): Observable<Speelronde[]> {
+    const url = `${environment.baseUrl}/speelronde/all`;
+    return this.httpClient.get<Speelronde[]>(url);
+  }
+
   GetCurrentSpeelronde(): Observable<Speelronde> {
     const url = `${environment.baseUrl}/speelronde/current`;
     return this.httpClient.get<Speelronde>(url);

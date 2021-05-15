@@ -29,7 +29,7 @@ class AddPoule implements Interactor
             return;
         }
 
-        $poules = $this->pouleGateway->GetPoulesOfSpeelronde($speelronde);
+        $poules = $this->pouleGateway->GetPoulesInSpeelronde($speelronde);
         if (count($poules) === 0) {
             $speeltijd = $this->GetSpeeltijd($categorie, "A");
             $newPoule = new Poule(null, "A", $categorie, $speeltijd);

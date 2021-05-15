@@ -5,6 +5,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DeleteTeamDialogComponent } from '../dialogs/delete-team-dialog/delete-team-dialog.component';
 import { EditTeamDialogComponent } from '../dialogs/edit-team-dialog/edit-team-dialog.component';
 import { MatSelectChange } from '@angular/material/select';
+import { MatTableDataSource } from '@angular/material/table';
 import { Poule } from '../models/Poule';
 import { PouleService } from '../services/poule.service';
 import { Speelronde } from '../models/Speelronde';
@@ -20,7 +21,8 @@ import { TeamService } from '../services/team.service';
 export class ManagementComponent implements OnInit {
   categorien = CategorieHelper.getAllCategorien();
   columns: string[] = ['naam', 'spelers', 'categorie', 'actions'];
-  teams: Team[];
+  groupedTeams: Team[][] = [[], [], []];
+  teams = new MatTableDataSource();
   speelronde: Speelronde;
 
   constructor(
@@ -37,7 +39,18 @@ export class ManagementComponent implements OnInit {
 
   getAllTeams(): void {
     this.teamService.getAll().subscribe((teams) => {
-      this.teams = teams;
+      teams = teams || [];
+      this.teams.data = teams;
+      this.groupedTeams = Array(3);
+      this.groupedTeams[Categorie.Heren] = teams.filter(
+        (team) => team.categorie === Categorie.Heren
+      );
+      this.groupedTeams[Categorie.Dames] = teams.filter(
+        (team) => team.categorie === Categorie.Dames
+      );
+      this.groupedTeams[Categorie.Mix] = teams.filter(
+        (team) => team.categorie === Categorie.Mix
+      );
     });
   }
 
@@ -98,6 +111,11 @@ export class ManagementComponent implements OnInit {
     this.pouleService
       .addTeamToPoule(poule, change.value)
       .subscribe(() => this.getCurrentSpeelronde());
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.teams.filter = filterValue.trim().toLowerCase();
   }
 
   getSpelers(team: Team): string {

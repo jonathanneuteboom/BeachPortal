@@ -20,10 +20,10 @@ class PouleGateway
         $this->database = $database;
     }
 
-    public function GetPoulesOfSpeelronde(Speelronde $speelronde): array
+    public function GetPoulesInSpeelronde(Speelronde $speelronde): array
     {
-        $query = "
-            SELECT 
+        $query = 
+            "SELECT 
                 id,
                 naam,
                 categorie,
@@ -38,8 +38,8 @@ class PouleGateway
 
     public function GetPouleById(int $id)
     {
-        $query = "
-            SELECT 
+        $query = 
+            "SELECT 
                 id,
                 naam,
                 categorie,
@@ -57,8 +57,8 @@ class PouleGateway
 
     public function AddPoule(Poule $poule): int
     {
-        $query = "
-            INSERT INTO 
+        $query = 
+            "INSERT INTO 
             beach_poule (naam, categorie, speeltijd)
             VALUES (?, ?, ?);";
         $params = [$poule->naam, $poule->categorie, $poule->speeltijd];
@@ -68,8 +68,8 @@ class PouleGateway
 
     public function AddTeamToPoule(Poule $poule, Team $team)
     {
-        $query = "
-            INSERT INTO 
+        $query = 
+            "INSERT INTO 
             beach_poule_team_map (poule_id, team_id)
             VALUES (?, ?);";
         $params = [$poule->id, $team->id];
@@ -79,8 +79,8 @@ class PouleGateway
 
     public function AddWedstrijdToPoule(Poule $poule, Wedstrijd $wedstrijd): int
     {
-        $query = "
-            INSERT INTO 
+        $query = 
+            "INSERT INTO 
             beach_wedstrijd (poule_id, team1_id, team2_id)
             VALUES (?, ?, ?);";
         $params = [$poule->id, $wedstrijd->team1->id, $wedstrijd->team2->id];
@@ -90,8 +90,8 @@ class PouleGateway
 
     public function DeleteTeamFromPoule(Poule $poule, Team $team): void
     {
-        $query = "
-            DELETE FROM 
+        $query = 
+            "DELETE FROM 
             beach_poule_team_map
             WHERE poule_id = ? and team_id = ?";
         $params = [$poule->id, $team->id];
@@ -100,8 +100,8 @@ class PouleGateway
 
     public function DeletePoule(Poule $poule): void
     {
-        $query = "
-            DELETE FROM 
+        $query = 
+            "DELETE FROM 
             beach_poule
             WHERE id = ?";
         $params = [$poule->id];

@@ -21,7 +21,7 @@
   right: 20px;
 }
 
-.team {
+.team > div.mat-list-item-content {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;

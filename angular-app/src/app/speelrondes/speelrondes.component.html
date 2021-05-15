@@ -1,21 +1,22 @@
-<div class="toggles" >
-    <div>
-        <mat-button-toggle-group [formControl]="typeControl">
-            <mat-button-toggle value="heren">Heren</mat-button-toggle>
-            <mat-button-toggle value="dames">Dames</mat-button-toggle>
-            <mat-button-toggle value="mix">Mix</mat-button-toggle>
-        </mat-button-toggle-group>
-    </div>
-    <div>
-        <mat-button-toggle-group [formControl]="speelrondeControl">
-            <mat-button-toggle value="0">1</mat-button-toggle>
-            <mat-button-toggle value="1">2</mat-button-toggle>
-            <mat-button-toggle value="2">3</mat-button-toggle>
-        </mat-button-toggle-group>
-    </div>
+<div style="padding: 20px;" *ngIf="speelrondes.length === 0">
+    Nog geen speelrondes
 </div>
 
+<div *ngIf="speelrondes.length > 0">
 
-<div class="speelrondes">
-    <app-poule *ngFor="let poule of speelrondes[nummer][type]" [poule]="poule"></app-poule>
+    <div class=" toggles" [formGroup]="form">
+        <div>
+            <mat-button-toggle-group formControlName="speelronde">
+                <mat-button-toggle *ngFor="let speelronde of speelrondes" [value]="speelronde.nummer">
+                    {{speelronde.nummer}}
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
+
+    <div class="speelrondes">
+        <app-poule (onChange)="getSpeelrondes()" *ngFor="let poule of speelrondes[0].poules" [poule]="poule">
+        </app-poule>
+    </div>
+
 </div>

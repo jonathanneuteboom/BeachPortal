@@ -22,7 +22,8 @@
     <ng-container matColumnDef="wijzigen">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let wedstrijd">
-            <button mat-icon-button color="primary" (click)="uitslagAanpassen()" aria-label="Example icon button with a home icon">
+            <button mat-icon-button color="primary" (click)="uitslagAanpassen(wedstrijd)"
+                aria-label="Example icon button with a home icon">
                 <mat-icon>edit</mat-icon>
             </button>
         </td>

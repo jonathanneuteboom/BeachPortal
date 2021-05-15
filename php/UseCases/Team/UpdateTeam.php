@@ -37,6 +37,10 @@ class UpdateTeam implements Interactor
             }
         }
 
+        if (count($newSpelers) === 0) {
+            throw new UnexpectedValueException("Team moet minstens 1 speler hebben");
+        }
+
         if ($id === null) {
             $team = new Team($id, $naam, $categorie);
             $team->id = $this->teamGateway->AddTeam($team);
@@ -45,11 +49,11 @@ class UpdateTeam implements Interactor
             $team->categorie = $categorie;
             $team->naam = $naam;
             $this->teamGateway->UpdateTeam($team);
-            $this->teamGateway->DeleteSpelers($team);
+            $this->teamGateway->DeleteSpelersFromTeam($team);
         }
 
         foreach ($newSpelers as $newSpeler) {
-            $this->teamGateway->AddSpeler($team, $newSpeler);
+            $this->teamGateway->AddSpelerToTeam($team, $newSpeler);
         }
     }
 }

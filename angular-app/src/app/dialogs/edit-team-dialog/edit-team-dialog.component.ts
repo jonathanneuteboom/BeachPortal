@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategorieHelper } from 'src/app/models/Categorie';
 import { Speler } from 'src/app/models/Speler';
 import { Team } from 'src/app/models/Team';
@@ -24,7 +23,6 @@ export class EditTeamDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: Team,
     private teamService: TeamService,
     private dialogRef: MatDialogRef<EditTeamDialogComponent>,
-    private snackbar: MatSnackBar,
     private userService: UserService
   ) {
     this.form = fb.group({
@@ -106,9 +104,6 @@ export class EditTeamDialogComponent {
     this.teamService.updateTeam(team).subscribe({
       next: () => {
         this.dialogRef.close(team);
-      },
-      error: (error) => {
-        this.snackbar.open(error.error.message, 'ERROR');
       }
     });
   }

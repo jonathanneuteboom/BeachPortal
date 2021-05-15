@@ -11,11 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   unauthorized = new EventEmitter<boolean>();
-  currentUser: User;
-
-  constructor(private httpClient: HttpClient) {
-    // this.getUser().subscribe((user) => (this.currentUser = user));
-  }
+  constructor(private httpClient: HttpClient) {}
 
   setUnauthorized(): void {
     this.unauthorized.emit(true);
@@ -28,8 +24,8 @@ export class UserService {
     });
   }
 
-  getUser(): Observable<User> {
-    return this.httpClient.get<User>(`${environment.baseUrl}/user}`);
+  getCurrentUser(): Observable<User> {
+    return this.httpClient.get<User>(`${environment.baseUrl}/user/current`);
   }
 
   getUsersWithName(naam: string): Observable<Speler[]> {

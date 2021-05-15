@@ -60,8 +60,6 @@ $app->addRoutingMiddleware();
 
 $entryPoint =
     new RouteGroup('/BeachPortal/api', [
-        new GetRoute('/my-beach', UseCases\HelloWorld::class, Role::UNREGISTERED),
-
         new RouteGroup('/team', [
             new GetRoute('/all', UseCases\GetAllTeams::class),
             new GetRoute('/get/{id}', UseCases\GetTeam::class),
@@ -70,6 +68,7 @@ $entryPoint =
         ], Role::USER),
 
         new RouteGroup('/poule', [
+            new GetRoute('/my', UseCases\GetMyPoules::class),
             new PostRoute('/add', UseCases\AddPoule::class),
             new PostRoute('/team/add', UseCases\AddTeamToPoule::class),
             new DeleteRoute('/{pouleId}/team/{teamId}', UseCases\DeleteTeamFromPoule::class),
@@ -78,23 +77,18 @@ $entryPoint =
 
         new RouteGroup('/speelronde', [
             new GetRoute('/current', UseCases\GetCurrentSpeelronde::class),
+            new GetRoute('/all', UseCases\GetAllSpeelrondes::class),
             new PostRoute('/add', UseCases\AddSpeelronde::class),
             new DeleteRoute('/delete', UseCases\DeleteSpeelronde::class),
         ], Role::MANAGEMENT),
 
         new RouteGroup('/wedstrijd', [
-            new GetRoute('/get/{id}', UseCases\HelloWorld::class, Role::USER),
-            new GetRoute('/update', UseCases\HelloWorld::class, Role::USER)
+            new PostRoute('/uitslag', UseCases\UitslagInvoeren::class, Role::USER)
         ]),
 
-        new RouteGroup('/management', [
-            new GetRoute('/nieuwe-ronde', UseCases\HelloWorld::class),
-        ], Role::MANAGEMENT),
-
         new RouteGroup('/user', [
-            new GetRoute('/current', UseCases\HelloWorld::class, Role::MANAGEMENT),
+            new GetRoute('/current', UseCases\GetCurrentUser::class, Role::USER),
             new GetRoute('/find-by-name', UseCases\FindUserByName::class, Role::MANAGEMENT),
-            new PostRoute('/get', UseCases\HelloWorld::class, Role::MANAGEMENT),
             new PostRoute('/login', UseCases\Login::class, Role::UNREGISTERED)
         ])
     ]);

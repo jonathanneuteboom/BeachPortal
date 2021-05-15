@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Categorie } from '../models/Categorie';
-import { FormControl } from '@angular/forms';
-import { Poule } from '../models/Poule';
 import { Speelronde } from '../models/Speelronde';
-import { Speler } from '../models/Speler';
-import { StandItem } from '../models/StandItem';
-import { Team } from '../models/Team';
-import { Wedstrijd } from '../models/Wedstrijd';
+import { SpeelrondeService } from '../services/speelronde.service';
 
 @Component({
   selector: 'app-speelrondes',
@@ -15,134 +11,40 @@ import { Wedstrijd } from '../models/Wedstrijd';
   styleUrls: ['./speelrondes.component.scss']
 })
 export class SpeelrondesComponent implements OnInit {
-  type = 'heren';
-  nummer = '0';
-  typeControl = new FormControl();
-  speelrondeControl = new FormControl();
+  form: FormGroup;
+  speelrondes: Speelronde[] = [];
+  heren = Categorie.Heren;
+  dames = Categorie.Dames;
+  mix = Categorie.Mix;
 
-  teams: Team[] = [
-    new Team({
-      naam: 'Binkies Alfa',
+  constructor(
+    private fb: FormBuilder,
+    private speelrondeService: SpeelrondeService
+  ) {}
+
+  ngOnInit(): void {
+    this.form = this.fb.group({
       categorie: Categorie.Heren,
-      spelers: [
-        new Speler({ naam: 'Jonathan Neuteboom' }),
-        new Speler({ naam: 'Sjoerd Verbeek' })
-      ]
-    }),
-    new Team({
-      naam: 'Binkies Beta',
-      categorie: Categorie.Dames,
-      spelers: [
-        new Speler({ naam: 'Niels Barelds' }),
-        new Speler({ naam: 'Coen Versluijs' })
-      ]
-    }),
-    new Team({
-      naam: 'Binkies Gamma',
-      categorie: Categorie.Mix,
-      spelers: [
-        new Speler({ naam: 'Jurian Meijerhof' }),
-        new Speler({ naam: 'Friso van Bokhorst' })
-      ]
-    }),
-    new Team({
-      naam: 'Binkies Delta',
-      categorie: Categorie.Heren,
-      spelers: [
-        new Speler({ naam: 'Huub Adriaanse' }),
-        new Speler({ naam: 'Joris Heinsbroek' })
-      ]
-    })
-  ];
+      speelronde: 1
+    });
 
-  wedstrijden: Wedstrijd[] = [
-    new Wedstrijd({
-      team1: this.teams[0],
-      team2: this.teams[1],
-      puntenTeam1: 21,
-      puntenTeam2: 19
-    }),
-    new Wedstrijd({ team1: this.teams[2], team2: this.teams[3] }),
-    new Wedstrijd({
-      team1: this.teams[0],
-      team2: this.teams[2],
-      puntenTeam1: 21,
-      puntenTeam2: 1
-    }),
-    new Wedstrijd({ team1: this.teams[1], team2: this.teams[3] }),
-    new Wedstrijd({ team1: this.teams[0], team2: this.teams[3] }),
-    new Wedstrijd({ team1: this.teams[1], team2: this.teams[2] })
-  ];
+    this.getSpeelrondes();
+  }
 
-  stand = [
-    new StandItem({
-      team: this.teams[0],
-      gewonnenWedstrijden: 3,
-      puntenVoor: 20,
-      puntenTegen: 10,
-      puntenquotient: 0.534
-    }),
-    new StandItem({
-      team: this.teams[1],
-      gewonnenWedstrijden: 2,
-      puntenVoor: 19,
-      puntenTegen: 11,
-      puntenquotient: 0.782
-    }),
-    new StandItem({
-      team: this.teams[2],
-      gewonnenWedstrijden: 1,
-      puntenVoor: 18,
-      puntenTegen: 12,
-      puntenquotient: 0.3
-    }),
-    new StandItem({
-      team: this.teams[3],
-      gewonnenWedstrijden: 0,
-      puntenVoor: 17,
-      puntenTegen: 13,
-      puntenquotient: 0.237
-    })
-  ];
+  getSpeelrondes(): void {
+    this.speelrondeService.getAllSpeelrondes().subscribe((speelrondes) => {
+      speelrondes = speelrondes || [];
+      speelrondes.forEach((speelronde) =>
+        speelronde.poules.forEach((poule) => (poule.teams = null))
+      );
+      this.speelrondes = speelrondes;
 
-  speelrondes: Speelronde[] = [
-    new Speelronde({
-      nummer: 1,
-      poules: [
-        new Poule({
-          naam: 'A',
-          categorie: Categorie.Heren,
-          speeltijd: new Date(),
-          teams: this.teams
-        }),
-        new Poule({
-          naam: 'B',
-          categorie: Categorie.Heren,
-          speeltijd: new Date(),
-          teams: this.teams
-        })
-      ]
-    }),
-    new Speelronde({
-      nummer: 2,
-      poules: [
-        new Poule({
-          naam: 'C',
-          categorie: Categorie.Heren,
-          speeltijd: new Date(),
-          teams: this.teams
-        }),
-        new Poule({
-          naam: 'D',
-          categorie: Categorie.Heren,
-          speeltijd: new Date(),
-          teams: this.teams
-        })
-      ]
-    })
-  ];
+      if (speelrondes.length === 0) return;
 
-  constructor() {}
-
-  ngOnInit(): void {}
+      this.form = this.fb.group({
+        categorie: Categorie.Heren,
+        speelronde: speelrondes[speelrondes.length - 1].nummer
+      });
+    });
+  }
 }

@@ -19,8 +19,8 @@ class SpeelrondeGateway
 
     function GetCurrentSpeelronde(): ?Speelronde
     {
-        $query = "
-            SELECT * 
+        $query =
+            "SELECT * 
             FROM beach_speelronde 
             ORDER BY nummer DESC
             limit 1";
@@ -31,10 +31,25 @@ class SpeelrondeGateway
         return new Speelronde($rows[0]->id, $rows[0]->nummer);
     }
 
+    function GetAllSpeelrondes(): array
+    {
+        $query =
+            "SELECT * 
+            FROM beach_speelronde 
+            ORDER BY nummer DESC";
+        $rows = $this->database->Execute($query);
+
+        $speelrondes = [];
+        foreach ($rows as $row) {
+            $speelrondes[] = new Speelronde($row->id, $row->nummer);
+        }
+        return $speelrondes;
+    }
+
     function AddSpeelronde(Speelronde $speelronde): int
     {
-        $query = "
-            INSERT INTO beach_speelronde (nummer)
+        $query =
+            "INSERT INTO beach_speelronde (nummer)
             VALUES (?)";
         $params = [$speelronde->nummer];
         $this->database->Execute($query, $params);
@@ -43,8 +58,8 @@ class SpeelrondeGateway
 
     function AddPouleToSpeelronde(Speelronde $speelronde, Poule $poule): int
     {
-        $query = "
-            INSERT INTO beach_poule (speelronde_id, categorie, naam, speeltijd)
+        $query =
+            "INSERT INTO beach_poule (speelronde_id, categorie, naam, speeltijd)
             VALUES (?, ?, ?, ?)";
         $params = [
             $speelronde->id,
@@ -58,8 +73,8 @@ class SpeelrondeGateway
 
     function DeleteSpeelronde(Speelronde $speelronde): void
     {
-        $query = "
-            DELETE FROM beach_speelronde
+        $query =
+            "DELETE FROM beach_speelronde
             WHERE id = ?";
         $params = [$speelronde->id];
         $this->database->Execute($query, $params);

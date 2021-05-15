@@ -21,13 +21,13 @@ class TeamGateway
 
     public function GetAllTeams(): array
     {
-        $query = "
-            SELECT 
+        $query =
+            "SELECT 
                 T.id as teamId,
-                T.naam as teamnaam,
-                T.categorie,
+                T.naam as teamNaam,
+                T.categorie as teamCategorie,
                 U.id as spelerId,
-                U.name as spelersnaam
+                U.name as spelerNaam
             FROM beach_team T
             LEFT JOIN beach_team_speler_map M ON T.id = M.team_id
             LEFT JOIN J3_users U ON U.id = M.speler_id
@@ -38,13 +38,13 @@ class TeamGateway
 
     public function GetTeamById(int $id): Team
     {
-        $query = "
-            SELECT
+        $query =
+            "SELECT
                 T.id as teamId,
-                T.naam as teamnaam,
-                T.categorie,
+                T.naam as teamNaam,
+                T.categorie as teamCategorie,
                 U.id as spelerId,
-                U.name as spelersnaam
+                U.name as spelerNaam
             FROM beach_team T
             LEFT JOIN beach_team_speler_map M ON T.id = M.team_id
             LEFT JOIN J3_users U ON U.id = M.speler_id
@@ -59,15 +59,35 @@ class TeamGateway
         return $teams[0];
     }
 
+    public function GetTeamsOfSpeler(Speler $speler): array
+    {
+        $query =
+            "SELECT 
+                T.id as teamId,
+                T.naam as teamNaam,
+                T.categorie as teamCategorie,
+                U.id as spelerId,
+                U.name as spelerNaam
+            FROM beach_team_speler_map M
+            INNER JOIN beach_team T ON M.team_id = T.id
+            LEFT JOIN beach_team_speler_map M2 ON T.id = M2.team_id
+            LEFT JOIN J3_users U ON M2.speler_id = U.id
+            WHERE M.speler_id = ?";
+        $params = [$speler->id];
+        $rows = $this->database->Execute($query, $params);
+        return $this->MapToTeams($rows);
+    }
+
+
     public function GetTeamsInPoule(Poule $poule): array
     {
-        $query = "
-            SELECT 
-                T.id AS teamId,
-                T.naam AS teamnaam,
-                T.categorie,
-                U.id AS spelerId,
-                U.name AS spelersnaam
+        $query =
+            "SELECT 
+                T.id as teamId,
+                T.naam as teamNaam,
+                T.categorie as teamCategorie,
+                U.id as spelerId,
+                U.name as spelerNaam
             FROM beach_poule_team_map TM
             INNER JOIN beach_team T ON TM.team_id = T.id
             LEFT JOIN beach_team_speler_map SM ON T.id = SM.team_id
@@ -81,8 +101,8 @@ class TeamGateway
 
     public function AddTeam(Team $team): int
     {
-        $query = "
-            INSERT INTO 
+        $query =
+            "INSERT INTO 
             beach_team (categorie, naam)
             VALUES (?, ?);";
         $params = [$team->categorie, $team->naam];
@@ -92,8 +112,8 @@ class TeamGateway
 
     public function UpdateTeam(Team $team): void
     {
-        $query = "
-            UPDATE 
+        $query =
+            "UPDATE 
             beach_team
             SET
                 categorie = ?,
@@ -105,27 +125,27 @@ class TeamGateway
 
     public function DeleteTeam(Team $team): void
     {
-        $query = "
-            DELETE FROM 
+        $query =
+            "DELETE FROM 
             beach_team
             WHERE id = ?";
         $params = [$team->id];
         $this->database->Execute($query, $params);
     }
 
-    public function DeleteSpelers(Team $team)
+    public function DeleteSpelersFromTeam(Team $team)
     {
-        $query = "
-            DELETE FROM beach_team_speler_map
+        $query =
+            "DELETE FROM beach_team_speler_map
             WHERE team_id = ?";
         $params = [$team->id];
         $this->database->Execute($query, $params);
     }
 
-    public function AddSpeler(Team $team, Speler $speler): int
+    public function AddSpelerToTeam(Team $team, Speler $speler): int
     {
-        $query = "
-            INSERT INTO 
+        $query =
+            "INSERT INTO 
             beach_team_speler_map(team_id, speler_id)
             VALUES (?, ?)";
         $params = [$team->id, $speler->id];
@@ -139,14 +159,14 @@ class TeamGateway
         $currentTeamId = null;
         foreach ($rows as $row) {
             if ($currentTeamId != $row->teamId) {
-                $newTeam = new Team($row->teamId, $row->teamnaam, $row->categorie);
+                $newTeam = new Team($row->teamId, $row->teamNaam, $row->teamCategorie);
                 $currentTeamId = $newTeam->id;
                 $teams[] = $newTeam;
             }
             $i = count($teams) - 1;
             if ($row->spelerId === null) continue;
 
-            $speler = new Speler($row->spelerId, $row->spelersnaam);
+            $speler = new Speler($row->spelerId, $row->spelerNaam);
             $teams[$i]->spelers[] = $speler;
         }
         return $teams;

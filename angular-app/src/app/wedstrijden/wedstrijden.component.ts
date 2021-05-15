@@ -1,10 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-import { Categorie } from '../models/Categorie';
-import { EditTeamDialogComponent } from '../dialogs/edit-team-dialog/edit-team-dialog.component';
-import { Speler } from '../models/Speler';
-import { Team } from '../models/Team';
+import { UitslagInvoerenDialogComponent } from '../dialogs/uitslag-invoeren-dialog/uitslag-invoeren-dialog.component';
 import { Wedstrijd } from '../models/Wedstrijd';
 
 @Component({
@@ -14,22 +11,20 @@ import { Wedstrijd } from '../models/Wedstrijd';
 })
 export class WedstrijdenComponent implements OnInit {
   @Input() wedstrijden: Wedstrijd[];
+  @Output() onChange = new EventEmitter<any>();
 
   displayedColumns = ['team1', 'team2', 'uitslag', 'wijzigen'];
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {}
 
-  uitslagAanpassen(): void {
-    const config = new MatDialogConfig<Team>();
+  uitslagAanpassen(wedstrijd: Wedstrijd): void {
+    const config = new MatDialogConfig<Wedstrijd>();
     config.disableClose = true;
     config.width = '400px';
-    config.data = new Team({
-      naam: 'Henk&Piet',
-      categorie: Categorie.Heren,
-      spelers: [new Speler({ naam: 'Henk' }), new Speler({ naam: 'Piet' })]
-    });
+    config.data = wedstrijd;
 
-    this.dialog.open(EditTeamDialogComponent, config);
+    const dialogRef = this.dialog.open(UitslagInvoerenDialogComponent, config);
+    dialogRef.afterClosed().subscribe(() => this.onChange.emit());
   }
 }

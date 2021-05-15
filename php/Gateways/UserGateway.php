@@ -44,10 +44,11 @@ class UserGateway implements IUserGateway
         if ($user === null) {
             return false;
         }
-        $query = 'SELECT *
-                  FROM J3_user_usergroup_map M
-                  INNER JOIN J3_usergroups G ON M.group_id = G.id
-                  WHERE M.user_id = ? and G.title = ?';
+        $query =
+            "SELECT *
+            FROM J3_user_usergroup_map M
+            INNER JOIN J3_usergroups G ON M.group_id = G.id
+            WHERE M.user_id = ? and G.title = ?";
         $params = [$user->id, $usergroup];
         $result = $this->database->Execute($query, $params);
         return count($result) > 0;
@@ -119,21 +120,21 @@ class UserGateway implements IUserGateway
 
     public function GetUsersWithName(string $name): array
     {
-        $query = "SELECT 
-                    U.id,
-                    U.name as naam,
-                    U.email,
-                    C.cb_rugnummer as rugnummer,
-                    C.cb_positie as positie,
-                    C.cb_nevobocode as relatiecode
-                  FROM J3_users U
-                  LEFT JOIN J3_comprofiler C ON U.id = C.user_id
-                  WHERE name like '%$name%'
-                  ORDER BY 
-                  CASE 
-                    WHEN name LIKE '$name%' THEN 0 ELSE 1 end,
-                  name  
-                  LIMIT 0, 5";
+        $query =
+            "SELECT 
+                U.id,
+                U.name as naam,
+                U.email,
+                C.cb_rugnummer as rugnummer,
+                C.cb_positie as positie,
+                C.cb_nevobocode as relatiecode
+            FROM J3_users U
+            LEFT JOIN J3_comprofiler C ON U.id = C.user_id
+            WHERE name like '%$name%'
+            ORDER BY 
+            CASE WHEN name LIKE '$name%' THEN 0 ELSE 1 end,
+            name  
+            LIMIT 0, 5";
         $rows = $this->database->Execute($query);
         return $this->MapToSpelers($rows);
     }
@@ -149,12 +150,13 @@ class UserGateway implements IUserGateway
 
     private function GetUserById(int $userId): Speler
     {
-        $query = 'SELECT 
-                    U.id, 
-                    U.name AS naam
-                  FROM J3_users U
-                  LEFT JOIN J3_comprofiler C ON U.id = C.user_id
-                  WHERE U.id = ?';
+        $query =
+            "SELECT 
+                U.id, 
+                U.name AS naam
+            FROM J3_users U
+            LEFT JOIN J3_comprofiler C ON U.id = C.user_id
+            WHERE U.id = ?";
         $params = [$userId];
         $users = $this->database->Execute($query, $params);
         if (count($users) != 1) {

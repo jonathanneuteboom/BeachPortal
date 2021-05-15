@@ -5,7 +5,7 @@ export class StandItem {
   public gewonnenWedstrijden: number;
   public puntenVoor: number;
   public puntenTegen: number;
-  public puntenquotient: number;
+  public quotient: number;
 
   public constructor(init?: Partial<StandItem>) {
     Object.assign(this, init);

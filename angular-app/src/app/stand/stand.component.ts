@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { StandItem } from '../models/StandItem';
 
 @Component({
@@ -14,12 +15,10 @@ export class StandComponent implements OnInit {
     'gewonnenWedstrijden',
     'puntenVoor',
     'puntenTegen',
-    'puntenquotient'
+    'quotient'
   ];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

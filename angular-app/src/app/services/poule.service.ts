@@ -29,8 +29,13 @@ export class PouleService {
     return this.httpClient.delete(url);
   }
 
-  GetAllPoules(): Observable<Poule[]> {
+  getAllPoules(): Observable<Poule[]> {
     const url = `${environment.baseUrl}/poule/all`;
+    return this.httpClient.get<Poule[]>(url);
+  }
+
+  getMyPoules(): Observable<Poule[]> {
+    const url = `${environment.baseUrl}/poule/my`;
     return this.httpClient.get<Poule[]>(url);
   }
 

@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
 
 import { Categorie } from '../models/Categorie';
 import { Poule } from '../models/Poule';
@@ -8,7 +14,8 @@ import { Team } from '../models/Team';
 @Component({
   selector: 'app-poule',
   templateUrl: './poule.component.html',
-  styleUrls: ['./poule.component.scss']
+  styleUrls: ['./poule.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PouleComponent {
   @Input() poule: Poule;
@@ -35,5 +42,9 @@ export class PouleComponent {
     this.pouleService
       .deleteTeamFromPoule(poule, team)
       .subscribe(() => this.onChange.emit(this.poule));
+  }
+
+  onWedstrijdChanged(): void {
+    this.onChange.emit();
   }
 }
