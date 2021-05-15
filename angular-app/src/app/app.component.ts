@@ -59,6 +59,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        if (event.url === '/') return;
+
         const link = this.links.find((link) => link.link === event.url);
         this.title = link.label;
       }

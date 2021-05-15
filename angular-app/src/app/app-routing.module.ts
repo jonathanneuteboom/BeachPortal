@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'speelrondes', component: SpeelrondesComponent },
   { path: 'algemene-informatie', component: AlgemeneInformatieComponent },
 
-  { path: '', redirectTo: 'management', pathMatch: 'full' }
+  { path: '', redirectTo: 'my-beach', pathMatch: 'full' }
 ];
 
 @NgModule({

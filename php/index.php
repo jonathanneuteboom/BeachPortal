@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace BeachPortal;
 
 setlocale(LC_ALL, 'nl_NL');
+ini_set('session.cookie_samesite','None');
+ini_set('session.cookie_secure', 'true');
 
 use Slim\Factory\AppFactory;
 use Psr\Http\Message\ResponseInterface as Response;
