@@ -41,12 +41,16 @@ class GetMyPoules implements Interactor
         foreach ($poules as $poule) {
             $poule->teams = $this->teamGateway->GetTeamsInPoule($poule);
             foreach ($teams as $team) {
-                if (array_search($team->id, array_column($poule->teams, 'id')) !== false) {
-                    $poule->wedstrijden = $this->wedstrijdGateway->GetWedstrijdenInPoule($poule);
-                    $poule->stand = $this->wedstrijdGateway->GetStandOfPoule($poule);
-
-                    $myPoules[] = $poule;
+                if (array_search($team->id, array_column($poule->teams, 'id')) === false) {
+                    continue;
                 }
+                $poule->wedstrijden = $this->wedstrijdGateway->GetWedstrijdenInPoule($poule);
+                $poule->stand = $this->wedstrijdGateway->GetStandOfPoule($poule);
+                foreach ($poule->stand as $stand) {
+                    $stand->team = $this->teamGateway->GetTeamById($stand->team->id);
+                }
+
+                $myPoules[] = $poule;
             }
         }
 

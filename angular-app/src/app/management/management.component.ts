@@ -40,6 +40,9 @@ export class ManagementComponent implements OnInit {
   getAllTeams(): void {
     this.teamService.getAll().subscribe((teams) => {
       teams = teams || [];
+      teams.forEach(
+        (team) => (team.categorieValue = Categorie[team.categorie])
+      );
       this.teams.data = teams;
       this.groupedTeams = Array(3);
       this.groupedTeams[Categorie.Heren] = teams.filter(
@@ -72,6 +75,7 @@ export class ManagementComponent implements OnInit {
     );
     dialogRef.afterClosed().subscribe((team) => {
       this.getAllTeams();
+      this.getCurrentSpeelronde();
     });
   }
 

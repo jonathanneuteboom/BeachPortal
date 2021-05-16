@@ -33,7 +33,7 @@ class DeleteSpeelronde implements Interactor
         foreach ($speelronde->poules as $poule) {
             $wedstrijden = $this->wedstrijdGateway->GetWedstrijdenInPoule($poule);
             foreach ($wedstrijden as $wedstrijd) {
-                if ($wedstrijd->IsWedstrijdGespeeld()) {
+                if ($wedstrijd->IsStandIngevuld()) {
                     throw new UnexpectedValueException("Kan niet verwijderen. Er zijn gespeelde wedstrijden in deze speelronde");
                 }
             }

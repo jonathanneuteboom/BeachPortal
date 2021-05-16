@@ -23,9 +23,16 @@ class Wedstrijd
         $this->validate();
     }
 
-    public function IsWedstrijdGespeeld()
+    public function IsStandIngevuld()
     {
-        return $this->puntenTeam1 !== 0 && $this->puntenTeam2 !== 0;
+        return $this->puntenTeam1 !== 0 || $this->puntenTeam2 !== 0;
+    }
+
+    public function CanSpelerEdit(Speler $speler)
+    {
+        return
+            array_search($speler->id, array_column($this->team1->spelers, 'id')) !== false ||
+            array_search($speler->id, array_column($this->team2->spelers, 'id')) !== false;
     }
 
     private function validate()

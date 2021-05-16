@@ -1,22 +1,21 @@
 <table mat-table [dataSource]="wedstrijden" class="mat-elevation-z8 wedstrijden">
 
-    <ng-container matColumnDef="team1">
+    <ng-container matColumnDef="teams">
         <th mat-header-cell *matHeaderCellDef>Wedstrijden </th>
         <td mat-cell *matCellDef="let wedstrijd">
-            <app-team [team]="wedstrijd.team1"></app-team>
-        </td>
-    </ng-container>
-
-    <ng-container matColumnDef="team2">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let wedstrijd">
-            <app-team [team]="wedstrijd.team2"></app-team>
+            <div class="teams">
+                <app-team [team]="wedstrijd.team1"></app-team>
+                <div>-</div>
+                <app-team [team]="wedstrijd.team2"></app-team>
+            </div>
         </td>
     </ng-container>
 
     <ng-container matColumnDef="uitslag">
-        <th mat-header-cell *matHeaderCellDef> Uitslag </th>
-        <td mat-cell *matCellDef="let wedstrijd"> {{wedstrijd.puntenTeam1}} - {{wedstrijd.puntenTeam2}} </td>
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let wedstrijd">
+            <div>{{wedstrijd.puntenTeam1}} - {{wedstrijd.puntenTeam2}}</div>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="wijzigen">

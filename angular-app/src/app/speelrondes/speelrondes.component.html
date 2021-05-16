@@ -15,7 +15,8 @@
     </div>
 
     <div class="speelrondes">
-        <app-poule (onChange)="getSpeelrondes()" *ngFor="let poule of speelrondes[0].poules" [poule]="poule">
+        <app-poule (onChange)="getSpeelrondes()" *ngFor="let poule of speelrondes[currentSpeelronde].poules"
+            [poule]="poule">
         </app-poule>
     </div>
 

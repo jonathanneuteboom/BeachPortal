@@ -107,6 +107,7 @@ class TeamGateway
             VALUES (?, ?);";
         $params = [$team->categorie, $team->naam];
         $this->database->Execute($query, $params);
+
         return $this->database->GetLastInsertedId();
     }
 
@@ -142,7 +143,7 @@ class TeamGateway
         $this->database->Execute($query, $params);
     }
 
-    public function AddSpelerToTeam(Team $team, Speler $speler): int
+    public function AddSpelerToTeam(Team $team, Speler $speler): void
     {
         $query =
             "INSERT INTO 
@@ -150,7 +151,6 @@ class TeamGateway
             VALUES (?, ?)";
         $params = [$team->id, $speler->id];
         $this->database->Execute($query, $params);
-        return $this->database->GetLastInsertedId();
     }
 
     private function MapToTeams(array $rows): array

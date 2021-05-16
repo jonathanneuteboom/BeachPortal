@@ -22,6 +22,9 @@ class GetAllPoules implements Interactor
             $poule->teams = $this->teamGateway->GetTeamsInPoule($poule);
             $poule->wedstrijden = $this->wedstrijdGateway->GetWedstrijdenInPoule($poule);
             $poule->stand = $this->wedstrijdGateway->GetStandOfPoule($poule);
+            foreach ($poule->stand as $stand) {
+                $stand->team = $this->teamGateway->GetTeamById($stand->team->id);
+            }
         }
 
         return $poules;

@@ -13,11 +13,7 @@ export class TeamComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getSpelers(team: Team): string {
-    return team.spelers
-      .map((element) => {
-        return element.naam;
-      })
-      .join(', ');
+  getSpelers(): string {
+    return this.team.spelers.map((speler) => speler.naam).join(', ');
   }
 }

@@ -6,6 +6,7 @@ export class Team {
   public naam: string;
   public categorie: Categorie;
   public spelers: Speler[] = [];
+  public categorieValue: string;
 
   public constructor(init?: Partial<Team>) {
     Object.assign(this, init);

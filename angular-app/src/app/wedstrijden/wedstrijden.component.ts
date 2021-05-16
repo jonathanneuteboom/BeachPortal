@@ -13,7 +13,7 @@ export class WedstrijdenComponent implements OnInit {
   @Input() wedstrijden: Wedstrijd[];
   @Output() onChange = new EventEmitter<any>();
 
-  displayedColumns = ['team1', 'team2', 'uitslag', 'wijzigen'];
+  displayedColumns = ['teams', 'uitslag', 'wijzigen'];
   constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {}

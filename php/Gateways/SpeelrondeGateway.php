@@ -36,7 +36,7 @@ class SpeelrondeGateway
         $query =
             "SELECT * 
             FROM beach_speelronde 
-            ORDER BY nummer DESC";
+            ORDER BY nummer";
         $rows = $this->database->Execute($query);
 
         $speelrondes = [];

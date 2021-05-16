@@ -13,6 +13,7 @@ import { SpeelrondeService } from '../services/speelronde.service';
 export class SpeelrondesComponent implements OnInit {
   form: FormGroup;
   speelrondes: Speelronde[] = [];
+  currentSpeelronde: number;
   heren = Categorie.Heren;
   dames = Categorie.Dames;
   mix = Categorie.Mix;
@@ -41,9 +42,18 @@ export class SpeelrondesComponent implements OnInit {
 
       if (speelrondes.length === 0) return;
 
+      this.currentSpeelronde = this.currentSpeelronde ?? speelrondes.length - 1;
+
       this.form = this.fb.group({
         categorie: Categorie.Heren,
-        speelronde: speelrondes[speelrondes.length - 1].nummer
+        speelronde: speelrondes[this.currentSpeelronde].nummer
+      });
+
+      this.form.get('speelronde').valueChanges.subscribe({
+        next: (nummer) =>
+          (this.currentSpeelronde = this.speelrondes.findIndex(
+            (speelronde) => speelronde.nummer === nummer
+          ))
       });
     });
   }
