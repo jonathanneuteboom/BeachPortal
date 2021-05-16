@@ -153,7 +153,8 @@ class UserGateway implements IUserGateway
         $query =
             "SELECT 
                 U.id, 
-                U.name AS naam
+                U.name AS naam,
+                U.email
             FROM J3_users U
             LEFT JOIN J3_comprofiler C ON U.id = C.user_id
             WHERE U.id = ?";
@@ -163,6 +164,6 @@ class UserGateway implements IUserGateway
             throw new UnexpectedValueException("Gebruiker met id '$userId' bestaat niet");
         }
 
-        return new Speler($users[0]->id, $users[0]->naam);
+        return new Speler($users[0]->id, $users[0]->naam, $users[0]->email);
     }
 }

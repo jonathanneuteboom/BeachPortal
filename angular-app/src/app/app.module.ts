@@ -17,6 +17,7 @@ import { MyBeachComponent } from './my-beach/my-beach.component';
 import { NgModule } from '@angular/core';
 import { NieuweRondeDialogComponent } from './dialogs/nieuwe-ronde-dialog/nieuwe-ronde-dialog.component';
 import { PouleComponent } from './poule/poule.component';
+import { ProgrammaVersturenComponent } from './dialogs/programma-versturen/programma-versturen.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SpeelrondesComponent } from './speelrondes/speelrondes.component';
 import { StandComponent } from './stand/stand.component';
@@ -53,7 +54,8 @@ const providers = [
     DeleteTeamDialogComponent,
     NieuweRondeDialogComponent,
     UitslagInvoerenDialogComponent,
-    LoginComponent
+    LoginComponent,
+    ProgrammaVersturenComponent
   ],
   imports: [
     BrowserModule,

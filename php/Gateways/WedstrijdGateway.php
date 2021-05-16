@@ -68,12 +68,14 @@ class WedstrijdGateway
                 T1.categorie AS categorieTeam1,
                 U1.id AS idSpelerTeam1, 
                 U1.name AS naamSpelerTeam1,
+                U1.email AS emailSpelerTeam1,
                 
                 T2.id AS idTeam2,
                 T2.naam AS naamTeam2,
                 T2.categorie AS categorieTeam2,
                 U2.id AS idSpelerTeam2,
-                U2.name AS naamSpelerTeam2
+                U2.name AS naamSpelerTeam2,
+                U2.email AS emailSpelerTeam2
             FROM beach_wedstrijd W
             INNER JOIN beach_team T1 ON W.team1_id = T1.id
             LEFT JOIN beach_team_speler_map M1 ON W.team1_id = M1.team_id
@@ -210,10 +212,10 @@ class WedstrijdGateway
             $wedstrijd = $this->Find($wedstrijden, intval($row->idWedstrijd));
             if ($wedstrijd === null) {
                 $team1 = new Team($row->idTeam1, $row->naamTeam1, $row->categorieTeam1);
-                $team1->spelers[] = new Speler($row->idSpelerTeam1, $row->naamSpelerTeam1);
+                $team1->spelers[] = new Speler($row->idSpelerTeam1, $row->naamSpelerTeam1, $row->naamSpelerTeam1);
 
                 $team2 = new Team($row->idTeam2, $row->naamTeam2, $row->categorieTeam2);
-                $team2->spelers[] = new Speler($row->idSpelerTeam2, $row->naamSpelerTeam2);
+                $team2->spelers[] = new Speler($row->idSpelerTeam2, $row->naamSpelerTeam2, $row->naamSpelerTeam2);
 
                 $wedstrijden[] =  new Wedstrijd($row->idWedstrijd, $team1, $team2, $row->puntenTeam1, $row->puntenTeam2);
 
@@ -222,12 +224,12 @@ class WedstrijdGateway
 
             $speler = $this->Find($wedstrijd->team1->spelers, $row->idSpelerTeam1);
             if ($speler === null) {
-                $wedstrijd->team1->spelers[] = new Speler($row->idSpelerTeam1, $row->naamSpelerTeam1);
+                $wedstrijd->team1->spelers[] = new Speler($row->idSpelerTeam1, $row->naamSpelerTeam1, $row->naamSpelerTeam1);
             }
 
             $speler = $this->Find($wedstrijd->team2->spelers, $row->idSpelerTeam2);
             if ($speler === null) {
-                $wedstrijd->team2->spelers[] = new Speler($row->idSpelerTeam2, $row->naamSpelerTeam2);
+                $wedstrijd->team2->spelers[] = new Speler($row->idSpelerTeam2, $row->naamSpelerTeam2, $row->naamSpelerTeam2);
             }
         }
         return $wedstrijden;

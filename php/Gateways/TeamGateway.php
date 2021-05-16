@@ -27,7 +27,8 @@ class TeamGateway
                 T.naam as teamNaam,
                 T.categorie as teamCategorie,
                 U.id as spelerId,
-                U.name as spelerNaam
+                U.name as spelerNaam,
+                U.email as spelerEmail
             FROM beach_team T
             LEFT JOIN beach_team_speler_map M ON T.id = M.team_id
             LEFT JOIN J3_users U ON U.id = M.speler_id
@@ -44,7 +45,8 @@ class TeamGateway
                 T.naam as teamNaam,
                 T.categorie as teamCategorie,
                 U.id as spelerId,
-                U.name as spelerNaam
+                U.name as spelerNaam,
+                U.email as spelerEmail
             FROM beach_team T
             LEFT JOIN beach_team_speler_map M ON T.id = M.team_id
             LEFT JOIN J3_users U ON U.id = M.speler_id
@@ -67,7 +69,8 @@ class TeamGateway
                 T.naam as teamNaam,
                 T.categorie as teamCategorie,
                 U.id as spelerId,
-                U.name as spelerNaam
+                U.name as spelerNaam,
+                U.email as spelerEmail
             FROM beach_team_speler_map M
             INNER JOIN beach_team T ON M.team_id = T.id
             LEFT JOIN beach_team_speler_map M2 ON T.id = M2.team_id
@@ -87,13 +90,14 @@ class TeamGateway
                 T.naam as teamNaam,
                 T.categorie as teamCategorie,
                 U.id as spelerId,
-                U.name as spelerNaam
+                U.name as spelerNaam,
+                U.email as spelerEmail
             FROM beach_poule_team_map TM
             INNER JOIN beach_team T ON TM.team_id = T.id
             LEFT JOIN beach_team_speler_map SM ON T.id = SM.team_id
             LEFT JOIN J3_users U ON U.id = SM.speler_id
             WHERE TM.poule_id = ?
-            ORDER BY teamnaam";
+            ORDER BY teamnaam, spelerNaam";
         $params = [$poule->id];
         $rows = $this->database->Execute($query, $params);
         return $this->MapToTeams($rows);
@@ -166,7 +170,7 @@ class TeamGateway
             $i = count($teams) - 1;
             if ($row->spelerId === null) continue;
 
-            $speler = new Speler($row->spelerId, $row->spelerNaam);
+            $speler = new Speler($row->spelerId, $row->spelerNaam, $row->spelerEmail);
             $teams[$i]->spelers[] = $speler;
         }
         return $teams;

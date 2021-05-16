@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Emails versturen</h1>
+<div class="text">
+    Weet je zeker dat je de weeklijkse emails wilt versturen?
+</div>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button [mat-dialog-close]="null">
+        <mat-icon>close</mat-icon> Cancel
+    </button>
+
+    <button mat-raised-button [disabled]="isSending" color="warn" (click)="versturen()">
+        <mat-icon>send</mat-icon> Versturen
+    </button>
+</mat-dialog-actions>

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace BeachPortal;
 
 setlocale(LC_ALL, 'nl_NL');
-ini_set('session.cookie_samesite','None');
+ini_set('session.cookie_samesite', 'None');
 ini_set('session.cookie_secure', 'true');
 
 use Slim\Factory\AppFactory;
@@ -65,34 +65,38 @@ $entryPoint =
         new RouteGroup('/team', [
             new GetRoute('/all', UseCases\GetAllTeams::class),
             new GetRoute('/get/{id}', UseCases\GetTeam::class),
-            new PostRoute('/update', UseCases\UpdateTeam::class, Role::MANAGEMENT),
-            new DeleteRoute('/{id}', UseCases\DeleteTeam::class, Role::MANAGEMENT)
-        ], Role::USER),
+            new PostRoute('/update', UseCases\UpdateTeam::class),
+            new DeleteRoute('/{id}', UseCases\DeleteTeam::class)
+        ], Role::MANAGEMENT),
 
         new RouteGroup('/poule', [
-            new GetRoute('/my', UseCases\GetMyPoules::class),
+            new GetRoute('/my', UseCases\GetMyPoules::class, Role::USER),
             new PostRoute('/add', UseCases\AddPoule::class),
             new PostRoute('/team/add', UseCases\AddTeamToPoule::class),
             new DeleteRoute('/{pouleId}/team/{teamId}', UseCases\DeleteTeamFromPoule::class),
-            new DeleteRoute('/{id}', UseCases\DeletePoule::class, Role::MANAGEMENT)
-        ], Role::USER),
+            new DeleteRoute('/{id}', UseCases\DeletePoule::class)
+        ], Role::MANAGEMENT),
 
         new RouteGroup('/speelronde', [
-            new GetRoute('/current', UseCases\GetCurrentSpeelronde::class),
-            new GetRoute('/all', UseCases\GetAllSpeelrondes::class),
+            new GetRoute('/current', UseCases\GetCurrentSpeelronde::class, Role::USER),
+            new GetRoute('/all', UseCases\GetAllSpeelrondes::class, Role::USER),
             new PostRoute('/add', UseCases\AddSpeelronde::class),
             new DeleteRoute('/delete', UseCases\DeleteSpeelronde::class),
         ], Role::MANAGEMENT),
 
         new RouteGroup('/wedstrijd', [
-            new PostRoute('/uitslag', UseCases\UitslagInvoeren::class, Role::USER)
-        ]),
+            new PostRoute('/uitslag', UseCases\UitslagInvoeren::class)
+        ], Role::USER),
 
         new RouteGroup('/user', [
             new GetRoute('/current', UseCases\GetCurrentUser::class, Role::USER),
             new GetRoute('/find-by-name', UseCases\FindUserByName::class, Role::MANAGEMENT),
             new PostRoute('/login', UseCases\Login::class, Role::UNREGISTERED)
-        ])
+        ]),
+
+        new RouteGroup('/email', [
+            new PostRoute('/programma-versturen', UseCases\ProgrammaVersturen::class)
+        ], Role::MANAGEMENT),
     ]);
 
 $entryPoint->RegisterRoutes($app);

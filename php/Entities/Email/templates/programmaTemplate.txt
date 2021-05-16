@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+<html>
+<body>
+Beste {{NAAM}},<br>
+<br>
+Aanstaande {{DATUM}} ben je ingedeeld om te spelen in de beachcompetitie.<br>
+Jouw poule {{POULE}} speelt om {{TIJD}}.<br>
+<br>
+Je zit in de poule met:<br>
+{{TEAMS}}
+<br>
+Om uitslagen in te vullen en voor meer informatie: <a target="_blank" href="http://www.leidsebeachcompetitie.nl/">BeachPortal</a><br>
+<br>
+Met vriendelijke groet,<br>
+<br>
+{{AFZENDER}}<br>
+<br>
+</body>
+</html>
