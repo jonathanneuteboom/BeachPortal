@@ -44,20 +44,11 @@ export class UitslagInvoerenDialogComponent implements OnInit {
       return true;
     }
 
-    const hoogsteScore = Math.max(
-      this.wedstrijd.puntenTeam1,
-      this.wedstrijd.puntenTeam2
+    const verschil = Math.abs(
+      this.wedstrijd.puntenTeam1 - this.wedstrijd.puntenTeam2
     );
-    const laagsteScore = Math.min(
-      this.wedstrijd.puntenTeam1,
-      this.wedstrijd.puntenTeam2
-    );
-    const verschil = hoogsteScore - laagsteScore;
 
-    return (
-      (verschil === 2 && hoogsteScore >= 21) ||
-      (verschil > 2 && hoogsteScore === 21)
-    );
+    return verschil !== 0;
   }
 
   save(wedstrijd: Wedstrijd): void {

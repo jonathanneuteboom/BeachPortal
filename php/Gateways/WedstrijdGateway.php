@@ -128,7 +128,8 @@ class WedstrijdGateway
             GROUP BY id
             ORDER BY 
                 gewonnenWedstrijden DESC,
-                quotient DESC";
+                quotient DESC,
+                naam";
         $params = [$poule->id, $poule->id];
         $rows = $this->database->Execute($query, $params);
         $stand = [];
