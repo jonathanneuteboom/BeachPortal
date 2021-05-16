@@ -41,6 +41,6 @@ class ProgrammaVersturen implements Interactor
         }
 
         $this->emailGateway->QueueEmails($emails);
-        // $this->emailGateway->SendQueuedEmails();
+        $this->emailGateway->SendQueuedEmails();
     }
 }
