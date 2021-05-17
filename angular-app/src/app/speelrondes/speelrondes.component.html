@@ -1,8 +1,10 @@
-<div style="padding: 20px;" *ngIf="speelrondes.length === 0">
+<app-loader [data]="speelrondes"></app-loader>
+
+<div style="padding: 20px;" *ngIf="speelrondes?.length === 0">
     Nog geen speelrondes
 </div>
 
-<div *ngIf="speelrondes.length > 0">
+<div *ngIf="speelrondes?.length > 0">
 
     <div class=" toggles" [formGroup]="form">
         <div>

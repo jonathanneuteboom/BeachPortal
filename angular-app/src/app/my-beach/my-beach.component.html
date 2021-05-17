@@ -1,3 +1,9 @@
+<app-loader [data]="poules"></app-loader>
+
+<div style="padding: 20px;" *ngIf="poules?.length === 0">
+    Je zit niet in een beachteam
+</div>
+
 <div class="my-beach">
     <app-poule (onChange)="onPouleChanged()" *ngFor="let poule of poules" [poule]="poule"></app-poule>
 </div>

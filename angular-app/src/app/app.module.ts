@@ -1,4 +1,10 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatDateFormats,
+  MatNativeDateModule
+} from '@angular/material/core';
 
 import { AddCredentialsInterceptor } from './interceptors/add-credentials.interceptor';
 import { AlgemeneInformatieComponent } from './algemene-informatie/algemene-informatie.component';
@@ -10,6 +16,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DeleteTeamDialogComponent } from './dialogs/delete-team-dialog/delete-team-dialog.component';
 import { EditTeamDialogComponent } from './dialogs/edit-team-dialog/edit-team-dialog.component';
 import { HTTPResponseCodeInterceptor } from './interceptors/http-response-code.interceptor';
+import { LoaderComponent } from './loader/loader.component';
 import { LoginComponent } from './login/login.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { ManagementComponent } from './management/management.component';
@@ -25,6 +32,18 @@ import { TeamComponent } from './team/team.component';
 import { UitslagInvoerenDialogComponent } from './dialogs/uitslag-invoeren-dialog/uitslag-invoeren-dialog.component';
 import { WedstrijdenComponent } from './wedstrijden/wedstrijden.component';
 
+const dateFormats: MatDateFormats = {
+  parse: {
+    dateInput: 'LL'
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
+
 const providers = [
   {
     provide: HTTP_INTERCEPTORS,
@@ -36,7 +55,9 @@ const providers = [
     useClass: AddCredentialsInterceptor,
     multi: true
   },
-  { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } }
+  { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
+  { provide: MAT_DATE_FORMATS, useValue: dateFormats },
+  { provide: MAT_DATE_LOCALE, useValue: 'nl-NL' }
 ];
 
 @NgModule({
@@ -55,7 +76,8 @@ const providers = [
     NieuweRondeDialogComponent,
     UitslagInvoerenDialogComponent,
     LoginComponent,
-    ProgrammaVersturenComponent
+    ProgrammaVersturenComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +85,8 @@ const providers = [
     BrowserAnimationsModule,
     AngularMaterialModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatNativeDateModule
   ],
   providers: [providers],
   bootstrap: [AppComponent]

@@ -2,7 +2,38 @@
     [ngClass]="{ heren: poule.categorie === heren, dames: poule.categorie === dames, mix: poule.categorie === mix }">
     <mat-card-header>
         <mat-card-title>Poule {{getCategorie(poule.categorie)}} {{poule.naam}}</mat-card-title>
-        <mat-card-subtitle>Speelronde 1, {{ poule.speeltijd | date: 'MMM d, HH:mm' }}</mat-card-subtitle>
+        <mat-card-subtitle>
+            <div class="datum">
+                {{ poule.speeltijd | date: 'MMM d, HH:mm' }}
+
+                <button *ngIf="isManagement && !isEditingSpeeltijd" mat-icon-button color="primary"
+                    (click)="isEditingSpeeltijd = !isEditingSpeeltijd">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button *ngIf="isManagement && isEditingSpeeltijd" mat-icon-button color="primary"
+                    (click)="isEditingSpeeltijd = !isEditingSpeeltijd">
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
+            <div *ngIf="isEditingSpeeltijd" [formGroup]="form">
+                <div class="half">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Dag</mat-label>
+                        <input matInput formControlName="datum" [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="half">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Tijd</mat-label>
+                        <mat-select formControlName="tijd">
+                            <mat-option *ngFor="let tijd of tijden" [value]="tijd">{{tijd}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-subtitle>
         <button *ngIf="isManagement && poule.teams.length === 0" class="delete-button" mat-icon-button color="primary"
             (click)="deletePoule()">
             <mat-icon>delete</mat-icon>

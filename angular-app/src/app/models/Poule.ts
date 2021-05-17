@@ -7,7 +7,7 @@ export class Poule {
   public id: number;
   public naam: string;
   public categorie: Categorie;
-  public speeltijd: Date;
+  public speeltijd: string;
   public stand: StandItem[];
   public wedstrijden: Wedstrijd[];
   public teams: Team[];

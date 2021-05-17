@@ -12,7 +12,7 @@ import { SpeelrondeService } from '../services/speelronde.service';
 })
 export class SpeelrondesComponent implements OnInit {
   form: FormGroup;
-  speelrondes: Speelronde[] = [];
+  speelrondes: Speelronde[];
   currentSpeelronde: number;
   heren = Categorie.Heren;
   dames = Categorie.Dames;

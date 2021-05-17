@@ -1,6 +1,7 @@
 <mat-tab-group>
   <mat-tab label="Poules">
-    <div class="management">
+    <app-loader [data]="speelronde"></app-loader>
+    <div class="management" *ngIf="speelronde">
       <div class="buttons">
         <button mat-raised-button color="warn" (click)="addSpeelronde()">
           <mat-icon>add</mat-icon> Speelronde
@@ -46,6 +47,7 @@
   </mat-tab>
 
   <mat-tab label="Teams">
+    <app-loader [data]="speelronde"></app-loader>
     <div class="bovenin">
       <mat-form-field>
         <mat-label>Filter</mat-label>
