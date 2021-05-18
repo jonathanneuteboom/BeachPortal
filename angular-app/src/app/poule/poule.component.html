@@ -4,7 +4,7 @@
         <mat-card-title>Poule {{getCategorie(poule.categorie)}} {{poule.naam}}</mat-card-title>
         <mat-card-subtitle>
             <div class="datum">
-                {{ poule.speeltijd | date: 'MMM d, HH:mm' }}
+                {{ poule.speeltijd | date: 'd MMM, HH:mm' }}
 
                 <button *ngIf="isManagement && !isEditingSpeeltijd" mat-icon-button color="primary"
                     (click)="isEditingSpeeltijd = !isEditingSpeeltijd">

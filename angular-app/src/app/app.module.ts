@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import {
   MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
   MatDateFormats,
   MatNativeDateModule
 } from '@angular/material/core';
@@ -21,7 +21,6 @@ import { LoginComponent } from './login/login.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { ManagementComponent } from './management/management.component';
 import { MyBeachComponent } from './my-beach/my-beach.component';
-import { NgModule } from '@angular/core';
 import { NieuweRondeDialogComponent } from './dialogs/nieuwe-ronde-dialog/nieuwe-ronde-dialog.component';
 import { PouleComponent } from './poule/poule.component';
 import { ProgrammaVersturenComponent } from './dialogs/programma-versturen/programma-versturen.component';
@@ -31,6 +30,10 @@ import { StandComponent } from './stand/stand.component';
 import { TeamComponent } from './team/team.component';
 import { UitslagInvoerenDialogComponent } from './dialogs/uitslag-invoeren-dialog/uitslag-invoeren-dialog.component';
 import { WedstrijdenComponent } from './wedstrijden/wedstrijden.component';
+import locale from '@angular/common/locales/nl';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(locale);
 
 const dateFormats: MatDateFormats = {
   parse: {
@@ -57,7 +60,7 @@ const providers = [
   },
   { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
   { provide: MAT_DATE_FORMATS, useValue: dateFormats },
-  { provide: MAT_DATE_LOCALE, useValue: 'nl-NL' }
+  { provide: LOCALE_ID, useValue: 'nl-NL' }
 ];
 
 @NgModule({
