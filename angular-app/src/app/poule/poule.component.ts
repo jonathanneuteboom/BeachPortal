@@ -47,13 +47,23 @@ export class PouleComponent implements OnInit {
     const hours = this.padLeadingZeros(timestamp.getHours(), 2);
     const time = `${hours}:${minutes}`;
     this.form = this.fb.group({
-      datum: { timestamp, disabled: true },
+      datum: [{ value: timestamp, disabled: true }],
       tijd: time
     });
   }
 
   getCategorie(categorie: Categorie): string {
     return Categorie[categorie];
+  }
+
+  updateSpeeltijd(): void {
+    const datum = this.form.get('datum').value as Date;
+    const newSpeeltijd = `${this.formatDate(datum)} ${this.form.value.tijd}:00`;
+    const poule = Object.assign({}, this.poule);
+    poule.speeltijd = newSpeeltijd;
+    this.pouleService
+      .updateSpeeltijd(poule)
+      .subscribe(() => this.onChange.emit());
   }
 
   deletePoule(): void {
@@ -78,5 +88,16 @@ export class PouleComponent implements OnInit {
       s = '0' + s;
     }
     return s;
+  }
+
+  private formatDate(date: Date): string {
+    let month = '' + (date.getMonth() + 1);
+    let day = '' + date.getDate();
+    const year = date.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 }

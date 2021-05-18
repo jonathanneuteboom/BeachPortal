@@ -73,6 +73,7 @@ $entryPoint =
             new GetRoute('/my', UseCases\GetMyPoules::class, Role::USER),
             new PostRoute('/add', UseCases\AddPoule::class),
             new PostRoute('/team/add', UseCases\AddTeamToPoule::class),
+            new PostRoute('/update-speeltijd', UseCases\UpdateSpeeltijd::class),
             new DeleteRoute('/{pouleId}/team/{teamId}', UseCases\DeleteTeamFromPoule::class),
             new DeleteRoute('/{id}', UseCases\DeletePoule::class)
         ], Role::MANAGEMENT),

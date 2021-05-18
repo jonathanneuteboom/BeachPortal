@@ -75,6 +75,16 @@ class PouleGateway
         $this->database->Execute($query, $params);
     }
 
+    public function UpdatePoule(Poule $poule): void
+    {
+        $query =
+            "UPDATE beach_poule
+            SET speeltijd = ?
+            WHERE id = ?";
+        $params = [$poule->speeltijd, $poule->id];
+        $this->database->Execute($query, $params);
+    }
+
     public function DeleteTeamFromPoule(Poule $poule, Team $team): void
     {
         $query =

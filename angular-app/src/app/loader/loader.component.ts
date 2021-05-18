@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { UserService } from '../services/user.service';
+
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
@@ -7,7 +9,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class LoaderComponent implements OnInit {
   @Input() data: any;
-  constructor() {}
 
-  ngOnInit(): void {}
+  isSpinnerEnabled = true;
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    this.userService.unauthorized.subscribe(
+      () => (this.isSpinnerEnabled = false)
+    );
+  }
 }

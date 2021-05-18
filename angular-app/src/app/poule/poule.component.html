@@ -10,27 +10,32 @@
                     (click)="isEditingSpeeltijd = !isEditingSpeeltijd">
                     <mat-icon>edit</mat-icon>
                 </button>
+
                 <button *ngIf="isManagement && isEditingSpeeltijd" mat-icon-button color="primary"
                     (click)="isEditingSpeeltijd = !isEditingSpeeltijd">
-                    <mat-icon>save</mat-icon>
+                    <mat-icon>close</mat-icon>
                 </button>
+
             </div>
             <div *ngIf="isEditingSpeeltijd" [formGroup]="form">
                 <div class="half">
                     <mat-form-field appearance="fill">
                         <mat-label>Dag</mat-label>
-                        <input matInput formControlName="datum" [matDatepicker]="picker">
+                        <input matInput [matDatepicker]="picker" formControlName="datum">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker disabled="false"></mat-datepicker>
                     </mat-form-field>
                 </div>
-                <div class="half">
+                <div class="save-row">
                     <mat-form-field appearance="fill">
                         <mat-label>Tijd</mat-label>
                         <mat-select formControlName="tijd">
                             <mat-option *ngFor="let tijd of tijden" [value]="tijd">{{tijd}}</mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <button mat-icon-button color="primary" (click)="updateSpeeltijd()">
+                        <mat-icon>save</mat-icon>
+                    </button>
                 </div>
             </div>
         </mat-card-subtitle>

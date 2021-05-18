@@ -24,6 +24,11 @@ export class PouleService {
     });
   }
 
+  updateSpeeltijd(poule: Poule): Observable<any> {
+    const url = `${environment.baseUrl}/poule/update-speeltijd`;
+    return this.httpClient.post(url, poule);
+  }
+
   deleteTeamFromPoule(poule: Poule, team: Team): Observable<any> {
     const url = `${environment.baseUrl}/poule/${poule.id}/team/${team.id}`;
     return this.httpClient.delete(url);
