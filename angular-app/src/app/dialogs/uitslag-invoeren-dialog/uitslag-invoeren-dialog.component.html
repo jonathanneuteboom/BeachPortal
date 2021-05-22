@@ -1,33 +1,15 @@
 <h1 mat-dialog-title>Uitslag invoeren</h1>
 <div [formGroup]="form" class="form" *ngIf="form">
     <div class="stand-invoeren">
-        <button mat-mini-fab color="primary" (click)="changePoints(wedstrijd.team1.id, -1)">
-            <mat-icon>remove</mat-icon>
-        </button>
-        <div class="teamnaam">{{wedstrijd.team1.naam}}</div>
-        <button mat-mini-fab color="primary" (click)="changePoints(wedstrijd.team1.id, 1)">
-            <mat-icon>add</mat-icon>
-        </button>
+        <div class="teamnaam">{{wedstrijd.team1.naam}}: {{form.value.puntenTeam1}}</div>
+        <mat-slider thumbLabel (input)="updateScore($event, '1')" [displayWith]="formatLabel"
+            [value]="wedstrijd.puntenTeam1" tickInterval="1" step="1" min="0" max="40" aria-label="units"></mat-slider>
     </div>
-    <div>
-        <div style="text-align: center;">
-            {{wedstrijd.puntenTeam1}}
-        </div>
-        <div style="text-align: center;">
-            -
-        </div>
-        <div style="text-align: center;">
-            {{wedstrijd.puntenTeam2}}
-        </div>
-    </div>
+
     <div class="stand-invoeren">
-        <button mat-mini-fab color="primary" (click)="changePoints(wedstrijd.team2.id, -1)">
-            <mat-icon>remove</mat-icon>
-        </button>
-        <div class="teamnaam">{{wedstrijd.team2.naam}}</div>
-        <button mat-mini-fab color="primary" (click)="changePoints(wedstrijd.team2.id, 1)">
-            <mat-icon>add</mat-icon>
-        </button>
+        <div class="teamnaam">{{wedstrijd.team2.naam}}: {{form.value.puntenTeam2}}</div>
+        <mat-slider thumbLabel (input)="updateScore($event, '2')" [displayWith]="formatLabel"
+            [value]="wedstrijd.puntenTeam2" tickInterval="1" step="1" min="0" max="40" aria-label="units"></mat-slider>
     </div>
 
 
@@ -37,7 +19,7 @@
             <mat-icon>close</mat-icon> Cancel
         </button>
 
-        <button mat-raised-button color="primary" [disabled]="!isValidScore()" (click)="save(wedstrijd)">
+        <button mat-raised-button color="primary" (click)="save(wedstrijd)">
             <mat-icon>save</mat-icon> Save
         </button>
     </mat-dialog-actions>

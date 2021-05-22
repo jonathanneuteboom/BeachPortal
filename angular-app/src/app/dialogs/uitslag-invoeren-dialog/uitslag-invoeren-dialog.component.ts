@@ -39,20 +39,24 @@ export class UitslagInvoerenDialogComponent implements OnInit {
     }
   }
 
-  isValidScore(): boolean {
-    if (this.wedstrijd.puntenTeam1 === 0 && this.wedstrijd.puntenTeam2 === 0) {
-      return true;
+  updateScore(asd, team): void {
+    switch (team) {
+      case '1':
+        this.form.controls.puntenTeam1.setValue(asd.value);
+        return;
+      case '2':
+        this.form.controls.puntenTeam2.setValue(asd.value);
+        return;
+      default:
+        throw new Error('Onbekend team ' + team);
     }
-
-    const verschil = Math.abs(
-      this.wedstrijd.puntenTeam1 - this.wedstrijd.puntenTeam2
-    );
-
-    return verschil !== 0;
   }
 
   save(wedstrijd: Wedstrijd): void {
-    this.wedstrijdService.uitslagInvoeren(wedstrijd).subscribe(() => {
+    this.wedstrijd.puntenTeam1 = this.form.value.puntenTeam1;
+    this.wedstrijd.puntenTeam2 = this.form.value.puntenTeam2;
+
+    this.wedstrijdService.uitslagInvoeren(this.wedstrijd).subscribe(() => {
       this.dialogRef.close();
     });
   }
