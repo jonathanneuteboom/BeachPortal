@@ -1,12 +1,12 @@
 <h1 mat-dialog-title>Uitslag invoeren</h1>
 <div [formGroup]="form" class="form" *ngIf="form">
-    <div class="stand-invoeren">
+    <div>
         <div class="teamnaam">{{wedstrijd.team1.naam}}: {{form.value.puntenTeam1}}</div>
         <mat-slider thumbLabel [tickInterval]="0" (input)="updateScore($event, '1')" [displayWith]="formatLabel"
             [value]="wedstrijd.puntenTeam1" tickInterval="1" step="1" min="0" max="40" aria-label="units"></mat-slider>
     </div>
 
-    <div class="stand-invoeren">
+    <div>
         <div class="teamnaam">{{wedstrijd.team2.naam}}: {{form.value.puntenTeam2}}</div>
         <mat-slider thumbLabel [tickInterval]="0" (input)="updateScore($event, '2')" [displayWith]="formatLabel"
             [value]="wedstrijd.puntenTeam2" tickInterval="1" step="1" min="0" max="40" aria-label="units"></mat-slider>
