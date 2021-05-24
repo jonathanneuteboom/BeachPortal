@@ -10,7 +10,7 @@ class ProgrammaEmail extends Email
 {
     function __construct(Speler $speler, Poule $poule)
     {
-        $date = DateTime::createFromFormat("Y-m-d H:i:s", $poule->speeltijd);
+        $date = DateTime::createFromFormat("Y/m/d H:i:s", $poule->speeltijd);
         $datum = DateFunctions::GetDutchDateLong($date);
         $naam = $speler->naam;
         $tijd = DateFunctions::GetTime($date);
