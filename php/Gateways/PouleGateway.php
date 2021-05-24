@@ -113,7 +113,7 @@ class PouleGateway
                 $row->id,
                 $row->naam,
                 $row->categorie,
-                $row->speeltijd
+                str_replace('-', '/', $row->speeltijd)
             );
         }
         return $poules;
