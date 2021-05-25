@@ -2,7 +2,6 @@
 
 namespace BeachPortal\UseCases;
 
-use BeachPortal\Entities\Categorie;
 use BeachPortal\Entities\Wedstrijd;
 use BeachPortal\Gateways\PouleGateway;
 use BeachPortal\Gateways\SpeelrondeGateway;
@@ -37,13 +36,13 @@ class AddTeamToPoule implements Interactor
         foreach ($poules as $poule) {
             $teams = $this->teamGateway->GetTeamsInPoule($poule);
             if (array_search($newTeam->id, array_column($teams, 'id')) !== false) {
-                $categorie = Categorie::GetCategorieText($poule->categorie);
+                $categorie = $poule->categorie->GetNaam();
                 throw new UnexpectedValueException("Team zit al in poule $categorie $poule->naam");
             }
         }
 
         $poule = $this->pouleGateway->GetPouleById($pouleId);
-        if ($poule->categorie !== $newTeam->categorie) {
+        if (!$poule->categorie->Equals($newTeam->categorie)) {
             throw new UnexpectedValueException("Categorien zijn niet gelijk aan elkaar");
         }
 

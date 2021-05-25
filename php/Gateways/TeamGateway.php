@@ -109,7 +109,10 @@ class TeamGateway
             "INSERT INTO 
             beach_team (categorie, naam)
             VALUES (?, ?);";
-        $params = [$team->categorie, $team->naam];
+        $params = [
+            CategorieDb::MapFromDomainModel($team->categorie),
+            $team->naam
+        ];
         $this->database->Execute($query, $params);
 
         return $this->database->GetLastInsertedId();
@@ -124,7 +127,11 @@ class TeamGateway
                 categorie = ?,
                 naam = ?
             WHERE id = ?";
-        $params = [$team->categorie, $team->naam, $team->id];
+        $params = [
+            CategorieDb::MapFromDomainModel($team->categorie),
+            $team->naam,
+            $team->id
+        ];
         $this->database->Execute($query, $params);
     }
 
@@ -163,7 +170,11 @@ class TeamGateway
         $currentTeamId = null;
         foreach ($rows as $row) {
             if ($currentTeamId != $row->teamId) {
-                $newTeam = new Team($row->teamId, $row->teamNaam, $row->teamCategorie);
+                $newTeam = new Team(
+                    $row->teamId,
+                    $row->teamNaam,
+                    CategorieDb::MapToDomainModel($row->teamCategorie),
+                );
                 $currentTeamId = $newTeam->id;
                 $teams[] = $newTeam;
             }

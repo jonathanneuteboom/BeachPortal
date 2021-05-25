@@ -17,6 +17,8 @@ class GetAllPoules implements Interactor
 
     public function Execute(object $data = null)
     {
+        $result = [];
+
         $poules = $this->pouleGateway->GetAllPoules();
         foreach ($poules as $poule) {
             $poule->teams = $this->teamGateway->GetTeamsInPoule($poule);
@@ -25,8 +27,10 @@ class GetAllPoules implements Interactor
             foreach ($poule->stand as $stand) {
                 $stand->team = $this->teamGateway->GetTeamById($stand->team->id);
             }
+
+            $result[] = new PouleModel($poule);
         }
 
-        return $poules;
+        return $result;
     }
 }

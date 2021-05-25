@@ -4,5 +4,11 @@
 </div>
 
 <mat-dialog-actions align="end">
-    <button mat-raised-button color="warn" (click)="deleteTeam()">Verwijderen</button>
+    <button mat-raised-button [mat-dialog-close]="null">
+        <mat-icon>close</mat-icon> Cancel
+    </button>
+
+    <button mat-raised-button color="warn" (click)="deleteTeam()">
+        <mat-icon>delete</mat-icon> Verwijderen
+    </button>
 </mat-dialog-actions>

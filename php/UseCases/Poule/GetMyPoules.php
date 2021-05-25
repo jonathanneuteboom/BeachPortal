@@ -50,7 +50,7 @@ class GetMyPoules implements Interactor
                     $stand->team = $this->teamGateway->GetTeamById($stand->team->id);
                 }
 
-                $myPoules[] = $poule;
+                $myPoules[] = new PouleModel($poule);
             }
         }
 

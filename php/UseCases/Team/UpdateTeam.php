@@ -2,6 +2,7 @@
 
 namespace BeachPortal\UseCases;
 
+use BeachPortal\Entities\Categorie;
 use BeachPortal\Entities\Team;
 use BeachPortal\Gateways\TeamGateway;
 use BeachPortal\Gateways\UserGateway;
@@ -19,15 +20,16 @@ class UpdateTeam implements Interactor
     {
         $id = $data->id;
         $naam = $data->naam;
-        $categorie = $data->categorie;
+
+        if ($data->categorie === null) {
+            throw new UnexpectedValueException("Vul categorie in");
+        }
+
+        $categorie = Categorie::GetCategorie($data->categorie);
         $spelers = $data->spelers;
 
         if (empty($naam)) {
             throw new UnexpectedValueException("Teamnaam is leeg");
-        }
-
-        if ($categorie === null) {
-            throw new UnexpectedValueException("Vul categorie in");
         }
 
         $newSpelers = [];

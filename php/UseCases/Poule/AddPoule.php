@@ -2,12 +2,11 @@
 
 namespace BeachPortal\UseCases;
 
+use BeachPortal\Common\Linq;
 use BeachPortal\Entities\Categorie;
 use BeachPortal\Entities\Poule;
 use BeachPortal\Gateways\PouleGateway;
 use BeachPortal\Gateways\SpeelrondeGateway;
-use BeachPortal\Gateways\TeamGateway;
-use DateTime;
 use UnexpectedValueException;
 
 class AddPoule implements Interactor
@@ -22,7 +21,7 @@ class AddPoule implements Interactor
 
     public function Execute(object $data = null)
     {
-        $categorie = $data->categorie;
+        $categorie = Categorie::GetCategorie($data->categorie);
 
         $speelronde = $this->speelrondeGateway->GetCurrentSpeelronde();
         if ($speelronde === null) {
@@ -31,56 +30,40 @@ class AddPoule implements Interactor
 
         $poules = $this->pouleGateway->GetPoulesInSpeelronde($speelronde);
         if (count($poules) === 0) {
-            $speeltijd = $this->GetSpeeltijd($categorie, "A");
+            $speeltijd = $categorie->GetStarttijd();
             $newPoule = new Poule(null, "A", $categorie, $speeltijd);
             $this->speelrondeGateway->AddPouleToSpeelronde($speelronde, $newPoule);
             return;
         }
 
-        $hoogstePoulenaam = "A";
-        foreach ($poules as $poule) {
-            if ($poule->categorie === $categorie && $hoogstePoulenaam == $poule->naam) {
-                $hoogstePoulenaam = chr(ord($poule->naam) + 1);
-            }
+        $hoogstePoule = Linq::From($poules)
+            ->Where(function (Poule $poule) use ($categorie) {
+                return $poule->categorie->Equals($categorie);
+            })
+            ->OrderByDescending(function (Poule $poule) {
+                return $poule->naam;
+            })
+            ->First();
+
+        $newSpeeltijd = clone $hoogstePoule->speeltijd;
+        $newSpeeltijd->modify("+60 minutes");
+        $pouleMetZelfdeSpeeltijd = Linq::From($poules)->FirstOrDefault(function (Poule $poule) use ($newSpeeltijd) {
+            return $poule->speeltijd == $newSpeeltijd;
+        });
+        if ($pouleMetZelfdeSpeeltijd) {
+            $tijd = $newSpeeltijd->format("H:i");
+            $categorie = $pouleMetZelfdeSpeeltijd->categorie->GetNaam();
+            $message = "De nieuwe speeltijd '$tijd' is hetzelfde als die van poule $categorie $pouleMetZelfdeSpeeltijd->naam";
+            throw new UnexpectedValueException($message);
         }
 
-        $speeltijd = $this->GetSpeeltijd($categorie, $hoogstePoulenaam);
-        $newPoule = new Poule(null, $hoogstePoulenaam, $categorie, $speeltijd);
+        $naam = $this->GetNextLetter($hoogstePoule->naam);
+        $newPoule = new Poule(null, $naam, $categorie, $newSpeeltijd);
         $this->speelrondeGateway->AddPouleToSpeelronde($speelronde, $newPoule);
     }
 
-    private function GetSpeeltijd(int $categorie, string $poulenaam): string
+    private function GetNextLetter(string $letter)
     {
-        switch ($categorie) {
-            case Categorie::Heren:
-                $time = $this->substract($poulenaam, "A") * 2 + 17;
-                $timestamp = strtotime("next friday $time:00");
-                break;
-
-            case Categorie::Mix:
-                $time = $this->substract($poulenaam, "A") * 2 + 18;
-                $timestamp = strtotime("next friday $time:00");
-                break;
-
-            case Categorie::Dames:
-                $minutes = $this->substract($poulenaam, "A") * 10 + 30;
-                $hours = $this->substract($poulenaam, "A") + 10;
-                $hours += intdiv($minutes, 60);
-                $minutes = $minutes % 60;
-                $timestamp = strtotime("next saturday $hours:$minutes");
-                break;
-
-            default:
-                throw new UnexpectedValueException();
-        }
-
-        $datetime = new DateTime();
-        $datetime->setTimestamp($timestamp);
-        return $datetime->format(DateTime::ISO8601);
-    }
-
-    private function substract(string $a, string $b): int
-    {
-        return ord($a) - ord($b);
+        return chr(ord($letter) + 1);
     }
 }

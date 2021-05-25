@@ -10,13 +10,11 @@ class ProgrammaEmail extends Email
 {
     function __construct(Speler $speler, Poule $poule)
     {
-        $date = DateTime::createFromFormat("Y/m/d H:i:s", $poule->speeltijd);
-        $datum = DateFunctions::GetDutchDateLong($date);
+        $datum = DateFunctions::GetDutchDateLong($poule->speeltijd);
         $naam = $speler->naam;
-        $tijd = DateFunctions::GetTime($date);
-        $poulenaam = Categorie::GetCategorieText($poule->categorie) . " " . $poule->naam;
+        $tijd = DateFunctions::GetTime($poule->speeltijd);
+        $poulenaam = $poule->categorie->GetNaam() . " " . $poule->naam;
         $teams = "";
-
 
         foreach ($poule->teams as $team) {
             $teams .= "$team->naam (";

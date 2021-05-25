@@ -2,6 +2,7 @@
 
 namespace BeachPortal\UseCases;
 
+use BeachPortal\Common\Linq;
 use BeachPortal\Gateways\TeamGateway;
 
 class GetAllTeams implements Interactor
@@ -11,8 +12,11 @@ class GetAllTeams implements Interactor
         $this->teamGateway = $teamGateway;
     }
 
-    public function Execute(object $data = null)
+    public function Execute(object $data = null): array
     {
-        return $this->teamGateway->GetAllTeams();
+        $teams = $this->teamGateway->GetAllTeams();
+        return Linq::From($teams)->Select(function ($team) {
+            return new TeamModel($team);
+        })->ToList();
     }
 }

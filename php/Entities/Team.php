@@ -5,11 +5,11 @@ namespace BeachPortal\Entities;
 class Team
 {
     public ?int $id;
-    public int $categorie;
+    public Categorie $categorie;
     public string $naam;
     public array $spelers = [];
 
-    function __construct(?int $id, string $naam, int $categorie)
+    function __construct(?int $id, string $naam, Categorie $categorie)
     {
         $this->id = $id;
         $this->naam = $naam;

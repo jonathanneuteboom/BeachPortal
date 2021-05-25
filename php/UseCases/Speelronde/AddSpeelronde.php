@@ -2,7 +2,6 @@
 
 namespace BeachPortal\UseCases;
 
-use BeachPortal\Entities\Categorie;
 use BeachPortal\Entities\Poule;
 use BeachPortal\Entities\Speelronde;
 use BeachPortal\Entities\Wedstrijd;
@@ -10,7 +9,6 @@ use BeachPortal\Gateways\PouleGateway;
 use BeachPortal\Gateways\SpeelrondeGateway;
 use BeachPortal\Gateways\TeamGateway;
 use BeachPortal\Gateways\WedstrijdGateway;
-use DateTime;
 use UnexpectedValueException;
 
 class AddSpeelronde implements Interactor
@@ -49,7 +47,8 @@ class AddSpeelronde implements Interactor
         $newSpeelronde->id = $this->speelrondeGateway->AddSpeelronde($newSpeelronde);
 
         foreach ($speelronde->poules as $poule) {
-            $newSpeeltijd = date(DateTime::ISO8601, strtotime('+1 week', strtotime($poule->speeltijd)));
+            $newSpeeltijd = clone $poule->speeltijd;
+            $newSpeeltijd->modify("+1 week");
             $newPoule = new Poule(null, $poule->naam, $poule->categorie, $newSpeeltijd);
             $newPoule->id = $this->speelrondeGateway->AddPouleToSpeelronde($newSpeelronde, $newPoule);
             $newSpeelronde->poules[] = $newPoule;
@@ -87,12 +86,12 @@ class AddSpeelronde implements Interactor
             $aantalteams = count($poule->teams);
 
             if ($aantalteams < 3) {
-                $categorie = Categorie::GetCategorieText($poule->categorie);
+                $categorie = $poule->categorie->GetNaam();
                 throw new UnexpectedValueException("Poule $categorie $poule->naam heeft minder dan 3 teams");
             }
 
             if (count($poule->stand) !== count($poule->teams)) {
-                $categorie = Categorie::GetCategorieText($poule->categorie);
+                $categorie = $poule->categorie->GetNaam();
                 throw new UnexpectedValueException("Poule $categorie $poule->naam: aantal teams komt niet overeen met aantal teams in stand");
             }
 
@@ -127,7 +126,7 @@ class AddSpeelronde implements Interactor
     {
         $newLetter = chr(ord($poule->naam) + $delta);
         foreach ($newPoules as $newPoule) {
-            if ($newPoule->naam === $newLetter && $newPoule->categorie === $poule->categorie) {
+            if ($newPoule->naam === $newLetter && $newPoule->categorie->Equals($poule->categorie)) {
                 return $newPoule;
             }
         }

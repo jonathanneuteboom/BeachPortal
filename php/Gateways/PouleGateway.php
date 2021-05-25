@@ -4,6 +4,7 @@ namespace BeachPortal\Gateways;
 
 use BeachPortal\Configuration;
 use BeachPortal\Common\Database;
+use BeachPortal\Common\DateFunctions;
 use BeachPortal\Entities\Poule;
 use BeachPortal\Entities\Speelronde;
 use BeachPortal\Entities\Team;
@@ -81,7 +82,10 @@ class PouleGateway
             "UPDATE beach_poule
             SET speeltijd = ?
             WHERE id = ?";
-        $params = [$poule->speeltijd, $poule->id];
+        $params = [
+            DateFunctions::GetMySqlTimestamp($poule->speeltijd),
+            $poule->id
+        ];
         $this->database->Execute($query, $params);
     }
 
@@ -112,8 +116,8 @@ class PouleGateway
             $poules[] = new Poule(
                 $row->id,
                 $row->naam,
-                $row->categorie,
-                str_replace('-', '/', $row->speeltijd)
+                CategorieDb::MapToDomainModel($row->categorie),
+                DateTime::createFromFormat('Y-m-d H:i:s', $row->speeltijd)
             );
         }
         return $poules;

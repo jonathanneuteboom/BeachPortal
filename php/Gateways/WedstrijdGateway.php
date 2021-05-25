@@ -4,6 +4,7 @@ namespace BeachPortal\Gateways;
 
 use BeachPortal\Configuration;
 use BeachPortal\Common\Database;
+use BeachPortal\Common\Linq;
 use BeachPortal\Entities\Poule;
 use BeachPortal\Entities\Speler;
 use BeachPortal\Entities\StandItem;
@@ -136,7 +137,11 @@ class WedstrijdGateway
         $rows = $this->database->Execute($query, $params);
         $stand = [];
         foreach ($rows as $row) {
-            $team = new Team($row->id, $row->naam, $row->categorie);
+            $team = new Team(
+                $row->id,
+                $row->naam,
+                CategorieDb::MapToDomainModel($row->categorie)
+            );
             $stand[] = new StandItem(
                 $team,
                 $row->gewonnenWedstrijden,
@@ -209,12 +214,22 @@ class WedstrijdGateway
     {
         $wedstrijden = [];
         foreach ($rows as $row) {
-            $wedstrijd = $this->Find($wedstrijden, intval($row->idWedstrijd));
+            $wedstrijd = Linq::From($wedstrijden)->FirstOrDefault(function ($wedstrijd) use ($row) {
+                return $wedstrijd->id === intval($row->idWedstrijd);
+            });
             if ($wedstrijd === null) {
-                $team1 = new Team($row->idTeam1, $row->naamTeam1, $row->categorieTeam1);
+                $team1 = new Team(
+                    $row->idTeam1,
+                    $row->naamTeam1,
+                    CategorieDb::MapToDomainModel($row->categorieTeam1)
+                );
                 $team1->spelers[] = new Speler($row->idSpelerTeam1, $row->naamSpelerTeam1, $row->naamSpelerTeam1);
 
-                $team2 = new Team($row->idTeam2, $row->naamTeam2, $row->categorieTeam2);
+                $team2 = new Team(
+                    $row->idTeam2,
+                    $row->naamTeam2,
+                    CategorieDb::MapToDomainModel($row->categorieTeam2)
+                );
                 $team2->spelers[] = new Speler($row->idSpelerTeam2, $row->naamSpelerTeam2, $row->naamSpelerTeam2);
 
                 $wedstrijden[] =  new Wedstrijd($row->idWedstrijd, $team1, $team2, $row->puntenTeam1, $row->puntenTeam2);
@@ -222,26 +237,20 @@ class WedstrijdGateway
                 continue;
             }
 
-            $speler = $this->Find($wedstrijd->team1->spelers, $row->idSpelerTeam1);
-            if ($speler === null) {
+            $isSpelerPresent = Linq::From($wedstrijd->team1->spelers)->Any(function ($speler) use ($row) {
+                return $speler === $row->idSpelerTeam1;
+            });
+            if ($isSpelerPresent === null) {
                 $wedstrijd->team1->spelers[] = new Speler($row->idSpelerTeam1, $row->naamSpelerTeam1, $row->naamSpelerTeam1);
             }
 
-            $speler = $this->Find($wedstrijd->team2->spelers, $row->idSpelerTeam2);
-            if ($speler === null) {
+            $isSpelerPresent = Linq::From($wedstrijd->team2->spelers)->Any(function ($speler) use ($row) {
+                return $speler === $row->idSpelerTeam2;
+            });
+            if ($isSpelerPresent === null) {
                 $wedstrijd->team2->spelers[] = new Speler($row->idSpelerTeam2, $row->naamSpelerTeam2, $row->naamSpelerTeam2);
             }
         }
         return $wedstrijden;
-    }
-
-    private function Find(array $list, int $id): ?object
-    {
-        foreach ($list as $item) {
-            if ($item->id === $id) {
-                return $item;
-            }
-        }
-        return null;
     }
 }

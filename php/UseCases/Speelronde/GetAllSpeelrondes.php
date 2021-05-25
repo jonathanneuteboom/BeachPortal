@@ -23,6 +23,7 @@ class GetAllSpeelrondes implements Interactor
 
     public function Execute(object $data = null)
     {
+        $result = [];
         $speelrondes = $this->speelrondeGateway->GetAllSpeelrondes();
         foreach ($speelrondes as $speelronde) {
             $speelronde->poules = $this->pouleGateway->GetPoulesInSpeelronde($speelronde);
@@ -33,7 +34,10 @@ class GetAllSpeelrondes implements Interactor
                     $stand->team = $this->teamGateway->GetTeamById($stand->team->id);
                 }
             }
+
+            $result[] = new SpeelrondeModel($speelronde);
         }
-        return $speelrondes;
+
+        return $result;
     }
 }

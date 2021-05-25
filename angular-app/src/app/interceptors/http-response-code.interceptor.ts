@@ -1,5 +1,6 @@
 import {
   HttpEvent,
+  HttpEventType,
   HttpHandler,
   HttpInterceptor,
   HttpRequest
@@ -22,15 +23,23 @@ export class HTTPResponseCodeInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const editTypes = ['POST', 'PUT', 'DELETE'];
+    const isEditRequest =
+      editTypes.findIndex((type) => type === request.method) !== -1;
+
     return next.handle(request).pipe(
       tap(
-        (event) => {},
+        (event) => {
+          if (isEditRequest && event.type === HttpEventType.Response) {
+            this.snackbarService.open('Succesvol aangepast', '✅');
+          }
+        },
         (error) => {
           if (error.status === 401) {
             this.userService.setUnauthorized();
           }
           if (error.status === 500) {
-            this.snackbarService.open(error.error.message, 'ERROR');
+            this.snackbarService.open(error.error.message, '❌');
           }
         }
       )

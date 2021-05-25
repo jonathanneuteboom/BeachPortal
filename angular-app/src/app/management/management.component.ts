@@ -1,7 +1,7 @@
-import { Categorie, CategorieHelper } from '../models/Categorie';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
+import { Categorie } from '../models/Categorie';
 import { DeleteTeamDialogComponent } from '../dialogs/delete-team-dialog/delete-team-dialog.component';
 import { EditTeamDialogComponent } from '../dialogs/edit-team-dialog/edit-team-dialog.component';
 import { MatSelectChange } from '@angular/material/select';
@@ -20,7 +20,7 @@ import { TeamService } from '../services/team.service';
   styleUrls: ['./management.component.scss']
 })
 export class ManagementComponent implements OnInit {
-  categorien = CategorieHelper.getAllCategorien();
+  categorien = Object.values(Categorie);
   columns: string[] = ['naam', 'spelers', 'categorie', 'actions'];
   groupedTeams: Team[][] = [[], [], []];
   teams = new MatTableDataSource();
@@ -98,28 +98,28 @@ export class ManagementComponent implements OnInit {
   }
 
   addSpeelronde(): void {
-    this.speelrondeService
-      .AddSpeelronde()
-      .subscribe(() => this.getCurrentSpeelronde());
+    this.speelrondeService.AddSpeelronde().subscribe(() => {
+      this.getCurrentSpeelronde();
+    });
   }
 
   deleteSpeelronde(): void {
-    this.speelrondeService
-      .DeleteSpeelronde()
-      .subscribe(() => this.getCurrentSpeelronde());
+    this.speelrondeService.DeleteSpeelronde().subscribe(() => {
+      this.getCurrentSpeelronde();
+    });
   }
 
   addPoule(categorie: any): void {
-    const newPoule = new Poule({ categorie: categorie.value });
-    this.pouleService
-      .addPoule(newPoule)
-      .subscribe(() => this.getCurrentSpeelronde());
+    const newPoule = new Poule({ categorie });
+    this.pouleService.addPoule(newPoule).subscribe(() => {
+      this.getCurrentSpeelronde();
+    });
   }
 
   addTeamToPoule(change: MatSelectChange, poule): void {
-    this.pouleService
-      .addTeamToPoule(poule, change.value)
-      .subscribe(() => this.getCurrentSpeelronde());
+    this.pouleService.addTeamToPoule(poule, change.value).subscribe(() => {
+      this.getCurrentSpeelronde();
+    });
   }
 
   applyFilter(event: Event): void {

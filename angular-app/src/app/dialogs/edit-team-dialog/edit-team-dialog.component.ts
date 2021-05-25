@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CategorieHelper } from 'src/app/models/Categorie';
+import { Categorie } from 'src/app/models/Categorie';
 import { Speler } from 'src/app/models/Speler';
 import { Team } from 'src/app/models/Team';
 import { TeamService } from 'src/app/services/team.service';
@@ -14,7 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class EditTeamDialogComponent {
   form: FormGroup;
-  options = CategorieHelper.getAllCategorien();
+  options = Object.values(Categorie);
 
   spelersMetNaam: Speler[];
 

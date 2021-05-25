@@ -9,7 +9,7 @@ Jouw poule {{POULE}} speelt om {{TIJD}}.<br>
 Je zit in de poule met:<br>
 {{TEAMS}}
 <br>
-Om uitslagen in te vullen en voor meer informatie: <a target="_blank" href="http://www.leidsebeachcompetitie.nl/">BeachPortal</a><br>
+Om uitslagen in te vullen en voor meer informatie: <a target="_blank" href="http://www.leidsebeachcompetitie.nl/">http://www.leidsebeachcompetitie.nl/</a><br>
 <br>
 Met vriendelijke groet,<br>
 <br>

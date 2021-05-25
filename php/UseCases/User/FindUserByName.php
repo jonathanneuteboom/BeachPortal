@@ -2,6 +2,7 @@
 
 namespace BeachPortal\UseCases;
 
+use BeachPortal\Common\Linq;
 use BeachPortal\Gateways\UserGateway;
 
 class FindUserByName implements Interactor
@@ -18,6 +19,9 @@ class FindUserByName implements Interactor
             return [];
         }
 
-        return $this->userGateway->GetUsersWithName($naam);
+        $spelers = $this->userGateway->GetUsersWithName($naam);
+        return Linq::From($spelers)->Select(function ($speler) {
+            return new SpelerModel($speler);
+        })->ToList();
     }
 }

@@ -2,8 +2,8 @@
 
 namespace BeachPortal\UseCases;
 
-use BeachPortal\Common\DateFunctions;
-use BeachPortal\Entities\Categorie;
+use BeachPortal\Common\Linq;
+use BeachPortal\Entities\Poule;
 use BeachPortal\Gateways\PouleGateway;
 use BeachPortal\Gateways\SpeelrondeGateway;
 use DateTime;
@@ -28,36 +28,21 @@ class UpdateSpeeltijd implements Interactor
         $newSpeeltijd = new DateTime();
         $newSpeeltijd->setTimestamp($timestamp);
 
-        $datums = [];
-
         $speelronde = $this->speelrondeGateway->GetCurrentSpeelronde();
         $poules = $this->pouleGateway->GetPoulesInSpeelronde($speelronde);
-        foreach ($poules as $poule) {
-            $date = new DateTime();
-            $date->setTimestamp(strtotime($poule->speeltijd));
-
-            if ($date == $newSpeeltijd) {
-                $categorie = Categorie::GetCategorieText($poule->categorie);
-                throw new UnexpectedValueException("Poule $categorie $poule->naam speelt al op dit tijdstip");
-            }
-
-            $datum = DateFunctions::GetYmdNotation($date);
-            if (array_search($datum, $datums) === false) {
-                $datums[] = $datum;
-            }
-        }
-
-        $datum = DateFunctions::GetYmdNotation($newSpeeltijd);
-        if (array_search($datum, $datums) === false) {
-            throw new UnexpectedValueException("Deze speelronde speelt niet op " . DateFunctions::GetDutchDate($newSpeeltijd));
+        $poule = Linq::From($poules)->FirstOrDefault(function (Poule $poule) use ($newSpeeltijd, $pouleId) {
+            return $poule->speeltijd == $newSpeeltijd && $poule->id !== $pouleId;
+        });
+        if ($poule !== null) {
+            $categorie = $poule->categorie->GetNaam();
+            throw new UnexpectedValueException("Poule $categorie $poule->naam speelt al op dit tijdstip");
         }
 
         $poule = $this->pouleGateway->GetPouleById($pouleId);
         if ($poule === null) {
             throw new UnexpectedValueException("Poule bestaat niet");
         }
-
-        $poule->speeltijd = DateFunctions::GetMySqlTimestamp($newSpeeltijd);
+        $poule->speeltijd = $newSpeeltijd;
         $this->pouleGateway->UpdatePoule($poule);
     }
 }

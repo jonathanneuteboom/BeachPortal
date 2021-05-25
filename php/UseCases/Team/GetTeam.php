@@ -12,13 +12,14 @@ class GetTeam implements Interactor
         $this->teamGateway = $teamGateway;
     }
 
-    public function Execute(object $data = null)
+    public function Execute(object $data = null): object
     {
         $id = $data->id;
         if ($id === null || !is_numeric($id)) {
             throw new UnexpectedValueException("'$id' is geen integer");
         }
 
-        return $this->teamGateway->GetTeamById($id);
+        $team = $this->teamGateway->GetTeamById($id);
+        return new TeamModel($team);
     }
 }

@@ -29,6 +29,7 @@ class GetCurrentSpeelronde implements Interactor
         foreach ($speelronde->poules as &$poule) {
             $poule->teams = $this->teamGateway->GetTeamsInPoule($poule);
         }
-        return $speelronde;
+
+        return new SpeelrondeModel($speelronde);
     }
 }

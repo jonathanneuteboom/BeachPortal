@@ -20,7 +20,7 @@
 
       <div class="buttons" *ngIf="speelronde">
         <button mat-raised-button color="primary" (click)="addPoule(categorie)" *ngFor="let categorie of categorien">
-          <mat-icon>add</mat-icon> {{categorie.viewValue}} poule
+          <mat-icon>add</mat-icon> {{categorie}} poule
         </button>
       </div>
 

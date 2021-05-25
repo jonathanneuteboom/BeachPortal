@@ -4,6 +4,7 @@ namespace BeachPortal\Gateways;
 
 use BeachPortal\Configuration;
 use BeachPortal\Common\Database;
+use BeachPortal\Common\DateFunctions;
 use BeachPortal\Entities\Poule;
 use BeachPortal\Entities\Speelronde;
 
@@ -63,9 +64,9 @@ class SpeelrondeGateway
             VALUES (?, ?, ?, ?)";
         $params = [
             $speelronde->id,
-            $poule->categorie,
+            CategorieDb::MapFromDomainModel($poule->categorie),
             $poule->naam,
-            $poule->speeltijd
+            DateFunctions::GetMySqlTimestamp($poule->speeltijd),
         ];
         $this->database->Execute($query, $params);
         return $this->database->GetLastInsertedId();

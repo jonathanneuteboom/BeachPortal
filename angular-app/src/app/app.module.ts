@@ -21,7 +21,6 @@ import { LoginComponent } from './login/login.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { ManagementComponent } from './management/management.component';
 import { MyBeachComponent } from './my-beach/my-beach.component';
-import { NieuweRondeDialogComponent } from './dialogs/nieuwe-ronde-dialog/nieuwe-ronde-dialog.component';
 import { PouleComponent } from './poule/poule.component';
 import { ProgrammaVersturenComponent } from './dialogs/programma-versturen/programma-versturen.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -76,7 +75,6 @@ const providers = [
     TeamComponent,
     EditTeamDialogComponent,
     DeleteTeamDialogComponent,
-    NieuweRondeDialogComponent,
     UitslagInvoerenDialogComponent,
     LoginComponent,
     ProgrammaVersturenComponent,

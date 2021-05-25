@@ -73,9 +73,9 @@ export class PouleComponent implements OnInit {
   }
 
   deleteTeam(poule: Poule, team: Team): void {
-    this.pouleService
-      .deleteTeamFromPoule(poule, team)
-      .subscribe(() => this.onChange.emit(this.poule));
+    this.pouleService.deleteTeamFromPoule(poule, team).subscribe(() => {
+      this.onChange.emit(this.poule);
+    });
   }
 
   onWedstrijdChanged(): void {
