@@ -2,6 +2,7 @@
 
 namespace BeachPortal\Entities;
 
+use BeachPortal\Common\Linq;
 use UnexpectedValueException;
 
 class Wedstrijd
@@ -31,8 +32,12 @@ class Wedstrijd
     public function CanSpelerEdit(Speler $speler)
     {
         return
-            array_search($speler->id, array_column($this->team1->spelers, 'id')) !== false ||
-            array_search($speler->id, array_column($this->team2->spelers, 'id')) !== false;
+            Linq::From($this->team1->spelers)->Any(function (Speler $s) use ($speler) {
+                return $s->id === $speler->id;
+            }) ||
+            Linq::From($this->team1->spelers)->Any(function (Speler $s) use ($speler) {
+                return $s->id === $speler->id;
+            });
     }
 
     private function validate()

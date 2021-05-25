@@ -24,5 +24,8 @@
             "RouteObjects",
             "configuration.php"
         ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "9"
     }
 }

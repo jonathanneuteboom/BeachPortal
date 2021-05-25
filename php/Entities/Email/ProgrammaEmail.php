@@ -4,7 +4,6 @@ namespace BeachPortal\Entities;
 
 use BeachPortal\Common\DateFunctions;
 use BeachPortal\Common\Utilities;
-use DateTime;
 
 class ProgrammaEmail extends Email
 {
