@@ -24,14 +24,21 @@ export class HTTPResponseCodeInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const editTypes = ['POST', 'PUT', 'DELETE'];
+    const exclusionUrls = ['/api/user/login'];
     const isEditRequest =
       editTypes.findIndex((type) => type === request.method) !== -1;
+    const isUrlExcludedFromSnackbar =
+      exclusionUrls.findIndex((url) => request.url.endsWith(url)) !== -1;
 
     return next.handle(request).pipe(
       tap(
         (event) => {
-          if (isEditRequest && event.type === HttpEventType.Response) {
-            this.snackbarService.open('Succesvol aangepast', '✅');
+          if (
+            !isUrlExcludedFromSnackbar &&
+            isEditRequest &&
+            event.type === HttpEventType.Response
+          ) {
+            this.snackbarService.open('Succesvol aangepast', '✔');
           }
         },
         (error) => {
