@@ -64,30 +64,46 @@ final class WedstrijdTest extends TestCase
         $w1 = new Wedstrijd(1, $team1, $team2);
     }
 
-    public function testSpelerCanEdit(): void
-    {
-        $speler = new Speler(1, "", "");
-        $team1 = new Team(1, "", new Heren());
-        $team1->spelers[] = $speler;
-        $team2 = new Team(2, "", new Heren());
-        $w1 = new Wedstrijd(1, $team1, $team2, 0, 21);
-
-        $this->assertTrue($w1->CanSpelerEdit($speler));
-    }
-
     public function testSpelerCannotEdit(): void
     {
         $speler = new Speler(1, "", "");
         $team1 = new Team(1, "", new Heren());
         $team1->spelers[] = $speler;
-        $team1->spelers[] = $speler;
+
+        $speler = new Speler(2, "", "");
         $team2 = new Team(2, "", new Heren());
         $team2->spelers[] = $speler;
-        $team2->spelers[] = $speler;
+
         $w1 = new Wedstrijd(1, $team1, $team2, 0, 21);
 
-        $newSpeler = new Speler(2, "", "");
+        $newSpeler = new Speler(3, "", "");
 
         $this->assertFalse($w1->CanSpelerEdit($newSpeler));
+    }
+
+    public function testSpelerCanEdit2(): void
+    {
+        $speler1 = new Speler(1, "", "");
+        $speler2 = new Speler(2, "", "");
+        $team1 = new Team(1, "", new Heren());
+        $team1->spelers[] = $speler1;
+        $team1->spelers[] = $speler2;
+
+        $speler3 = new Speler(3, "", "");
+        $speler4 = new Speler(4, "", "");
+        $team2 = new Team(2, "", new Heren());
+        $team2->spelers[] = $speler3;
+        $team2->spelers[] = $speler4;
+
+        $w1 = new Wedstrijd(1, $team1, $team2, 0, 21);
+
+        $speler5 = new Speler(5, "", "");
+
+        $this->assertTrue($w1->CanSpelerEdit($speler1));
+        $this->assertTrue($w1->CanSpelerEdit($speler2));
+        $this->assertTrue($w1->CanSpelerEdit($speler3));
+        $this->assertTrue($w1->CanSpelerEdit($speler4));
+
+        $this->assertFalse($w1->CanSpelerEdit($speler5));
     }
 }

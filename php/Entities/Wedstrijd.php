@@ -35,7 +35,7 @@ class Wedstrijd
             Linq::From($this->team1->spelers)->Any(function (Speler $s) use ($speler) {
                 return $s->id === $speler->id;
             }) ||
-            Linq::From($this->team1->spelers)->Any(function (Speler $s) use ($speler) {
+            Linq::From($this->team2->spelers)->Any(function (Speler $s) use ($speler) {
                 return $s->id === $speler->id;
             });
     }
