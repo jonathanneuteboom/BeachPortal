@@ -238,16 +238,16 @@ class WedstrijdGateway
             }
 
             $isSpelerPresent = Linq::From($wedstrijd->team1->spelers)->Any(function ($speler) use ($row) {
-                return $speler === $row->idSpelerTeam1;
+                return $speler->id === intval($row->idSpelerTeam1);
             });
-            if ($isSpelerPresent === null) {
+            if ($isSpelerPresent === false) {
                 $wedstrijd->team1->spelers[] = new Speler($row->idSpelerTeam1, $row->naamSpelerTeam1, $row->naamSpelerTeam1);
             }
 
             $isSpelerPresent = Linq::From($wedstrijd->team2->spelers)->Any(function ($speler) use ($row) {
-                return $speler === $row->idSpelerTeam2;
+                return $speler->id === intval($row->idSpelerTeam2);
             });
-            if ($isSpelerPresent === null) {
+            if ($isSpelerPresent === false) {
                 $wedstrijd->team2->spelers[] = new Speler($row->idSpelerTeam2, $row->naamSpelerTeam2, $row->naamSpelerTeam2);
             }
         }
