@@ -10,15 +10,20 @@
     </mat-nav-list>
   </mat-drawer>
 
-  <mat-toolbar color="primary">
-    <div class="header-bar" (click)="drawer.toggle()">
-      <button mat-icon-button>
-        <mat-icon>menu</mat-icon>
-      </button>
-      <div>
-        Beach Portal > {{ title }}
+  <mat-drawer-content (scroll)="onScroll($event)">
+
+    <mat-toolbar color="primary">
+      <div class="header-bar" (click)="drawer.toggle()">
+        <button mat-icon-button>
+          <mat-icon>menu</mat-icon>
+        </button>
+        <div>
+          Beach Portal > {{ title }}
+        </div>
       </div>
-    </div>
-  </mat-toolbar>
-  <router-outlet></router-outlet>
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+
 </mat-drawer-container>

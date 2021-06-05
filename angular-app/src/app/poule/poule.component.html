@@ -1,65 +1,67 @@
-<mat-card class="card" *ngIf="poule"
-    [ngClass]="{ heren: poule.categorie === heren, dames: poule.categorie === dames, mix: poule.categorie === mix }">
-    <mat-card-header>
-        <mat-card-title>Poule {{getCategorie(poule.categorie)}} {{poule.naam}}</mat-card-title>
-        <mat-card-subtitle>
-            <div class="datum">
-                {{ poule.speeltijd | date: 'd MMM, HH:mm' }}
+<div class="poule">
+    <mat-card class="card" *ngIf="poule"
+        [ngClass]="{ heren: poule.categorie === heren, dames: poule.categorie === dames, mix: poule.categorie === mix }">
+        <mat-card-header>
+            <mat-card-title>Poule {{getCategorie(poule.categorie)}} {{poule.naam}}</mat-card-title>
+            <mat-card-subtitle>
+                <div class="datum">
+                    {{ poule.speeltijd | date: 'd MMM, HH:mm' }}
 
-                <button *ngIf="isManagement && !isEditingSpeeltijd" mat-icon-button color="primary"
-                    (click)="isEditingSpeeltijd = !isEditingSpeeltijd">
-                    <mat-icon>edit</mat-icon>
-                </button>
-
-                <button *ngIf="isManagement && isEditingSpeeltijd" mat-icon-button color="primary"
-                    (click)="isEditingSpeeltijd = !isEditingSpeeltijd">
-                    <mat-icon>close</mat-icon>
-                </button>
-
-            </div>
-            <div *ngIf="isEditingSpeeltijd" [formGroup]="form">
-                <div class="half">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Dag</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="datum">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker disabled="false"></mat-datepicker>
-                    </mat-form-field>
-                </div>
-                <div class="save-row">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Tijd</mat-label>
-                        <mat-select formControlName="tijd">
-                            <mat-option *ngFor="let tijd of tijden" [value]="tijd">{{tijd}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <button mat-icon-button color="primary" (click)="updateSpeeltijd()">
-                        <mat-icon>save</mat-icon>
+                    <button *ngIf="isManagement && !isEditingSpeeltijd" mat-icon-button color="primary"
+                        (click)="isEditingSpeeltijd = !isEditingSpeeltijd">
+                        <mat-icon>edit</mat-icon>
                     </button>
-                </div>
-            </div>
-        </mat-card-subtitle>
-        <button *ngIf="isManagement && poule.teams.length === 0" class="delete-button" mat-icon-button color="primary"
-            (click)="deletePoule()">
-            <mat-icon>delete</mat-icon>
-        </button>
-    </mat-card-header>
-    <mat-card-content>
-        <mat-list>
-            <mat-list-item *ngIf="poule.teams && poule.teams.length === 0">Nog geen teams</mat-list-item>
-            <div *ngFor="let team of poule.teams; last as isLast">
-                <mat-list-item class="team">
-                    <app-team [team]="team"></app-team>
-                    <button mat-icon-button color="primary" (click)="deleteTeam(poule, team)">
-                        <mat-icon>delete</mat-icon>
+
+                    <button *ngIf="isManagement && isEditingSpeeltijd" mat-icon-button color="primary"
+                        (click)="isEditingSpeeltijd = !isEditingSpeeltijd">
+                        <mat-icon>close</mat-icon>
                     </button>
-                </mat-list-item>
-                <mat-divider *ngIf="!isLast"></mat-divider>
-            </div>
-        </mat-list>
-        <app-stand *ngIf="poule.stand && poule.stand.length > 0" [stand]="poule.stand"></app-stand>
-        <app-wedstrijden (onChange)="onWedstrijdChanged()" *ngIf="poule.wedstrijden && poule.wedstrijden.length > 0"
-            [wedstrijden]="poule.wedstrijden">
-        </app-wedstrijden>
-    </mat-card-content>
-</mat-card>
+
+                </div>
+                <div *ngIf="isEditingSpeeltijd" [formGroup]="form">
+                    <div class="half">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Dag</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="datum">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="save-row">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Tijd</mat-label>
+                            <mat-select formControlName="tijd">
+                                <mat-option *ngFor="let tijd of tijden" [value]="tijd">{{tijd}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <button mat-icon-button color="primary" (click)="updateSpeeltijd()">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-card-subtitle>
+            <button *ngIf="isManagement && poule.teams.length === 0" class="delete-button" mat-icon-button
+                color="primary" (click)="deletePoule()">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item *ngIf="poule.teams && poule.teams.length === 0">Nog geen teams</mat-list-item>
+                <div *ngFor="let team of poule.teams; last as isLast">
+                    <mat-list-item class="team">
+                        <app-team [team]="team"></app-team>
+                        <button mat-icon-button color="primary" (click)="deleteTeam(poule, team)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </mat-list-item>
+                    <mat-divider *ngIf="!isLast"></mat-divider>
+                </div>
+            </mat-list>
+            <app-stand *ngIf="poule.stand && poule.stand.length > 0" [stand]="poule.stand"></app-stand>
+            <app-wedstrijden (onChange)="onWedstrijdChanged()" *ngIf="poule.wedstrijden && poule.wedstrijden.length > 0"
+                [wedstrijden]="poule.wedstrijden">
+            </app-wedstrijden>
+        </mat-card-content>
+    </mat-card>
+</div>

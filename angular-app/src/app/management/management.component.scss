@@ -4,8 +4,18 @@
   width: 100%;
 }
 
-.management {
+.card {
   margin: 20px;
+  max-width: 1000px;
+}
+
+.buttons {
+  margin: 20px;
+}
+
+.management {
+  display: flex;
+  justify-content: center;
 }
 
 .geen-teams {

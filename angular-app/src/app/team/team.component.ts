@@ -9,6 +9,7 @@ import { Team } from '../models/Team';
 })
 export class TeamComponent implements OnInit {
   @Input() team: Team;
+  @Input() isTooltipDisabled: boolean = false;
   constructor() {}
 
   ngOnInit(): void {}

@@ -1,7 +1,25 @@
 .container {
   height: 100vh;
 }
+
 .header-bar {
   display: flex;
   align-items: center;
+}
+
+body {
+  background-image: url('/assets/background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-position-y: -300px;
+  background-repeat: initial;
+}
+
+.mat-drawer-container {
+  background-color: #00000000;
+}
+
+.mat-toolbar.mat-primary {
+  background-color: #00000000;
 }

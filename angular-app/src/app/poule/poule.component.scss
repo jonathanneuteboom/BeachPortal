@@ -4,8 +4,18 @@
   min-width: 300px;
 }
 
+.poule {
+  display: flex;
+  justify-content: center;
+}
+
 .heren {
-  background-color: #3f51b55e;
+  background-color: #004dc18f;
+}
+
+mat-card-title,
+.datum {
+  color: white;
 }
 
 .dames {

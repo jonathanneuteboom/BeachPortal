@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig,
@@ -13,10 +13,12 @@ import { UserService } from './services/user.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
   @ViewChild('drawer') sidenav: MatDrawer;
+
   title: string;
 
   links = [
@@ -90,6 +92,14 @@ export class AppComponent implements OnInit {
         link.isVisible = true;
       }
     });
+  }
+
+  onScroll(event: any): void {
+    const initialOffset = 300;
+    const newY =
+      initialOffset +
+      1500 * (event.target.scrollTop / event.target.scrollHeight);
+    document.body.style.backgroundPositionY = `-${newY}px`;
   }
 
   selected(link: any): void {
