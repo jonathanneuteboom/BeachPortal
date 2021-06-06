@@ -8,12 +8,36 @@
 }
 
 body {
-  background-image: url('~/src/assets/background3.jpg');
+  background-image: url('~/src/assets/background.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  background-position-y: 0px;
+  background-position-y: -300px;
   background-repeat: initial;
+}
+
+@media screen and (min-width: 100px) {
+  body {
+    background-position-x: -1400px;
+  }
+}
+
+@media screen and (min-width: 400px) {
+  body {
+    background-position-x: -1300px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  body {
+    background-position-x: -1200px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  body {
+    background-position-x: 0;
+  }
 }
 
 .mat-drawer-container {

@@ -95,10 +95,11 @@ export class AppComponent implements OnInit {
   }
 
   onScroll(event: any): void {
-    const initialOffset = 0;
+    const initialOffset = 300;
+    const scrollSpeed = 1200;
     const newY =
       initialOffset +
-      500 * (event.target.scrollTop / event.target.scrollHeight);
+      scrollSpeed * (event.target.scrollTop / event.target.scrollHeight);
     document.body.style.backgroundPositionY = `-${newY}px`;
   }
 
