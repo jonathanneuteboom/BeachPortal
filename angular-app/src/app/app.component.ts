@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
 
   onScroll(event: any): void {
     const initialOffset = 300;
-    const scrollSpeed = 1200;
+    const scrollSpeed = 1500;
     const newY =
       initialOffset +
       scrollSpeed * (event.target.scrollTop / event.target.scrollHeight);
