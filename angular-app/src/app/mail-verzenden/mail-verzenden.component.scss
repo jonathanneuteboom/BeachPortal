@@ -1,0 +1,38 @@
+.mail-verzenden {
+  max-width: 600px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.options {
+  margin: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons {
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.toggles {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  button {
+    margin: 10px;
+  }
+}
+
+.placeholders {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  button {
+    margin: 10px;
+  }
+}

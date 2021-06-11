@@ -1,0 +1,48 @@
+<div class="mail-verzenden">
+    <div [formGroup]="form" *ngIf="form">
+        <div class="options">
+            <mat-form-field appearance="fill">
+                <mat-label>Teams</mat-label>
+                <mat-select formControlName="teams" multiple>
+                    <mat-option *ngFor="let team of teams" [value]="team.id">{{team.naam}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Poules</mat-label>
+                <mat-select formControlName="poules" multiple>
+                    <mat-option *ngFor="let poule of poules" [value]="poule.id">{{getPouleNaam(poule)}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="toggles">
+            <button mat-raised-button color="primary" (click)="toggleTeams()">
+                <mat-icon>person</mat-icon> Toggle teams
+            </button>
+
+            <button mat-raised-button color="primary" (click)="setTemplate('programma')">
+                <mat-icon>text_snippet</mat-icon> Programma
+            </button>
+
+            <button mat-raised-button color="primary" (click)="togglePoules()">
+                <mat-icon>group</mat-icon> Toggle poules
+            </button>
+        </div>
+        <div class="placeholders">
+            <button *ngFor="let placeholder of placeholders" mat-raised-button color="accent"
+                (click)="addPlaceholder(placeholder)">
+                {{ placeholder }}
+            </button>
+        </div>
+
+        <textarea formControlName="body" rows="20" cols="70"> </textarea>
+    </div>
+
+    <div class="buttons">
+        <button mat-raised-button color="primary" (click)="testVersturen()">
+            <mat-icon>mail</mat-icon> Test
+        </button>
+        <button mat-raised-button color="warn" (click)="versturen()">
+            <mat-icon>mail</mat-icon> Versturen
+        </button>
+    </div>
+</div>

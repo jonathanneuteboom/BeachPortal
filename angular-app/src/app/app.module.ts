@@ -31,6 +31,7 @@ import { UitslagInvoerenDialogComponent } from './dialogs/uitslag-invoeren-dialo
 import { WedstrijdenComponent } from './wedstrijden/wedstrijden.component';
 import locale from '@angular/common/locales/nl';
 import { registerLocaleData } from '@angular/common';
+import { MailVerzendenComponent } from './mail-verzenden/mail-verzenden.component';
 
 registerLocaleData(locale);
 
@@ -78,7 +79,8 @@ const providers = [
     UitslagInvoerenDialogComponent,
     LoginComponent,
     ProgrammaVersturenComponent,
-    LoaderComponent
+    LoaderComponent,
+    MailVerzendenComponent
   ],
   imports: [
     BrowserModule,

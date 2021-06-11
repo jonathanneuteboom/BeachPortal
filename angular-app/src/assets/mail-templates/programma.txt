@@ -1,0 +1,13 @@
+Beste {{NAAM}},
+
+Aanstaande {{DATUM}} ben je ingedeeld om te spelen in de beachcompetitie.
+Jouw poule {{POULE}} speelt om {{TIJD}}.
+
+Je zit in de poule met:
+{{TEAMS}}
+
+Om uitslagen in te vullen en voor meer informatie: <a target="_blank" href="http://www.leidsebeachcompetitie.nl/">http://www.leidsebeachcompetitie.nl/</a><br>
+
+Met vriendelijke groet,
+
+{{AFZENDER}}
