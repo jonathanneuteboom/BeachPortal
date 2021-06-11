@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +50,6 @@ export class LoginComponent implements OnInit {
   }
 
   forgotPassword(): void {
-    const url = 'https://www.skcvolleybal.nl/beach/index.php/component/users/';
-    window.open(url, '_blank');
+    window.open(environment.forgotPasswordUrl, '_blank');
   }
 }

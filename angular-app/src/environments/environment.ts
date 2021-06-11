@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost/BeachPortal/api'
+  baseUrl: 'http://localhost/BeachPortal/api',
+  forgotPasswordUrl: 'https://www.google.com'
 };
 
 /*

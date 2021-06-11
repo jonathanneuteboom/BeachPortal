@@ -41,7 +41,7 @@ $app->add(function (Request $request, RequestHandlerInterface $handler): Respons
 
     $response = $handler->handle($request);
 
-    $configuration = $this->get(Configuration::class);    
+    $configuration = $this->get(Configuration::class);
     return $response
         ->withHeader('Access-Control-Allow-Origin', $configuration->AccessControlAllowOrigin)
         ->withHeader('Access-Control-Allow-Methods', implode(',', $methods))
@@ -60,10 +60,8 @@ $app->addBodyParsingMiddleware();
 
 $app->addRoutingMiddleware();
 
-$apiBase = $container->get(Configuration::class)->ApiBase;
-
 $entryPoint =
-    new RouteGroup($apiBase, [
+    new RouteGroup('/BeachPortal/api', [
         new RouteGroup('/team', [
             new GetRoute('/all', UseCases\GetAllTeams::class),
             new GetRoute('/get/{id}', UseCases\GetTeam::class),
