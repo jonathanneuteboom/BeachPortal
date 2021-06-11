@@ -47,4 +47,9 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+  forgotPassword(): void {
+    const url = 'https://www.skcvolleybal.nl/beach/index.php/component/users/';
+    window.open(url, '_blank');
+  }
 }

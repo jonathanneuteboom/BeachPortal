@@ -124,12 +124,8 @@ class UserGateway implements IUserGateway
             "SELECT 
                 U.id,
                 U.name as naam,
-                U.email,
-                C.cb_rugnummer as rugnummer,
-                C.cb_positie as positie,
-                C.cb_nevobocode as relatiecode
+                U.email
             FROM J3_users U
-            LEFT JOIN J3_comprofiler C ON U.id = C.user_id
             WHERE name like '%$name%'
             ORDER BY 
             CASE WHEN name LIKE '$name%' THEN 0 ELSE 1 end,
@@ -156,7 +152,6 @@ class UserGateway implements IUserGateway
                 U.name AS naam,
                 U.email
             FROM J3_users U
-            LEFT JOIN J3_comprofiler C ON U.id = C.user_id
             WHERE U.id = ?";
         $params = [$userId];
         $users = $this->database->Execute($query, $params);

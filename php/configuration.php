@@ -7,6 +7,7 @@ class Configuration
     public DatabaseConnection $Database;
     public $DisplayErrors = true;
     public $JpathBase = "C:\Users\jonat\joomla-website";
+    public $ApiBase = "/BeachPortal/api";
     public $AccessControlAllowOrigin = "http://localhost:4200";
     public $DwfUsername = "dwf@skcvolleybal.nl";
     public $DwfPassword = "skcvolleybal";
