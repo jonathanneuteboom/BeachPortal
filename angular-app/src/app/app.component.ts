@@ -25,31 +25,21 @@ export class AppComponent implements OnInit {
     {
       label: 'MyBeach',
       link: '/my-beach',
-      icon: 'home',
-      isVisible: true
+      icon: 'home'
     },
     {
       label: 'Algemene informatie',
       link: '/algemene-informatie',
-      icon: 'info',
-      isVisible: true
+      icon: 'info'
     },
     {
       label: 'Speelrondes',
       link: '/speelrondes',
-      icon: 'history',
-      isVisible: true
-    },
-    {
-      label: 'Management',
-      link: '/management',
-      icon: 'admin_panel_settings',
-      isVisible: false
+      icon: 'history'
     }
   ];
 
   background = 'primary';
-  activeLink = this.links[0];
   loginDialogRef: MatDialogRef<LoginComponent>;
 
   constructor(
@@ -67,7 +57,6 @@ export class AppComponent implements OnInit {
         this.title = link.label;
       }
     });
-    this.title = this.activeLink.label;
 
     this.userService.unauthorized.subscribe((isUnauthorized) => {
       if (this.loginDialogRef) {
@@ -89,7 +78,13 @@ export class AppComponent implements OnInit {
     this.userService.getCurrentUser().subscribe((user) => {
       if (user.role === 'Admin') {
         const link = this.links.find((link) => link.link === '/management');
-        link.isVisible = true;
+        if (link) return;
+
+        this.links.push({
+          label: 'Management',
+          link: '/management',
+          icon: 'admin_panel_settings'
+        });
       }
     });
   }

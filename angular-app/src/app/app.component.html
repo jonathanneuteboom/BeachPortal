@@ -2,8 +2,8 @@
   <mat-drawer #drawer>
     <mat-nav-list>
       <mat-list-item *ngFor="let link of links" (click)="selected(link)" [routerLink]="link.link">
-        <a *ngIf="link.isVisible" matLine> {{ link.label }}</a>
-        <button *ngIf="link.isVisible" mat-icon-button>
+        <a matLine> {{ link.label }}</a>
+        <button mat-icon-button>
           <mat-icon>{{link.icon}}</mat-icon>
         </button>
       </mat-list-item>
