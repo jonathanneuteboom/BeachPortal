@@ -16,20 +16,20 @@ tar --append -f deployment.tar php
 
 # remove anything on server, except for Configuration.php
 ssh -T deb105013n2@skcvolleybal.nl -i /c/Users/jonat/.ssh/antagonist-ssh <<- 'END'
-cd /home/deb105013n2/public_html/BeachPortal
+cd /home/deb105013n2/public_html/beach/beach-portal
 shopt -s extglob
 rm -R !("configuration.php"|".htaccess")
 shopt -u extglob
 END
 
 # copy files to server
-scp -i /c/Users/jonat/.ssh/antagonist-ssh deployment.tar deb105013n2@skcvolleybal.nl:~/public_html/BeachPortal
+scp -i /c/Users/jonat/.ssh/antagonist-ssh deployment.tar deb105013n2@skcvolleybal.nl:~/public_html/beach/beach-portal
 
 # Extract tar-file (+ remove afterwards) and move Configuration file to correct location
 ssh -T deb105013n2@skcvolleybal.nl -i /c/Users/jonat/.ssh/antagonist-ssh <<- 'END'
-cd /home/deb105013n2/public_html/BeachPortal
+cd /home/deb105013n2/public_html/beach/beach-portal
 tar -xf ./deployment.tar
-cp /home/deb105013n2/public_html/BeachPortal/configuration.php /home/deb105013n2/public_html/BeachPortal/php/configuration.php
+cp /home/deb105013n2/public_html/beach/beach-portal/configuration.php /home/deb105013n2/public_html/beach/beach-portal/php/configuration.php
 rm ./deployment.tar
 END
 
