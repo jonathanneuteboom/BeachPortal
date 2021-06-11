@@ -115,7 +115,7 @@ class WedstrijdGateway
                 INNER JOIN beach_team T ON W.team1_id = T.id
                 WHERE W.poule_id = ?
                 
-                UNION 
+                UNION ALL
                 
                 SELECT 
                     T.id,
