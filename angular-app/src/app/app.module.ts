@@ -15,14 +15,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { DeleteTeamDialogComponent } from './dialogs/delete-team-dialog/delete-team-dialog.component';
 import { EditTeamDialogComponent } from './dialogs/edit-team-dialog/edit-team-dialog.component';
+import { EmailVersturenComponent } from './dialogs/email-versturen/email-versturen.component';
 import { HTTPResponseCodeInterceptor } from './interceptors/http-response-code.interceptor';
 import { LoaderComponent } from './loader/loader.component';
 import { LoginComponent } from './login/login.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MailVerzendenComponent } from './mail-verzenden/mail-verzenden.component';
 import { ManagementComponent } from './management/management.component';
 import { MyBeachComponent } from './my-beach/my-beach.component';
 import { PouleComponent } from './poule/poule.component';
-import { ProgrammaVersturenComponent } from './dialogs/programma-versturen/programma-versturen.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SpeelrondesComponent } from './speelrondes/speelrondes.component';
 import { StandComponent } from './stand/stand.component';
@@ -31,7 +32,6 @@ import { UitslagInvoerenDialogComponent } from './dialogs/uitslag-invoeren-dialo
 import { WedstrijdenComponent } from './wedstrijden/wedstrijden.component';
 import locale from '@angular/common/locales/nl';
 import { registerLocaleData } from '@angular/common';
-import { MailVerzendenComponent } from './mail-verzenden/mail-verzenden.component';
 
 registerLocaleData(locale);
 
@@ -78,7 +78,7 @@ const providers = [
     DeleteTeamDialogComponent,
     UitslagInvoerenDialogComponent,
     LoginComponent,
-    ProgrammaVersturenComponent,
+    EmailVersturenComponent,
     LoaderComponent,
     MailVerzendenComponent
   ],

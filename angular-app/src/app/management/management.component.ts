@@ -8,7 +8,6 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { Poule } from '../models/Poule';
 import { PouleService } from '../services/poule.service';
-import { ProgrammaVersturenComponent } from '../dialogs/programma-versturen/programma-versturen.component';
 import { Speelronde } from '../models/Speelronde';
 import { SpeelrondeService } from '../services/speelronde.service';
 import { Team } from '../models/Team';
@@ -91,10 +90,6 @@ export class ManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       this.getAllTeams();
     });
-  }
-
-  programmaVersturen(): void {
-    this.dialog.open(ProgrammaVersturenComponent);
   }
 
   addSpeelronde(): void {

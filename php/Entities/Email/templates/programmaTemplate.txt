@@ -13,7 +13,7 @@ Om uitslagen in te vullen en voor meer informatie: <a target="_blank" href="http
 <br>
 Met vriendelijke groet,<br>
 <br>
-{{AFZENDER}}<br>
+De Beachcie<br>
 <br>
 </body>
 </html>

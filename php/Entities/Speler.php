@@ -2,7 +2,9 @@
 
 namespace BeachPortal\Entities;
 
-class Speler
+use Placeholders;
+
+class Speler implements IPlaceholder
 {
     public int $id;
     public string $naam;
@@ -13,5 +15,15 @@ class Speler
         $this->id = $id;
         $this->naam = $naam;
         $this->email = $email;
+    }
+
+    function GetPlaceholderValue(string $placeholder): ?string
+    {
+        switch ($placeholder) {
+            case Placeholders::$Naam:
+                return $this->naam;
+            default:
+                return null;
+        }
     }
 }

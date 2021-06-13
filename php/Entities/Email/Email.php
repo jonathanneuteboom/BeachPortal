@@ -13,7 +13,7 @@ class Email
     public int $id;
     public string $signature;
 
-    public function __construct(string $titel, string $body, Speler $receiver, Speler $sender, $id)
+    public function __construct(string $titel, string $body, Speler $receiver, ?Speler $sender, $id)
     {
         $this->titel = $titel;
         $this->body = $body;
@@ -33,7 +33,9 @@ class Email
             Utilities::IsNullOrEmpty($this->receiver->naam) ||
             Utilities::IsNullOrEmpty($this->receiver->email) ||
             Utilities::IsNullOrEmpty($this->titel) ||
-            Utilities::IsNullOrEmpty($this->body);
+            Utilities::IsNullOrEmpty($this->body) ||
+            preg_match("{{[A-Z]*}}", $this->titel, $matches) === 1 ||
+            preg_match("{{[A-Z]*}}", $this->body, $matches) === 1;
         return !$isInvalid;
     }
 
@@ -41,6 +43,20 @@ class Email
     {
         $this->sender = $this->sender ?? new Speler(-1, "SKC Studentenvolleybal", "info@skcvolleybal.nl");
         $this->CalculateSignature();
+    }
+
+    static function FillTemplate($entity, string $template): string
+    {
+        if (preg_match_all('/{{[A-Z]*}}/', $template, $matches)) {
+            foreach ($matches[0] as $placeholder) {
+                $value = $entity->GetPlaceholderValue($placeholder);
+                if ($value === null) continue;
+
+                $template = str_replace($placeholder, $value, $template);
+            }
+        }
+
+        return $template;
     }
 
     private function CalculateSignature(): void

@@ -2,9 +2,12 @@
 
 namespace BeachPortal\Entities;
 
+use BeachPortal\Common\DateFunctions;
+use BeachPortal\Common\Linq;
 use DateTime;
+use Placeholders;
 
-class Poule
+class Poule implements IPlaceholder
 {
     public ?int $id;
     public Categorie $categorie;
@@ -20,5 +23,37 @@ class Poule
         $this->naam = $naam;
         $this->categorie = $categorie;
         $this->speeltijd = $speeltijd;
+    }
+
+    function GenerateEmails(string $titel, string $body): array
+    {
+        $emails = [];
+        foreach ($this->teams as $team) {
+            foreach ($team->spelers as $speler) {
+                $emails[] = new CustomEmail($speler, $titel, $body, [$this, $speler]);
+            }
+        }
+
+        return $emails;
+    }
+
+    function GetPlaceholderValue(string $placeholder): ?string
+    {
+        switch ($placeholder) {
+            case Placeholders::$Datum:
+                return DateFunctions::GetDutchDateLong($this->speeltijd);
+            case Placeholders::$Tijd:
+                return DateFunctions::GetTime($this->speeltijd);
+            case Placeholders::$Poule:
+                return $this->categorie->GetNaam() . " " . $this->naam;
+            case Placeholders::$Teams: {
+                    $teams = Linq::From($this->teams)->Select(function ($team) {
+                        return $team->GetPlaceholderValue(Placeholders::$Teams);
+                    })->ToList();
+                    return join("\r\n", $teams);
+                }
+            default:
+                return null;
+        }
     }
 }

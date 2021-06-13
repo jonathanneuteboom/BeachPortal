@@ -6,8 +6,8 @@ Jouw poule {{POULE}} speelt om {{TIJD}}.
 Je zit in de poule met:
 {{TEAMS}}
 
-Om uitslagen in te vullen en voor meer informatie: <a target="_blank" href="http://www.leidsebeachcompetitie.nl/">http://www.leidsebeachcompetitie.nl/</a><br>
+Om uitslagen in te vullen en voor meer informatie: <a target="_blank" href="http://www.leidsebeachcompetitie.nl/">http://www.leidsebeachcompetitie.nl/</a>
 
 Met vriendelijke groet,
 
-{{AFZENDER}}
+De Beachcie

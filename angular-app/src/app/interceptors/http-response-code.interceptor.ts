@@ -38,7 +38,8 @@ export class HTTPResponseCodeInterceptor implements HttpInterceptor {
             isEditRequest &&
             event.type === HttpEventType.Response
           ) {
-            this.snackbarService.open('Succesvol aangepast', '✔');
+            const text = event.body ?? 'Succesvol aangepast';
+            this.snackbarService.open(text, '✔');
           }
         },
         (error) => {

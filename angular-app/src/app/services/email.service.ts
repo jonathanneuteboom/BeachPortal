@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environment';
 export class EmailService {
   constructor(private httpClient: HttpClient) {}
 
-  ProgrammaVersturen(): Observable<any> {
-    const url = `${environment.baseUrl}/email/programma-versturen`;
-    return this.httpClient.post(url, {});
+  EmailVersturen(mail): Observable<any> {
+    const url = `${environment.baseUrl}/email/versturen`;
+    return this.httpClient.post(url, mail);
   }
 }

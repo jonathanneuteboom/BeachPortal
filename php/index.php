@@ -96,7 +96,7 @@ $entryPoint =
         ]),
 
         new RouteGroup('/email', [
-            new PostRoute('/programma-versturen', UseCases\ProgrammaVersturen::class)
+            new PostRoute('/versturen', UseCases\EmailsVersturen::class),
         ], Role::MANAGEMENT),
     ]);
 
