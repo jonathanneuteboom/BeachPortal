@@ -53,7 +53,7 @@ export class MailVerzendenComponent implements OnInit {
       teams: null,
       poules: null,
       titel: null,
-      body: null
+      body: ''
     });
   }
 

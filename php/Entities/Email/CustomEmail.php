@@ -13,6 +13,6 @@ class CustomEmail extends Email
         }
 
         $this->titel = $titel;
-        $this->body = str_replace("\r\n", "<br>", $body);
+        $this->body = $body;
     }
 }
