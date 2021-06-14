@@ -36,7 +36,7 @@ export class PouleComponent implements OnInit {
   ngOnInit(): void {
     this.tijden = [];
     for (let hours = 9; hours <= 23; hours++) {
-      for (let minutes = 0; minutes < 60; minutes += 10) {
+      for (let minutes = 0; minutes < 60; minutes += 5) {
         const h = this.padLeadingZeros(hours, 2);
         const m = this.padLeadingZeros(minutes, 2);
         this.tijden.push(`${h}:${m}`);
