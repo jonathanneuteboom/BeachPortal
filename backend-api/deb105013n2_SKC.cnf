@@ -1,0 +1,6 @@
+[client]
+database = deb105013n2_SKC
+user = root
+password = volleybal
+default-character-set = utf8
+host = localhost
