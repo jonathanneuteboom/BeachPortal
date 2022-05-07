@@ -15,6 +15,11 @@ export class SpeelrondeService {
     return this.httpClient.get<Speelronde[]>(url);
   }
 
+  getAlgemeenKlassement(): Observable<any[]> {
+    const url = `${environment.baseUrl}/algemeen-klassement`;
+    return this.httpClient.get<any[]>(url);
+  }
+
   GetCurrentSpeelronde(): Observable<Speelronde> {
     const url = `${environment.baseUrl}/speelronde/current`;
     return this.httpClient.get<Speelronde>(url);

@@ -1,0 +1,59 @@
+<app-loader [data]="klassement"></app-loader>
+
+<div style="padding: 20px;" *ngIf="klassement?.length === 0">
+  Nog geen klassement
+</div>
+
+
+
+<div class="toggles" [formGroup]="form">
+  <div>
+    <mat-button-toggle-group formControlName="categorie">
+      <mat-button-toggle *ngFor="let klassementItem of klassement; let index=index" [value]="index">
+        {{klassementItem.categorie}}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>
+
+<div class="klassement">
+  <table mat-table [dataSource]="currentKlassement" class="mat-elevation-z8 wedstrijden">
+
+    <ng-container matColumnDef="rank">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let rank; let i = index">
+        <div class="teams">
+          {{i + 1}}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="team">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let rank">
+        <app-team [isTooltipDisabled]="true" [team]="rank.team"></app-team>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totaal">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let rank">
+        <div>{{rank.totaal}}</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="punten">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let rank">
+        <div class="punten">
+          {{getPuntenString(rank.puntenVerloop, i + 1)}}
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+
+</div>

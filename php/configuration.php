@@ -22,7 +22,7 @@ class DatabaseConnection
     public string $Hostname = "localhost";
     public string $Name = "deb105013n2_SKC";
     public string $Username = "root";
-    public string $Password = "root";
+    public string $Password = "volleybal";
     public array $Options = [
         "PDO::MYSQL_ATTR_INIT_COMMAND" => "SET NAMES utf8"
     ];

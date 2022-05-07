@@ -5,12 +5,14 @@ import { ManagementComponent } from './management/management.component';
 import { MyBeachComponent } from './my-beach/my-beach.component';
 import { NgModule } from '@angular/core';
 import { SpeelrondesComponent } from './speelrondes/speelrondes.component';
+import { AlgemeenKlassementComponent } from './algemeen-klassement/algemeent-klassement.component';
 
 const routes: Routes = [
   { path: 'my-beach', component: MyBeachComponent },
   { path: 'management', component: ManagementComponent },
   { path: 'speelrondes', component: SpeelrondesComponent },
   { path: 'algemene-informatie', component: AlgemeneInformatieComponent },
+  { path: 'algemeen-klassement', component: AlgemeenKlassementComponent },
 
   { path: '', redirectTo: 'my-beach', pathMatch: 'full' },
 

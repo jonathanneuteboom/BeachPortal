@@ -36,6 +36,11 @@ export class AppComponent implements OnInit {
       label: 'Speelrondes',
       link: '/speelrondes',
       icon: 'history'
+    },
+    {
+      label: 'Algemeen klassement',
+      link: '/algemeen-klassement',
+      icon: 'military_tech_rounded'
     }
   ];
 

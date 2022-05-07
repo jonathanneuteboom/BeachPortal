@@ -89,6 +89,8 @@ $entryPoint =
             new PostRoute('/uitslag', UseCases\UitslagInvoeren::class)
         ], Role::USER),
 
+        new GetRoute('/algemeen-klassement', UseCases\AlgemeenKlassement::class, Role::USER),
+
         new RouteGroup('/user', [
             new GetRoute('/current', UseCases\GetCurrentUser::class, Role::USER),
             new GetRoute('/find-by-name', UseCases\FindUserByName::class, Role::MANAGEMENT),

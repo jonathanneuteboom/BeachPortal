@@ -1,0 +1,21 @@
+.toggles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  div {
+    padding: 10px;
+  }
+}
+
+.klassement {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.mat-cell {
+  padding: 10px 10px 10px 0;
+}
+.punten{
+  display: flex;
+  flex-direction: 'row';
+}
