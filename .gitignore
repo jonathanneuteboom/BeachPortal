@@ -47,3 +47,4 @@ Thumbs.db
 php/vendor
 backend-api/env/
 *.pyc
+.vscode

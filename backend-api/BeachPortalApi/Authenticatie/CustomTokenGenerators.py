@@ -28,7 +28,7 @@ class CustomAuthToken(ObtainAuthToken):
         if serializer.is_valid():
             user = serializer.validated_data['user']
             token, _ = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key, 'userId': user.pk, 'username': user.username})
+            return Response({'token': token.key, 'id': user.pk, 'username': user.username})
 
         username_or_email = request.data.get('username')
         password = request.data.get('password')
@@ -54,4 +54,4 @@ class CustomAuthToken(ObtainAuthToken):
             user.save()
 
         token, _ = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key, 'userId': user.pk, 'username': user.username})
+        return Response({'token': token.key, 'id': user.pk, 'username': user.username})

@@ -21,5 +21,7 @@ urlpatterns = [
 
     path('login', CustomAuthToken.as_view()),
 
+    # path('my-poule', )
+
     path('api-auth/', include(urls, namespace='rest_framework'))
 ]
