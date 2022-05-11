@@ -12,6 +12,7 @@ import { Categorie } from '../models/Categorie';
 import { Poule } from '../models/Poule';
 import { PouleService } from '../services/poule.service';
 import { Team } from '../models/Team';
+import { Speellocatie } from '../models/Speellocatie';
 
 @Component({
   selector: 'app-poule',
@@ -22,6 +23,7 @@ import { Team } from '../models/Team';
 export class PouleComponent implements OnInit {
   @Input() poule: Poule;
   @Input() isManagement: boolean;
+  @Input() speellocaties: Speellocatie[];
   @Output() onChange: EventEmitter<Poule> = new EventEmitter();
 
   heren = Categorie.Heren;
@@ -48,7 +50,8 @@ export class PouleComponent implements OnInit {
     const time = `${hours}:${minutes}`;
     this.form = this.fb.group({
       datum: [{ value: timestamp, disabled: true }],
-      tijd: time
+      tijd: time,
+      speellocatie: this.poule.speellocatie
     });
   }
 
@@ -56,13 +59,18 @@ export class PouleComponent implements OnInit {
     return Categorie[categorie];
   }
 
+  compareSpeellocaties = (a: Speellocatie, b: Speellocatie): boolean => a.id === b.id
+
   updateSpeeltijd(): void {
     const datum = this.form.get('datum').value as Date;
     const newSpeeltijd = `${this.formatDate(datum)} ${this.form.value.tijd}:00`;
+    const speellocatie = this.form.get('speellocatie').value;
+
     const poule = Object.assign({}, this.poule);
     poule.speeltijd = newSpeeltijd;
+    poule.speellocatie = speellocatie
     this.pouleService
-      .updateSpeeltijd(poule)
+      .updatePoule(poule)
       .subscribe(() => this.onChange.emit());
   }
 

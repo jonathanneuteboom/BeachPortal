@@ -17,12 +17,13 @@ class Poule implements IPlaceholder
     public array $wedstrijden = [];
     public array $stand = [];
 
-    function __construct(?int $id, string $naam, Categorie $categorie, DateTime $speeltijd)
+    function __construct(?int $id, string $naam, Categorie $categorie, DateTime $speeltijd, Speellocatie $speellocatie)
     {
         $this->id = $id;
         $this->naam = $naam;
         $this->categorie = $categorie;
         $this->speeltijd = $speeltijd;
+        $this->speellocatie = $speellocatie;
     }
 
     function GenerateEmails(string $titel, string $body): array

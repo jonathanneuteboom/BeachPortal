@@ -13,6 +13,7 @@ class PouleModel
     public array $teams = [];
     public array $wedstrijden = [];
     public array $stand = [];
+    public SpeellocatieModel $speellocatie;
 
     function __construct(Poule $poule)
     {
@@ -20,6 +21,7 @@ class PouleModel
         $this->categorie = $poule->categorie->GetNaam();
         $this->naam = $poule->naam;
         $this->speeltijd = $poule->speeltijd->format("Y/m/d H:i:s");
+        $this->speellocatie = new SpeellocatieModel($poule->speellocatie);
 
         foreach ($poule->teams as $team) {
             $this->teams[] = new TeamModel($team);

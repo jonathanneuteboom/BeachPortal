@@ -12,6 +12,7 @@ import { Speelronde } from '../models/Speelronde';
 import { SpeelrondeService } from '../services/speelronde.service';
 import { Team } from '../models/Team';
 import { TeamService } from '../services/team.service';
+import { Speellocatie } from '../models/Speellocatie';
 
 @Component({
   selector: 'app-management',
@@ -24,6 +25,7 @@ export class ManagementComponent implements OnInit {
   groupedTeams: Team[][] = [[], [], []];
   teams = new MatTableDataSource();
   speelronde: Speelronde;
+  speellocaties: Speellocatie[];
 
   constructor(
     private teamService: TeamService,
@@ -35,6 +37,7 @@ export class ManagementComponent implements OnInit {
   ngOnInit(): void {
     this.getAllTeams();
     this.getCurrentSpeelronde();
+    this.getSpeellocaties();
   }
 
   getAllTeams(): void {
@@ -61,6 +64,12 @@ export class ManagementComponent implements OnInit {
     this.speelrondeService.GetCurrentSpeelronde().subscribe((speelronde) => {
       this.speelronde = speelronde;
     });
+  }
+
+  getSpeellocaties() : void {
+    this.pouleService.getAllSpeellocaties().subscribe((locaties) => {
+      this.speellocaties = locaties
+    })
   }
 
   editTeam(team: Team = null): void {

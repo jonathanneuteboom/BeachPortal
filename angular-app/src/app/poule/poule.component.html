@@ -21,6 +21,16 @@
                 <div *ngIf="isEditingSpeeltijd" [formGroup]="form">
                     <div class="half">
                         <mat-form-field appearance="fill">
+                            <mat-label>Speellocatie</mat-label>
+                            <mat-select formControlName="speellocatie" [compareWith]="compareSpeellocaties">
+                                <mat-option *ngFor="let locatie of speellocaties" [value]="locatie">
+                                    {{locatie.naam}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="half">
+                        <mat-form-field appearance="fill">
                             <mat-label>Dag</mat-label>
                             <input matInput [matDatepicker]="picker" formControlName="datum">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

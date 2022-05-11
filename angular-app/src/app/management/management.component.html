@@ -23,7 +23,8 @@
 
           <div class="poules" *ngIf="speelronde">
             <div *ngFor="let poule of speelronde.poules">
-              <app-poule [isManagement]="true" [poule]="poule" (onChange)="getCurrentSpeelronde()"></app-poule>
+              <app-poule [isManagement]="true" [poule]="poule" [speellocaties]="speellocaties"
+                (onChange)="getCurrentSpeelronde()"></app-poule>
 
               <div class="add-team" *ngIf="poule.teams.length != 5">
                 <mat-form-field appearance="fill" class="max-form-field">

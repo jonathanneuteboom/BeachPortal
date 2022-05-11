@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Poule } from '../models/Poule';
 import { Team } from '../models/Team';
 import { environment } from 'src/environments/environment';
+import { Speellocatie } from '../models/Speellocatie';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,13 @@ export class PouleService {
     });
   }
 
-  updateSpeeltijd(poule: Poule): Observable<any> {
-    const url = `${environment.baseUrl}/poule/update-speeltijd`;
-    return this.httpClient.post(url, poule);
+  updatePoule(poule: Poule): Observable<any> {
+    const url = `${environment.baseUrl}/poule/update`;
+    return this.httpClient.post(url, {
+      id: poule.id,
+      speeltijd: poule.speeltijd,
+      speellocatieId: poule.speellocatie.id
+    });
   }
 
   deleteTeamFromPoule(poule: Poule, team: Team): Observable<any> {
@@ -37,6 +42,11 @@ export class PouleService {
   getAllPoules(): Observable<Poule[]> {
     const url = `${environment.baseUrl}/poule/all`;
     return this.httpClient.get<Poule[]>(url);
+  }
+
+  getAllSpeellocaties() : Observable<Speellocatie[]> {
+    const url = `${environment.baseUrl}/speellocaties`;
+    return this.httpClient.get<Speellocatie[]>(url);
   }
 
   getMyPoules(): Observable<Poule[]> {

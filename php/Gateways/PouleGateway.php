@@ -6,6 +6,7 @@ use BeachPortal\Configuration;
 use BeachPortal\Common\Database;
 use BeachPortal\Common\DateFunctions;
 use BeachPortal\Entities\Poule;
+use BeachPortal\Entities\Speellocatie;
 use BeachPortal\Entities\Speelronde;
 use BeachPortal\Entities\Team;
 use BeachPortal\Entities\Wedstrijd;
@@ -25,11 +26,14 @@ class PouleGateway
     {
         $query =
             "SELECT 
-                id,
-                naam,
-                categorie,
-                speeltijd
-            FROM beach_poule
+                P.id,
+                P.naam,
+                P.categorie,
+                P.speeltijd,
+                S.id as speellocatie_id,
+                S.naam as speellocatie_naam
+            FROM beach_poule P
+            INNER JOIN beach_speellocatie S ON P.speellocatie_id = S.id
             WHERE speelronde_id = ?
             ORDER BY categorie, naam, speeltijd";
         $params = [$speelronde->id];
@@ -41,19 +45,22 @@ class PouleGateway
     {
         $query =
             "SELECT 
-                id,
-                naam,
-                categorie,
-                speeltijd
-            FROM beach_poule
-            WHERE id = ?";
+                P.id,
+                P.naam,
+                P.categorie,
+                P.speeltijd,
+                S.id as speellocatie_id,
+                S.naam as speellocatie_naam
+            FROM beach_poule P
+            INNER JOIN beach_speellocatie S ON P.speellocatie_id = S.id
+            WHERE P.id = ?";
         $params = [$id];
         $rows = $this->database->Execute($query, $params);
         $poules = $this->MapToPoules($rows);
         if (count($poules) == 0) {
             return null;
         }
-        return $poules[0];
+        return $this->MapToPoules($rows)[0];
     }
 
     public function AddTeamToPoule(Poule $poule, Team $team): void
@@ -80,10 +87,12 @@ class PouleGateway
     {
         $query =
             "UPDATE beach_poule
-            SET speeltijd = ?
+            SET speeltijd = ?, 
+                speellocatie_id = ?
             WHERE id = ?";
         $params = [
             DateFunctions::GetMySqlTimestamp($poule->speeltijd),
+            $poule->speellocatie->id,
             $poule->id
         ];
         $this->database->Execute($query, $params);
@@ -117,7 +126,8 @@ class PouleGateway
                 $row->id,
                 $row->naam,
                 CategorieDb::MapToDomainModel($row->categorie),
-                DateTime::createFromFormat('Y-m-d H:i:s', $row->speeltijd)
+                DateTime::createFromFormat('Y-m-d H:i:s', $row->speeltijd),
+                new Speellocatie($row->speellocatie_id, $row->speellocatie_naam)
             );
         }
         return $poules;
