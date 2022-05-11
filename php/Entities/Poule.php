@@ -57,4 +57,9 @@ class Poule implements IPlaceholder
                 return null;
         }
     }
+
+    function GetFullName()
+    {
+        return $this->categorie->GetNaam() . " " . $this->naam;
+    }
 }

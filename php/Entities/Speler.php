@@ -26,4 +26,9 @@ class Speler implements IPlaceholder
                 return null;
         }
     }
+
+    function Equals(Speler $speler)
+    {
+        return $this->id === $speler->id;
+    }
 }

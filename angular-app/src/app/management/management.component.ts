@@ -13,6 +13,7 @@ import { SpeelrondeService } from '../services/speelronde.service';
 import { Team } from '../models/Team';
 import { TeamService } from '../services/team.service';
 import { Speellocatie } from '../models/Speellocatie';
+import { OverlapItem } from '../models/OverlapItem';
 
 @Component({
   selector: 'app-management',
@@ -26,6 +27,7 @@ export class ManagementComponent implements OnInit {
   teams = new MatTableDataSource();
   speelronde: Speelronde;
   speellocaties: Speellocatie[];
+  overlappingItems: OverlapItem[] = [];
 
   constructor(
     private teamService: TeamService,
@@ -38,6 +40,7 @@ export class ManagementComponent implements OnInit {
     this.getAllTeams();
     this.getCurrentSpeelronde();
     this.getSpeellocaties();
+    this.getOverlappingPlayers();
   }
 
   getAllTeams(): void {
@@ -60,6 +63,10 @@ export class ManagementComponent implements OnInit {
     });
   }
 
+  getOverlappingItemString(item: OverlapItem):string {
+    return `(${item.type}) ${item.poule1} & ${item.poule2}: ${item.spelers.map(speler => speler.naam).join(', ')}`
+  }
+
   getCurrentSpeelronde(): void {
     this.speelrondeService.GetCurrentSpeelronde().subscribe((speelronde) => {
       this.speelronde = speelronde;
@@ -69,6 +76,12 @@ export class ManagementComponent implements OnInit {
   getSpeellocaties() : void {
     this.pouleService.getAllSpeellocaties().subscribe((locaties) => {
       this.speellocaties = locaties
+    })
+  }
+
+  getOverlappingPlayers(): void {
+    this.pouleService.getOverlappingPlayers().subscribe((overlappingItems) => {
+      this.overlappingItems = overlappingItems
     })
   }
 

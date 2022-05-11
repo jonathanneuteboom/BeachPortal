@@ -71,11 +71,12 @@ $entryPoint =
 
         new RouteGroup('/poule', [
             new GetRoute('/my', UseCases\GetMyPoules::class, Role::USER),
+            new GetRoute('/overlap', UseCases\GetOverlappingPoules::class, Role::USER),
             new PostRoute('/add', UseCases\AddPoule::class),
             new PostRoute('/team/add', UseCases\AddTeamToPoule::class),
             new PostRoute('/update', UseCases\UpdatePoule::class),
             new DeleteRoute('/{pouleId}/team/{teamId}', UseCases\DeleteTeamFromPoule::class),
-            new DeleteRoute('/{id}', UseCases\DeletePoule::class)
+            new DeleteRoute('/{id}', UseCases\DeletePoule::class),
         ], Role::MANAGEMENT),
 
         new RouteGroup('/speelronde', [

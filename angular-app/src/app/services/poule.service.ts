@@ -5,6 +5,7 @@ import { Poule } from '../models/Poule';
 import { Team } from '../models/Team';
 import { environment } from 'src/environments/environment';
 import { Speellocatie } from '../models/Speellocatie';
+import { OverlapItem } from '../models/OverlapItem';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,11 @@ export class PouleService {
   getAllSpeellocaties() : Observable<Speellocatie[]> {
     const url = `${environment.baseUrl}/speellocaties`;
     return this.httpClient.get<Speellocatie[]>(url);
+  }
+
+  getOverlappingPlayers() : Observable<OverlapItem[]> {
+    const url = `${environment.baseUrl}/poule/overlap`;
+    return this.httpClient.get<OverlapItem[]>(url);
   }
 
   getMyPoules(): Observable<Poule[]> {

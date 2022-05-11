@@ -3,6 +3,19 @@
     <mat-tab-group>
       <mat-tab label="Poules">
         <app-loader [data]="speelronde"></app-loader>
+
+
+
+        <mat-card class="example-card" *ngIf="overlappingItems.length > 0">
+          <mat-card-subtitle>Overalapping items</mat-card-subtitle>
+          <mat-card-title>Overalapping items</mat-card-title>
+          <mat-card-content>
+            <div *ngFor="let overlappingItem of overlappingItems">
+              {{getOverlappingItemString(overlappingItem)}}
+            </div>
+          </mat-card-content>
+        </mat-card>
+
         <div class="buttons" *ngIf="speelronde">
           <div class="buttons">
             <button mat-raised-button color="warn" (click)="addSpeelronde()">
