@@ -2,18 +2,19 @@
 
 namespace BeachPortal\UseCases;
 
+use BeachPortal\Entities\Poule;
+
 class OverlapModel
 {
   public array $spelers = [];
-  public string $poule1;
-  public string $poule2;
+  public PouleModel $poule1;
+  public PouleModel $poule2;
   public string $type;
 
-  function __construct(string $type, string $poule1, string $poule2, array $spelers)
+  function __construct(Poule $poule1, Poule $poule2, array $spelers)
   {
-    $this->poule1 = $poule1;
-    $this->poule2 = $poule2;
-    $this->type = $type;
+    $this->poule1 = new PouleModel($poule1);
+    $this->poule2 = new PouleModel($poule2);
 
     foreach ($spelers as $speler) {
       $this->spelers[] = new SpelerModel($speler);

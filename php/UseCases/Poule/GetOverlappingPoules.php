@@ -43,20 +43,13 @@ class GetOverlappingPoules implements Interactor
       for ($j = $i + 1; $j < $numberOfPoules; $j++) {
         $tijdstipPoule1 = $poules[$i]->speeltijd;
         $tijdstipPoule2 = $poules[$j]->speeltijd;
-        $diff = $tijdstipPoule1->diff($tijdstipPoule2);
-        if ($diff->h >= 12 || $diff->d >= 1) continue;
+
+        if ($tijdstipPoule1->format("Y-m-d") !== $tijdstipPoule2->format("Y-m-d")) continue;
 
         $overlappendeSpelers = $this->getOverlappendeSpelers($poules[$i], $poules[$j]);
         if (count($overlappendeSpelers) === 0) continue;
 
-        $isSameLocation = $poules[$i]->speellocatie->id === $poules[$j]->speellocatie->id;
-        if (!$isSameLocation && $diff->h <= 2) {
-          $result[] = new OverlapModel("danger", $poules[$i]->GetFullName(), $poules[$j]->GetFullName(), $overlappendeSpelers);
-        }
-
-        if ($diff->h <= 4) {
-          $result[] = new OverlapModel("warning", $poules[$i]->GetFullName(), $poules[$j]->GetFullName(),  $overlappendeSpelers);
-        }
+        $result[] = new OverlapModel($poules[$i], $poules[$j], $overlappendeSpelers);
       }
     }
 

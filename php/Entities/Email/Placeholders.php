@@ -7,4 +7,5 @@ class Placeholders
     static string $Poule = "{{POULE}}";
     static string $Tijd = "{{TIJD}}";
     static string $Teams = "{{TEAMS}}";
+    static string $Locatie = "{{LOCATIE}}";
 }

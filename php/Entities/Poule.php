@@ -53,6 +53,8 @@ class Poule implements IPlaceholder
                     })->ToList();
                     return join("\r\n", $teams);
                 }
+            case Placeholders::$Locatie:
+                return $this->speellocatie->naam;
             default:
                 return null;
         }

@@ -21,7 +21,7 @@ export class MailVerzendenComponent implements OnInit {
   poules: Poule[] = [];
   form: FormGroup;
 
-  placeholders = ['NAAM', 'DATUM', 'POULE', 'TIJD', 'TEAMS'];
+  placeholders = ['NAAM', 'DATUM', 'POULE', 'TIJD', 'TEAMS', 'LOCATIE'];
 
   constructor(
     private teamService: TeamService,

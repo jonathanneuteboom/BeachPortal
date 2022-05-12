@@ -14,6 +14,7 @@ import { Team } from '../models/Team';
 import { TeamService } from '../services/team.service';
 import { Speellocatie } from '../models/Speellocatie';
 import { OverlapItem } from '../models/OverlapItem';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-management',
@@ -43,6 +44,11 @@ export class ManagementComponent implements OnInit {
     this.getOverlappingPlayers();
   }
 
+  onPouleChanged() :void {
+    this.getCurrentSpeelronde()
+    this.getOverlappingPlayers()
+  }
+
   getAllTeams(): void {
     this.teamService.getAll().subscribe((teams) => {
       teams = teams || [];
@@ -64,7 +70,13 @@ export class ManagementComponent implements OnInit {
   }
 
   getOverlappingItemString(item: OverlapItem):string {
-    return `(${item.type}) ${item.poule1} & ${item.poule2}: ${item.spelers.map(speler => speler.naam).join(', ')}`
+    const datepipe = new DatePipe('en-US')
+    const tijdstip1 = datepipe.transform(new Date(item.poule1.speeltijd), 'HH:mm')
+    const tijdstip2 = datepipe.transform(new Date(item.poule2.speeltijd), 'HH:mm')
+
+    const poule1 = `${item.poule1.categorie} ${item.poule1.naam} (${tijdstip1}, ${item.poule1.speellocatie.naam})`
+    const poule2 = `${item.poule2.categorie} ${item.poule2.naam} (${tijdstip2}, ${item.poule2.speellocatie.naam})`
+    return `${poule1} & ${poule2}: ${item.spelers.map(speler => speler.naam).join(', ')}`
   }
 
   getCurrentSpeelronde(): void {

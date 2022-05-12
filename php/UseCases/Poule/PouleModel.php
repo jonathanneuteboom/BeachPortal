@@ -20,7 +20,7 @@ class PouleModel
         $this->id = $poule->id;
         $this->categorie = $poule->categorie->GetNaam();
         $this->naam = $poule->naam;
-        $this->speeltijd = $poule->speeltijd->format("Y/m/d H:i:s");
+        $this->speeltijd = $poule->speeltijd->format('c');
         $this->speellocatie = new SpeellocatieModel($poule->speellocatie);
 
         foreach ($poule->teams as $team) {

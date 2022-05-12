@@ -2,10 +2,10 @@
     <mat-card class="card" *ngIf="poule"
         [ngClass]="{ heren: poule.categorie === heren, dames: poule.categorie === dames, mix: poule.categorie === mix }">
         <mat-card-header>
-            <mat-card-title>Poule {{getCategorie(poule.categorie)}} {{poule.naam}}</mat-card-title>
+            <mat-card-title class="poule-naam">Poule {{getCategorie(poule.categorie)}} {{poule.naam}}</mat-card-title>
             <mat-card-subtitle>
                 <div class="datum">
-                    {{ poule.speeltijd | date: 'd MMM, HH:mm' }}
+                    {{ poule.speeltijd | date: 'd MMM, HH:mm' }}, {{poule.speellocatie.naam}}
 
                     <button *ngIf="isManagement && !isEditingSpeeltijd" mat-icon-button color="primary"
                         (click)="isEditingSpeeltijd = !isEditingSpeeltijd">

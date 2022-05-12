@@ -2,6 +2,7 @@ Beste {{NAAM}},
 
 Aanstaande {{DATUM}} ben je ingedeeld om te spelen in de beachcompetitie.
 Jouw poule {{POULE}} speelt om {{TIJD}}.
+Locatie: {{LOCATIE}}
 
 Je zit in de poule met:
 {{TEAMS}}

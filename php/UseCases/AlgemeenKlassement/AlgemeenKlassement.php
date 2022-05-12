@@ -28,23 +28,25 @@ class AlgemeenKlassement implements Interactor
   {
     $klassement = [];
 
+    $speelrondes = $this->speelrondeGateway->GetAllSpeelrondes();
+    $aantalSpeelrondes = count($speelrondes);
+
     $teams = $this->teamGateway->getAllTeams();
     foreach ($teams as $team) {
-      $klassement[] = new AlgemeenKlassementItemModel($team);
+      $klassement[] = new AlgemeenKlassementItemModel($team, $aantalSpeelrondes);
     }
 
-    $speelrondes = $this->speelrondeGateway->GetAllSpeelrondes();
-    foreach ($speelrondes as $speelronde) {
+    foreach ($speelrondes as $speelrondeIndex => $speelronde) {
       $poules = $this->pouleGateway->GetPoulesInSpeelronde($speelronde);
       foreach ($poules as $poule) {
-        $stand = $this->wedstrijdGateway->GetStandOfPoule($poule);
-        $aantalTeams = count($stand);
-        foreach ($stand as $i => $standItem) {
+        $poule->stand = $this->wedstrijdGateway->GetStandOfPoule($poule);
+        $aantalTeams = count($poule->stand);
+        foreach ($poule->stand as $i => $stand) {
           $poulePunten = $this->getPoulePunten($poule);
           $standPunten = $aantalTeams - $i - 1;
 
-          $i = $this->getAlgemeenKlassementItemIndex($klassement, $standItem->team);
-          $klassement[$i]->addPunten($poulePunten, $standPunten);
+          $i = $this->getAlgemeenKlassementItemIndex($klassement, $stand->team);
+          $klassement[$i]->addPunten($speelrondeIndex, $poulePunten, $standPunten);
         }
       }
     }

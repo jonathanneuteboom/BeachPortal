@@ -48,4 +48,13 @@ export class AlgemeenKlassementComponent implements OnInit {
   getPuntenString(puntenVerloop: any[]):string {
     return puntenVerloop.map((punten, i) => `${i + 1}: (${punten[0]}, ${punten[1]})`).join(' > ')
   }
+
+  getTooltipText(puntenVerloop):string {
+    let poulePunten = `${puntenVerloop[0]} poulepunt`
+    if (puntenVerloop[0] !== 1) poulePunten += 'en'
+
+    let wedstrijdpunten = `${puntenVerloop[1]} wedstrijdpunt`
+    if (puntenVerloop[1] !== 1) wedstrijdpunten += 'en'
+    return `${poulePunten}, ${wedstrijdpunten}`
+  }
 }
