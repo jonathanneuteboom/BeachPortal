@@ -33,6 +33,7 @@ import { WedstrijdenComponent } from './wedstrijden/wedstrijden.component';
 import locale from '@angular/common/locales/nl';
 import { registerLocaleData } from '@angular/common';
 import { AlgemeenKlassementComponent } from './algemeen-klassement/algemeent-klassement.component';
+import { QuillModule } from 'ngx-quill'
 
 registerLocaleData(locale);
 
@@ -91,7 +92,8 @@ const providers = [
     AngularMaterialModule,
     HttpClientModule,
     AppRoutingModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    QuillModule.forRoot()
   ],
   providers: [providers],
   bootstrap: [AppComponent]

@@ -94,6 +94,11 @@ $entryPoint =
 
         new GetRoute('/algemeen-klassement', UseCases\AlgemeenKlassement::class, Role::USER),
 
+        new RouteGroup('/algemene-informatie', [
+            new GetRoute('/get', UseCases\GetAlgemeneInformatie::class, Role::USER),
+            new PostRoute('/update', UseCases\UpdateAlgemeneInformatie::class, Role::MANAGEMENT)
+        ]),
+
         new RouteGroup('/user', [
             new GetRoute('/current', UseCases\GetCurrentUser::class, Role::USER),
             new GetRoute('/find-by-name', UseCases\FindUserByName::class, Role::MANAGEMENT),
