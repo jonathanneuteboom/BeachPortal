@@ -9,6 +9,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { MatDrawer } from '@angular/material/sidenav';
 import { UserService } from './services/user.service';
+import { User } from './models/User';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
   @ViewChild('drawer') sidenav: MatDrawer;
 
   title: string;
+  user: User
 
   links = [
     {
@@ -80,7 +82,8 @@ export class AppComponent implements OnInit {
     });
 
     this.userService.getCurrentUser().subscribe((user) => {
-      if (user.role === 'Admin') {
+      this.user = user
+      if (user.is_staff) {
         const link = this.links.find((link) => link.link === '/management');
         if (link) return;
 
@@ -91,6 +94,12 @@ export class AppComponent implements OnInit {
         });
       }
     });
+  }
+
+  logout():void {
+    this.userService.logout().subscribe(() => {
+      window.location.reload()
+    })
   }
 
   onScroll(event: any): void {

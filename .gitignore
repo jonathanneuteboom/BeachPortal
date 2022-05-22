@@ -48,3 +48,4 @@ php/vendor
 backend-api/env/
 *.pyc
 .vscode
+deployment.tar

@@ -2,10 +2,13 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
-User = get_user_model()
-
 
 class UserSerializer(serializers.ModelSerializer):
+    naam = serializers.SerializerMethodField()
+
     class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'is_staff']
+        model = get_user_model()
+        fields = ['id', 'naam', 'is_staff']
+
+    def get_naam(self, instance):
+        return f'{instance.first_name} {instance.last_name}'

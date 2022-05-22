@@ -26,7 +26,7 @@ export class AlgemeneInformatieComponent implements OnInit {
 
   getCurrentUser():void {
     this.userService.getCurrentUser().subscribe((user) => {
-      this.isEditable = user.role === 'Admin'
+      this.isEditable = user.is_staff
     })
   }
 

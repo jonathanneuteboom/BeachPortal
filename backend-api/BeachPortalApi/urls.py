@@ -1,27 +1,46 @@
 from django.urls import path, include
-from rest_framework import routers, urls
-from BeachPortalApi.Authenticatie.CustomTokenGenerators import CustomAuthToken
-from BeachPortalApi.Poule.ViewSets import PouleViewSet
-from BeachPortalApi.Speelronde.ViewSets import SpeelrondeViewSet
+from rest_framework import urls
+from BeachPortalApi.AlgemeenKlassement.AlgemeenKlassement import AlgemeenKlassementViewSet
+from BeachPortalApi.AlgemeneInformatie.Views import AlgemeneInformatieViewSet
+from BeachPortalApi.Authenticatie.CustomTokenGenerators import CustomAuthToken, LogoutViewSet
+from BeachPortalApi.Authenticatie.ImporteerSkc import ImporteerSkc
+from BeachPortalApi.Poule.ViewSets import MyPoulesView, NewPouleViewSet, OverlappingPouleViewSet, PouleTeamViewSet, PouleViewSet
+from BeachPortalApi.Speellocatie.ViewSets import GetAllSpeellocatiesViewSet
+from BeachPortalApi.Speelronde.ViewSets import CreateSpeelrondeViewSet, DeleteSpeelrondeViewSet, GetAllSpeelrondesViewSet, GetCurrentSpeelrondeViewSet
 
-from BeachPortalApi.Speler.ViewSets import UserViewSet
-from BeachPortalApi.Wedstrijd.ViewSets import WedstrijdViewSet
+from BeachPortalApi.Speler.ViewSets import CurrentUserView, GetSpelerByName
+from BeachPortalApi.Team.ViewSets import TeamViewSet, TeamsViewSet
+from BeachPortalApi.Wedstrijd.ViewSets import WedstrijdViewSets
 
-# Routers provide an easy way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register(r'spelers', UserViewSet)
-router.register(r'wedstrijden', WedstrijdViewSet)
-router.register(r'poules', PouleViewSet)
-router.register(r'speelrondes', SpeelrondeViewSet)
-
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path('', include(router.urls)),
+    path('user/login', CustomAuthToken.as_view()),
+    path('user/logout', LogoutViewSet.as_view()),
+    path('user/current', CurrentUserView.as_view()),
+    path('user/find-by-name', GetSpelerByName.as_view()),
 
-    path('login', CustomAuthToken.as_view()),
+    path('algemene-informatie', AlgemeneInformatieViewSet.as_view()),
 
-    # path('my-poule', )
+    path('algemeen-klassement', AlgemeenKlassementViewSet.as_view()),
+
+    path('speelronde/add',  CreateSpeelrondeViewSet.as_view()),
+    path('speelronde/delete',  DeleteSpeelrondeViewSet.as_view()),
+    path('speelronde/current', GetCurrentSpeelrondeViewSet.as_view()),
+    path('speelronde/all',  GetAllSpeelrondesViewSet.as_view()),
+
+    path('speellocaties', GetAllSpeellocatiesViewSet.as_view()),
+
+    path('team', TeamViewSet.as_view()),
+    path('teams', TeamsViewSet.as_view()),
+
+    path('poule', NewPouleViewSet.as_view()),
+    path('poule/<int:pouleId>/', PouleViewSet.as_view()),
+    path('poule/my', MyPoulesView.as_view()),
+    path('poule/overlap', OverlappingPouleViewSet.as_view()),
+    path('poule/<int:pouleId>/team/<int:teamId>', PouleTeamViewSet.as_view()),
+
+    path('management/importeer-skc', ImporteerSkc.as_view()),
+
+    path('wedstrijd/<int:wedstrijdId>', WedstrijdViewSets.as_view()),
 
     path('api-auth/', include(urls, namespace='rest_framework'))
 ]

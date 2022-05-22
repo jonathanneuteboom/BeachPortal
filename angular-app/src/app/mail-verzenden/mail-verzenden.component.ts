@@ -40,7 +40,7 @@ export class MailVerzendenComponent implements OnInit {
     });
 
     this.speelrondeService.GetCurrentSpeelronde().subscribe((speelronde) => {
-      this.poules = speelronde.poules;
+      this.poules = speelronde?.poules ?? [];
 
       this.initForm();
     });

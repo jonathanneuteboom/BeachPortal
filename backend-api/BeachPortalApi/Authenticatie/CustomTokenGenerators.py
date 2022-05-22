@@ -1,11 +1,15 @@
 from typing import Optional
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework import generics
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.db.models import Q
 from BeachPortalApi.Joomla.Models import JoomlaUser
+from BeachPortalApi.Speler.Serializers import UserSerializer
 
 
 class Querier():
@@ -22,13 +26,17 @@ class Querier():
 
 
 class CustomAuthToken(ObtainAuthToken):
+    authentication_classes = []
+    permission_classes = []
+
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
         if serializer.is_valid():
             user = serializer.validated_data['user']
             token, _ = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key, 'id': user.pk, 'username': user.username})
+            serializer = UserSerializer(user)
+            return Response({'token': token.key, 'user': serializer.data})
 
         username_or_email = request.data.get('username')
         password = request.data.get('password')
@@ -55,3 +63,12 @@ class CustomAuthToken(ObtainAuthToken):
 
         token, _ = Token.objects.get_or_create(user=user)
         return Response({'token': token.key, 'id': user.pk, 'username': user.username})
+
+
+class LogoutViewSet(generics.CreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        Token.objects.get(user=request.user).delete()
+        return Response()

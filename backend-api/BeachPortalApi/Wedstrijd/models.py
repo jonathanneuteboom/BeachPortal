@@ -5,7 +5,8 @@ from BeachPortalApi.Team.models import Team
 
 
 class Wedstrijd(models.Model):
-    poule = models.ForeignKey(Poule, on_delete=models.CASCADE)
+    poule = models.ForeignKey(
+        Poule, on_delete=models.CASCADE, related_name='wedstrijden')
     team1 = models.ForeignKey(
         Team, related_name="team1", on_delete=models.CASCADE)
     team2 = models.ForeignKey(

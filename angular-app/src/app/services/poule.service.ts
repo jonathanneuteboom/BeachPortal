@@ -14,22 +14,18 @@ export class PouleService {
   constructor(private httpClient: HttpClient) {}
 
   addPoule(poule: Poule): Observable<any> {
-    const url = `${environment.baseUrl}/poule/add`;
+    const url = `${environment.baseUrl}/poule`;
     return this.httpClient.post(url, poule);
   }
 
   addTeamToPoule(poule: Poule, team: Team): Observable<any> {
-    const url = `${environment.baseUrl}/poule/team/add`;
-    return this.httpClient.post(url, {
-      pouleId: poule.id,
-      teamId: team.id
-    });
+    const url = `${environment.baseUrl}/poule/${poule.id}/team/${team.id}`;
+    return this.httpClient.post(url, {});
   }
 
   updatePoule(poule: Poule): Observable<any> {
-    const url = `${environment.baseUrl}/poule/update`;
-    return this.httpClient.post(url, {
-      id: poule.id,
+    const url = `${environment.baseUrl}/poule/${poule.id}/`;
+    return this.httpClient.put(url, {
       speeltijd: poule.speeltijd,
       speellocatieId: poule.speellocatie.id
     });
@@ -53,6 +49,11 @@ export class PouleService {
   getOverlappingPlayers() : Observable<OverlapItem[]> {
     const url = `${environment.baseUrl}/poule/overlap`;
     return this.httpClient.get<OverlapItem[]>(url);
+  }
+
+  importeerSkc(): Observable<any> {
+    const url = `${environment.baseUrl}/management/importeer-skc`;
+    return this.httpClient.post(url, {});
   }
 
   getMyPoules(): Observable<Poule[]> {

@@ -11,7 +11,7 @@ export class WedstrijdService {
   constructor(private httpClient: HttpClient) {}
 
   uitslagInvoeren(wedstrijd: Wedstrijd): Observable<any> {
-    const url = `${environment.baseUrl}/wedstrijd/uitslag`;
-    return this.httpClient.post(url, wedstrijd);
+    const url = `${environment.baseUrl}/wedstrijd/${wedstrijd.id}`;
+    return this.httpClient.put(url, wedstrijd);
   }
 }

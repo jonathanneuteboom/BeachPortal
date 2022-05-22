@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Speler } from '../models/Speler';
 import { User } from '../models/User';
 import { environment } from 'src/environments/environment';
@@ -13,6 +13,10 @@ export class UserService {
   unauthorized = new EventEmitter<boolean>();
   constructor(private httpClient: HttpClient) {}
 
+  userId?: number
+  token?: string
+  username?: string
+
   setUnauthorized(): void {
     this.unauthorized.emit(true);
   }
@@ -21,7 +25,15 @@ export class UserService {
     return this.httpClient.post(`${environment.baseUrl}/user/login`, {
       username,
       password
-    });
+    }).pipe(tap(data => {
+      localStorage.setItem('authentication-token', data.token);
+    }))
+  }
+
+  logout(): Observable<any> {
+    return this.httpClient.post(`${environment.baseUrl}/user/logout`, {}).pipe(tap(data => {
+      localStorage.removeItem('authentication-token');
+    }))
   }
 
   getCurrentUser(): Observable<User> {

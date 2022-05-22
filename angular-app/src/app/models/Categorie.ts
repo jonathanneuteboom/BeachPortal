@@ -1,5 +1,5 @@
 export enum Categorie {
-  Heren = 'Heren',
-  Dames = 'Dames',
-  Mix = 'Mix'
+  Heren = 'H',
+  Dames = 'D',
+  Mix = 'X'
 }

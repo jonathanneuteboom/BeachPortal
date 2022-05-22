@@ -16,8 +16,13 @@ export class AddCredentialsInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const token = localStorage.getItem('authentication-token');
+
     request = request.clone({
-      withCredentials: true
+      // withCredentials: true,
+      setHeaders: {
+        Authorization: `Token ${token}`
+      }
     });
 
     return next.handle(request);

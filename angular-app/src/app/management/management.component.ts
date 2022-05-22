@@ -22,7 +22,12 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./management.component.scss']
 })
 export class ManagementComponent implements OnInit {
-  categorien = Object.values(Categorie);
+  categorien = [
+    { value: 'D', viewValue: 'Dames' },
+    { value: 'H', viewValue: 'Heren' },
+    { value: 'X', viewValue: 'Mix' }
+  ];
+
   columns: string[] = ['naam', 'spelers', 'categorie', 'actions'];
   groupedTeams: Team[][] = [[], [], []];
   teams = new MatTableDataSource();
@@ -52,9 +57,6 @@ export class ManagementComponent implements OnInit {
   getAllTeams(): void {
     this.teamService.getAll().subscribe((teams) => {
       teams = teams || [];
-      teams.forEach(
-        (team) => (team.categorieValue = Categorie[team.categorie])
-      );
       this.teams.data = teams;
       this.groupedTeams = Array(3);
       this.groupedTeams[Categorie.Heren] = teams.filter(
@@ -95,6 +97,10 @@ export class ManagementComponent implements OnInit {
     this.pouleService.getOverlappingPlayers().subscribe((overlappingItems) => {
       this.overlappingItems = overlappingItems
     })
+  }
+
+  importeerSkc(): void {
+    this.pouleService.importeerSkc().subscribe()
   }
 
   editTeam(team: Team = null): void {
@@ -138,8 +144,8 @@ export class ManagementComponent implements OnInit {
     });
   }
 
-  addPoule(categorie: any): void {
-    const newPoule = new Poule({ categorie });
+  addPoule(categorie): void {
+    const newPoule = new Poule({ categorie: categorie.value });
     this.pouleService.addPoule(newPoule).subscribe(() => {
       this.getCurrentSpeelronde();
     });

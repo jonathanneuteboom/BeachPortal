@@ -11,7 +11,7 @@ export class TeamService {
   constructor(private httpClient: HttpClient) {}
 
   getAll(): Observable<Team[]> {
-    const url = `${environment.baseUrl}/team/all`;
+    const url = `${environment.baseUrl}/teams`;
     return this.httpClient.get<Team[]>(url);
   }
 
@@ -21,7 +21,7 @@ export class TeamService {
   }
 
   updateTeam(team: Team): Observable<Team> {
-    const url = `${environment.baseUrl}/team/update`;
+    const url = `${environment.baseUrl}/team`;
     return this.httpClient.post<Team>(url, team);
   }
 

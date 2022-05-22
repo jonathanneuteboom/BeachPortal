@@ -26,12 +26,16 @@
             <button mat-raised-button color="warn" (click)="deleteSpeelronde()">
               <mat-icon>delete</mat-icon> Speelronde
             </button>
+
+            <button mat-raised-button color="warn" (click)="importeerSkc()">
+              <mat-icon>import_export</mat-icon> User import
+            </button>
           </div>
 
           <div class="buttons" *ngIf="speelronde">
             <button mat-raised-button color="primary" (click)="addPoule(categorie)"
               *ngFor="let categorie of categorien">
-              <mat-icon>add</mat-icon> {{categorie}} poule
+              <mat-icon>add</mat-icon> {{categorie.viewValue}} poule
             </button>
           </div>
 
@@ -85,7 +89,7 @@
 
           <ng-container matColumnDef="categorie">
             <th mat-header-cell *matHeaderCellDef> Categorie </th>
-            <td mat-cell *matCellDef="let team"> {{getCategorieText(team)}} </td>
+            <td mat-cell *matCellDef="let team"> {{team.categorieValue}} </td>
           </ng-container>
 
           <ng-container matColumnDef="actions">

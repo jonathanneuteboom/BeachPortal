@@ -10,12 +10,12 @@ export class DocumentService {
   constructor(private httpClient: HttpClient) {}
 
   getDocument(): Observable<any> {
-    const url = `${environment.baseUrl}/algemene-informatie/get`;
+    const url = `${environment.baseUrl}/algemene-informatie`;
     return this.httpClient.get(url);
   }
 
   updateDocument(content: string): Observable<any> {
-    const url = `${environment.baseUrl}/algemene-informatie/update`;
+    const url = `${environment.baseUrl}/algemene-informatie`;
     return this.httpClient.post(url, { content });
   }
 }

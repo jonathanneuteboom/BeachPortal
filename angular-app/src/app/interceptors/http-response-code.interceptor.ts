@@ -46,8 +46,13 @@ export class HTTPResponseCodeInterceptor implements HttpInterceptor {
           if (error.status === 401) {
             this.userService.setUnauthorized();
           }
-          if (error.status === 500) {
-            this.snackbarService.open(error.error.message, '❌');
+
+          if (error.status === 400) {
+            this.snackbarService.open(error.error, '❌');
+          }
+
+          if (error.status === 405) {
+            this.snackbarService.open(error.error.detail, '❌');
           }
         }
       )

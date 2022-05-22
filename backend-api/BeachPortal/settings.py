@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*o=j&*#pqrx%d5o1+izy82_ysjrvn2mo%96jp3u+#cet_*bvbx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["www.skcvolleybal.nl", 'localhost']
 
 
 # Application definition
@@ -40,16 +40,18 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'BeachPortalApi',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'BeachPortal.urls'
@@ -127,6 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = '/home/deb105013n2/public_html/beach-portal/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -154,3 +157,9 @@ LOGGING = {
         }
     }
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+    "https://www.skcvolleybal.nl"
+]
+CORS_ALLOW_CREDENTIALS = True
