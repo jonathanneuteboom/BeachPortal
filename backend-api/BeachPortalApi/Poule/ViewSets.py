@@ -1,24 +1,18 @@
-from datetime import datetime, timedelta
-from django.shortcuts import get_object_or_404
-from django.contrib.auth import get_user_model
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import generics
-
-from django.db.models import Q
 from BeachPortalApi.Categorie.models import Categorie
-
 from BeachPortalApi.Poule.Serializers import PouleSerializer
 from BeachPortalApi.Poule.models import Poule
 from BeachPortalApi.Speellocatie.models import Speellocatie
 from BeachPortalApi.Speelronde.models import Speelronde
-
-
+from BeachPortalApi.Speler.Speler import Speler
 from BeachPortalApi.Team.models import Team
 from BeachPortalApi.Wedstrijd.models import Wedstrijd
+from datetime import datetime, timedelta
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
 
 
 class NewPouleViewSet(generics.CreateAPIView):
@@ -109,7 +103,7 @@ class MyPoulesView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        user = get_object_or_404(get_user_model(), pk=request.user.id)
+        user = get_object_or_404(Speler, pk=request.user.id)
 
         myTeams = Poule.objects.filter(
             teams__spelers__in=[user]).order_by('categorie', 'nummer')

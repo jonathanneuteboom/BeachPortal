@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from BeachPortalApi.Speellocatie.models import Speellocatie
+from rest_framework import serializers
 
 
 class SpeellocatieSerializer(serializers.ModelSerializer):

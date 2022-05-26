@@ -1,15 +1,16 @@
-from typing import Optional
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-from rest_framework import generics
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from django.db.models import Q
 from BeachPortalApi.Joomla.Models import JoomlaUser
 from BeachPortalApi.Speler.Serializers import UserSerializer
+from django.contrib.auth import authenticate
+from django.db.models import Q
+from rest_framework import generics
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from typing import Optional
+
+from BeachPortalApi.Speler.Speler import Speler
 
 
 class Querier():
@@ -18,8 +19,8 @@ class Querier():
         return JoomlaUser.objects.using('deb105013n2_SKC').filter(Q(email=input) | Q(username=input)).first()
 
     @staticmethod
-    def get_django_user(input: str) -> Optional[User]:
-        return User.objects.filter(
+    def get_django_user(input: str) -> Optional[Speler]:
+        return Speler.objects.filter(
             Q(email=input) |
             Q(username=input)
         ).first()
@@ -50,7 +51,7 @@ class CustomAuthToken(ObtainAuthToken):
 
         user = Querier.get_django_user(username_or_email)
         if (user is None):
-            user = User.objects.create_user(
+            user = Speler.create_user(
                 joomla_user.username,
                 joomla_user.email,
                 password

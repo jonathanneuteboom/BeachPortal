@@ -1,7 +1,6 @@
-from django.db import models
-
 from BeachPortalApi.Poule.models import Poule
 from BeachPortalApi.Team.models import Team
+from django.db import models
 
 
 class Wedstrijd(models.Model):

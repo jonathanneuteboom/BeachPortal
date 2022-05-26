@@ -1,15 +1,13 @@
-from django.contrib.auth import get_user_model
+from BeachPortalApi.Speler.Serializers import UserSerializer
+from BeachPortalApi.Speler.Speler import Speler
+from django.db.models import Q
+from rest_framework import status, generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status, generics
-from django.db.models import Q
-
-from BeachPortalApi.Speler.Serializers import UserSerializer
-from rest_framework.views import APIView
 
 
-class CurrentUserView(APIView):
+class CurrentUserView(generics.RetrieveAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -23,12 +21,12 @@ class CurrentUserView(APIView):
 class GetSpelerByName(generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    queryset = get_user_model().objects.all()
+    queryset = Speler.objects.all()
     serializer_class = UserSerializer
 
     def get(self, request):
         suffix = request.GET.get('naam', '')
-        users = get_user_model().objects.filter(
+        users = self.queryset.filter(
             Q(first_name__istartswith=suffix) |
             Q(last_name__istartswith=suffix)
         )[:5]

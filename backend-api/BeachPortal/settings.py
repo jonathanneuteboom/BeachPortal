@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*o=j&*#pqrx%d5o1+izy82_ysjrvn2mo%96jp3u+#cet_*bvbx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["www.skcvolleybal.nl", 'localhost']
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -163,3 +163,4 @@ CORS_ALLOWED_ORIGINS = [
     "https://www.skcvolleybal.nl"
 ]
 CORS_ALLOW_CREDENTIALS = True
+AUTH_USER_MODEL = 'BeachPortalApi.Speler'

@@ -1,5 +1,4 @@
-from django.contrib.auth import get_user_model
-
+from BeachPortalApi.Speler.Speler import Speler
 from rest_framework import serializers
 
 
@@ -7,7 +6,7 @@ class UserSerializer(serializers.ModelSerializer):
     naam = serializers.SerializerMethodField()
 
     class Meta:
-        model = get_user_model()
+        model = Speler
         fields = ['id', 'naam', 'is_staff']
 
     def get_naam(self, instance):

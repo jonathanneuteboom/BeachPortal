@@ -1,12 +1,10 @@
+from BeachPortalApi.Wedstrijd.Serializers import WedstrijdSerializer
+from BeachPortalApi.Wedstrijd.models import Wedstrijd
+from django.shortcuts import get_object_or_404
+from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-
-from rest_framework import generics
-from BeachPortalApi.Wedstrijd.Serializers import WedstrijdSerializer
-
-from BeachPortalApi.Wedstrijd.models import Wedstrijd
 
 
 class WedstrijdViewSets(generics.UpdateAPIView):

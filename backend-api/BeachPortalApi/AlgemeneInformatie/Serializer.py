@@ -1,8 +1,6 @@
 
-from rest_framework import serializers
 from BeachPortalApi.AlgemeneInformatie.Models import Document
-
-from BeachPortalApi.Poule.models import Poule
+from rest_framework import serializers
 
 
 class DocumentSerializer(serializers.ModelSerializer):

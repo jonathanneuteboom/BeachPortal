@@ -1,5 +1,3 @@
-from django.urls import path, include
-from rest_framework import urls
 from BeachPortalApi.AlgemeenKlassement.AlgemeenKlassement import AlgemeenKlassementViewSet
 from BeachPortalApi.AlgemeneInformatie.Views import AlgemeneInformatieViewSet
 from BeachPortalApi.Authenticatie.CustomTokenGenerators import CustomAuthToken, LogoutViewSet
@@ -7,10 +5,11 @@ from BeachPortalApi.Authenticatie.ImporteerSkc import ImporteerSkc
 from BeachPortalApi.Poule.ViewSets import MyPoulesView, NewPouleViewSet, OverlappingPouleViewSet, PouleTeamViewSet, PouleViewSet
 from BeachPortalApi.Speellocatie.ViewSets import GetAllSpeellocatiesViewSet
 from BeachPortalApi.Speelronde.ViewSets import CreateSpeelrondeViewSet, DeleteSpeelrondeViewSet, GetAllSpeelrondesViewSet, GetCurrentSpeelrondeViewSet
-
 from BeachPortalApi.Speler.ViewSets import CurrentUserView, GetSpelerByName
 from BeachPortalApi.Team.ViewSets import TeamViewSet, TeamsViewSet
 from BeachPortalApi.Wedstrijd.ViewSets import WedstrijdViewSets
+from django.urls import path, include
+from rest_framework import urls
 
 urlpatterns = [
     path('user/login', CustomAuthToken.as_view()),

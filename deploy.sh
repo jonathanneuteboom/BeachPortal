@@ -1,37 +1,37 @@
+# remove all python cache
+find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
+
 # build angular application
 cd angular-app
 npm i
 npm run build
 cd ..
 
-# build php code
-cd php
-composer install
-composer dumpautoload
-cd ..
 
-# tar all files into 1 file
-cd angular-app/dist/BeachPortal && tar -cf ../../../deployment.tar * && cd -
-tar --append -f deployment.tar php
-
-# remove anything on server, except for Configuration.php
+# remove folders on server
 ssh -T deb105013n2@skcvolleybal.nl -i /c/Users/jonat/.ssh/antagonist-ssh <<- 'END'
-cd /home/deb105013n2/public_html/BeachPortal
-shopt -s extglob
-rm -R !("configuration.php"|".htaccess")
-shopt -u extglob
+rm -rf /home/deb105013n2/public_html/beach-portal/*
+
+rm -rf /home/deb105013n2/beach-portal/BeachPortal
+rm -rf /home/deb105013n2/beach-portal/BeachPortalApi
+rm -rf /home/deb105013n2/beach-portal/__pycache__
 END
 
 # copy files to server
-scp -i /c/Users/jonat/.ssh/antagonist-ssh deployment.tar deb105013n2@skcvolleybal.nl:~/public_html/BeachPortal
+scp -i /c/Users/jonat/.ssh/antagonist-ssh angular-app/dist/BeachPortal/* deb105013n2@skcvolleybal.nl:/home/deb105013n2/public_html/beach-portal/
 
-# Extract tar-file (+ remove afterwards) and move Configuration file to correct location
+scp -r -i /c/Users/jonat/.ssh/antagonist-ssh backend-api/BeachPortal deb105013n2@skcvolleybal.nl:/home/deb105013n2/beach-portal/
+scp -r -i /c/Users/jonat/.ssh/antagonist-ssh backend-api/BeachPortalApi deb105013n2@skcvolleybal.nl:/home/deb105013n2/beach-portal/
+
+# Install django application
 ssh -T deb105013n2@skcvolleybal.nl -i /c/Users/jonat/.ssh/antagonist-ssh <<- 'END'
-cd /home/deb105013n2/public_html/BeachPortal
-tar -xf ./deployment.tar
-cp /home/deb105013n2/public_html/BeachPortal/configuration.php /home/deb105013n2/public_html/BeachPortal/php/configuration.php
-rm ./deployment.tar
-END
+source /home/deb105013n2/virtualenv/beach-portal/3.8/bin/activate && cd /home/deb105013n2/beach-portal
 
-# remove locally
-rm ./deployment.tar
+pip install --upgrade pip
+pip install -r requirements.txt
+
+python manage.py migrate
+python manage.py collectstatic
+
+cp /home/deb105013n2/beach-portal/settings.py /home/deb105013n2/beach-portal/BeachPortal/settings.py
+END

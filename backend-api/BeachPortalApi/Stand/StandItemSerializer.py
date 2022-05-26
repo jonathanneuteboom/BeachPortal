@@ -1,6 +1,5 @@
-
-from rest_framework import serializers
 from BeachPortalApi.Team.Serializers import TeamSerializer
+from rest_framework import serializers
 
 
 class StandItemSerializer(serializers.Serializer):

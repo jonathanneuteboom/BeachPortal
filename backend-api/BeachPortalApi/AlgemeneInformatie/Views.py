@@ -1,14 +1,11 @@
+from BeachPortalApi.AlgemeneInformatie.Models import Document
+from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from rest_framework.views import APIView
-from BeachPortalApi.AlgemeneInformatie.Models import Document
 
-from rest_framework.views import APIView
-
-
-class AlgemeneInformatieViewSet(APIView):
+class AlgemeneInformatieViewSet(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 

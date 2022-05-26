@@ -1,17 +1,14 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework import generics
-from rest_framework import status
-from django.contrib.auth import get_user_model
-
-
+from BeachPortalApi.Speler.Speler import Speler
 from BeachPortalApi.Team.Serializers import TeamSerializer
 from BeachPortalApi.Team.models import Team
+from rest_framework import generics
+from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
 
 
-class TeamsViewSet(APIView):
+class TeamsViewSet(generics.RetrieveAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -23,7 +20,7 @@ class TeamsViewSet(APIView):
 class TeamViewSet(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
-
+    queryset = Speler.objects.all()
     serializer_class = TeamSerializer
 
     def post(self, request):
@@ -47,7 +44,7 @@ class TeamViewSet(generics.RetrieveUpdateDestroyAPIView):
             ), request.data.get('spelers')
         )
         spelerIds = list(map(lambda speler: speler.get('id'), spelers))
-        spelers = get_user_model().objects.filter(pk__in=spelerIds)
+        spelers = self.queryset.filter(pk__in=spelerIds)
 
         team.spelers.set(spelers)
         team.categorie = categorie

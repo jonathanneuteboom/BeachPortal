@@ -1,10 +1,9 @@
-from rest_framework.response import Response
-from rest_framework import generics
 from BeachPortalApi.Speellocatie.Serializer import SpeellocatieSerializer
+from BeachPortalApi.Speellocatie.models import Speellocatie
+from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-
-from BeachPortalApi.Speellocatie.models import Speellocatie
+from rest_framework.response import Response
 
 
 class GetAllSpeellocatiesViewSet(generics.ListAPIView):

@@ -1,10 +1,9 @@
-from django.db import models
-
 from BeachPortalApi.Categorie.models import Categorie
 from BeachPortalApi.Speellocatie.models import Speellocatie
 from BeachPortalApi.Speelronde.models import Speelronde
 from BeachPortalApi.Stand.StandItem import StandItem
 from BeachPortalApi.Team.models import Team
+from django.db import models
 
 
 class Poule(models.Model):
