@@ -1,10 +1,11 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Speler } from '../models/Speler';
 import { User } from '../models/User';
 import { environment } from 'src/environments/environment';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
