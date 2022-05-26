@@ -29,6 +29,7 @@ urlpatterns = [
     path('speellocaties', GetAllSpeellocatiesViewSet.as_view()),
 
     path('team', TeamViewSet.as_view()),
+    path('team/<int:teamId>', TeamViewSet.as_view()),
     path('teams', TeamsViewSet.as_view()),
 
     path('poule', NewPouleViewSet.as_view()),
