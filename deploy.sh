@@ -12,16 +12,16 @@ cd ..
 ssh -T deb105013n2@skcvolleybal.nl -i /c/Users/jonat/.ssh/antagonist-ssh <<- 'END'
 rm -rf /home/deb105013n2/public_html/beach-portal/*
 
-rm -rf /home/deb105013n2/beach-portal/BeachPortal
-rm -rf /home/deb105013n2/beach-portal/BeachPortalApi
-rm -rf /home/deb105013n2/beach-portal/__pycache__
+cd /home/deb105013n2/beach-portal/
+rm -rf BeachPortal BeachPortalApi __pycache__ manage.py requirements.txt
 END
 
 # copy files to server
 scp -i /c/Users/jonat/.ssh/antagonist-ssh angular-app/dist/BeachPortal/* deb105013n2@skcvolleybal.nl:/home/deb105013n2/public_html/beach-portal/
 
-scp -r -i /c/Users/jonat/.ssh/antagonist-ssh backend-api/BeachPortal deb105013n2@skcvolleybal.nl:/home/deb105013n2/beach-portal/
-scp -r -i /c/Users/jonat/.ssh/antagonist-ssh backend-api/BeachPortalApi deb105013n2@skcvolleybal.nl:/home/deb105013n2/beach-portal/
+cd backend-api
+scp -r -i /c/Users/jonat/.ssh/antagonist-ssh BeachPortal BeachPortalApi manage.py requirements.txt deb105013n2@skcvolleybal.nl:/home/deb105013n2/beach-portal/
+cd ..
 
 # Install django application
 ssh -T deb105013n2@skcvolleybal.nl -i /c/Users/jonat/.ssh/antagonist-ssh <<- 'END'
