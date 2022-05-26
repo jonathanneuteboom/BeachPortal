@@ -104,9 +104,12 @@ class MyPoulesView(generics.ListAPIView):
 
     def get(self, request):
         user = get_object_or_404(Speler, pk=request.user.id)
+        speelronde = Speelronde.getCurrentSpeelronde()
 
         myTeams = Poule.objects.filter(
-            teams__spelers__in=[user]).order_by('categorie', 'nummer')
+            teams__spelers__in=[user],
+            speelronde=speelronde
+        ).order_by('categorie', 'nummer')
         serializer = PouleSerializer(myTeams, many=True)
         return Response(serializer.data)
 

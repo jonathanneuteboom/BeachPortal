@@ -12,12 +12,17 @@ export class AlgemeenKlassementComponent implements OnInit {
   form: FormGroup;
   klassement: any[];
   currentKlassement;
-  displayedColumns = ['rank', 'team', 'totaal', 'punten'];
+  displayedColumns = ['rank', 'team', 'totaal'];
+  puntenColumns = []
 
   constructor(
     private fb: FormBuilder,
     private speelrondeService: SpeelrondeService
   ) {}
+
+  getElement(element, index): string {
+    return element.punten[index]
+  }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -32,6 +37,9 @@ export class AlgemeenKlassementComponent implements OnInit {
       this.klassement = klassement;
 
       this.currentKlassement = klassement[0].ranking;
+      this.currentKlassement[0].punten.forEach((_, i) => this.puntenColumns.push(`ronde ${i + 1}`))
+
+      this.displayedColumns = this.displayedColumns.concat(this.puntenColumns)
 
       this.form = this.fb.group({
         categorie: 0

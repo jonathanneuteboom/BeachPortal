@@ -15,22 +15,11 @@
 .mat-cell {
   padding: 10px 10px 10px 0;
 }
-.punten {
-  display: flex;
-  flex-direction: 'row';
-}
 
 .speelronde-punten {
   width: 20px;
   margin: 10px;
 }
-.numerator {
-  text-align: center;
-}
-.divider {
-  width: 20px;
-  text-align: center;
-}
-.denominator {
-  text-align: center;
+.punten {
+  margin-right: 5px;
 }

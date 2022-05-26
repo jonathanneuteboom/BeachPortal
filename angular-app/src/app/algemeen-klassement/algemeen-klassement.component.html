@@ -20,39 +20,32 @@
   <table mat-table [dataSource]="currentKlassement" class="mat-elevation-z8 wedstrijden">
 
     <ng-container matColumnDef="rank">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef>#</th>
       <td mat-cell *matCellDef="let rank; let i = index">
-        <div class="teams">
-          {{i + 1}}
-        </div>
+        {{i + 1}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="team">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef>Team</th>
       <td mat-cell *matCellDef="let rank">
         <app-team [team]="rank.team"></app-team>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="totaal">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="punten">Punten</div>
+      </th>
       <td mat-cell *matCellDef="let rank">
         <div>{{rank.totaal}}</div>
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="punten">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let rank">
-        <div class="punten">
-          <div class="speelronde-punten" *ngFor="let item of rank.puntenVerloop" [matTooltip]="getTooltipText(item)">
-            <div class="numerator">{{item[0]}}</div>
-            <div class="divider">+</div>
-            <div class="denominator">{{item[1]}}</div>
-          </div>
-
-        </div>
+    <ng-container *ngFor="let disCol of puntenColumns; let colIndex = index" matColumnDef="{{disCol}}">
+      <th mat-header-cell *matHeaderCellDef> {{colIndex + 1}} </th>
+      <td mat-cell *matCellDef="let element">
+        <div>{{getElement(element, colIndex)}}</div>
       </td>
     </ng-container>
 
