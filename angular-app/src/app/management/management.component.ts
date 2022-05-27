@@ -76,8 +76,8 @@ export class ManagementComponent implements OnInit {
     const tijdstip1 = datepipe.transform(new Date(item.poule1.speeltijd), 'HH:mm')
     const tijdstip2 = datepipe.transform(new Date(item.poule2.speeltijd), 'HH:mm')
 
-    const poule1 = `${item.poule1.categorie} ${item.poule1.naam} (${tijdstip1}, ${item.poule1.speellocatie.naam})`
-    const poule2 = `${item.poule2.categorie} ${item.poule2.naam} (${tijdstip2}, ${item.poule2.speellocatie.naam})`
+    const poule1 = `${item.poule1.categorie} ${item.poule1.nummer} (${tijdstip1}, ${item.poule1.speellocatie.naam})`
+    const poule2 = `${item.poule2.categorie} ${item.poule2.nummer} (${tijdstip2}, ${item.poule2.speellocatie.naam})`
     return `${poule1} & ${poule2}: ${item.spelers.map(speler => speler.naam).join(', ')}`
   }
 

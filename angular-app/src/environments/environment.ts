@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:8000/api',
-  forgotPasswordUrl: 'https://www.google.com'
+  apiUrl: 'http://localhost:8000/api',
+  baseUrl: 'http://localhost:8000'
 };
 
 /*

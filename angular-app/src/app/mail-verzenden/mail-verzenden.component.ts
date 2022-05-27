@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { Categorie } from '../models/Categorie';
 import { EmailService } from '../services/email.service';
 import { EmailVersturenComponent } from '../dialogs/email-versturen/email-versturen.component';
 import { HttpClient } from '@angular/common/http';
@@ -58,7 +57,7 @@ export class MailVerzendenComponent implements OnInit {
   }
 
   getPouleNaam(poule: Poule): string {
-    return `${Categorie[poule.categorie]} ${poule.naam}`;
+    return `${poule.categorieValue} ${poule.nummer}`;
   }
 
   testVersturen(): void {

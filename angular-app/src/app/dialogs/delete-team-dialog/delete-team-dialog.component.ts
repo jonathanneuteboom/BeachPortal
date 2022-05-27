@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Team } from 'src/app/models/Team';
-import { TeamService } from 'src/app/services/team.service';
+import { Team } from 'app/models/Team';
+import { TeamService } from 'app/services/team.service';
 
 @Component({
   selector: 'app-delete-team-dialog',

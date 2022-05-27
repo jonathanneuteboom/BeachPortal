@@ -5,7 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -50,6 +50,6 @@ export class LoginComponent implements OnInit {
   }
 
   forgotPassword(): void {
-    window.open(environment.forgotPasswordUrl, '_blank');
+    window.open(`${environment.baseUrl}/password-reset/`, '_blank');
   }
 }

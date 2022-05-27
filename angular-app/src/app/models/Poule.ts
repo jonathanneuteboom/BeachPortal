@@ -7,8 +7,9 @@ import { Wedstrijd } from './Wedstrijd';
 
 export class Poule {
   public id: number;
-  public naam: string;
+  public nummer: string;
   public categorie: Categorie;
+  public categorieValue: Categorie;
   public speeltijd: string;
   public stand: StandItem[];
   public wedstrijden: Wedstrijd[];

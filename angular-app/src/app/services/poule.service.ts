@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Poule } from '../models/Poule';
 import { Team } from '../models/Team';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 import { Speellocatie } from '../models/Speellocatie';
 import { OverlapItem } from '../models/OverlapItem';
 
@@ -14,17 +14,17 @@ export class PouleService {
   constructor(private httpClient: HttpClient) {}
 
   addPoule(poule: Poule): Observable<any> {
-    const url = `${environment.baseUrl}/poule`;
+    const url = `${environment.apiUrl}/poule`;
     return this.httpClient.post(url, poule);
   }
 
   addTeamToPoule(poule: Poule, team: Team): Observable<any> {
-    const url = `${environment.baseUrl}/poule/${poule.id}/team/${team.id}`;
+    const url = `${environment.apiUrl}/poule/${poule.id}/team/${team.id}`;
     return this.httpClient.post(url, {});
   }
 
   updatePoule(poule: Poule): Observable<any> {
-    const url = `${environment.baseUrl}/poule/${poule.id}/`;
+    const url = `${environment.apiUrl}/poule/${poule.id}/`;
     return this.httpClient.put(url, {
       speeltijd: poule.speeltijd,
       speellocatieId: poule.speellocatie.id
@@ -32,37 +32,37 @@ export class PouleService {
   }
 
   deleteTeamFromPoule(poule: Poule, team: Team): Observable<any> {
-    const url = `${environment.baseUrl}/poule/${poule.id}/team/${team.id}`;
+    const url = `${environment.apiUrl}/poule/${poule.id}/team/${team.id}`;
     return this.httpClient.delete(url);
   }
 
   getAllPoules(): Observable<Poule[]> {
-    const url = `${environment.baseUrl}/poule/all`;
+    const url = `${environment.apiUrl}/poule/all`;
     return this.httpClient.get<Poule[]>(url);
   }
 
   getAllSpeellocaties() : Observable<Speellocatie[]> {
-    const url = `${environment.baseUrl}/speellocaties`;
+    const url = `${environment.apiUrl}/speellocaties`;
     return this.httpClient.get<Speellocatie[]>(url);
   }
 
   getOverlappingPlayers() : Observable<OverlapItem[]> {
-    const url = `${environment.baseUrl}/poule/overlap`;
+    const url = `${environment.apiUrl}/poule/overlap`;
     return this.httpClient.get<OverlapItem[]>(url);
   }
 
   importeerSkc(): Observable<any> {
-    const url = `${environment.baseUrl}/management/importeer-skc`;
+    const url = `${environment.apiUrl}/management/importeer-skc`;
     return this.httpClient.post(url, {});
   }
 
   getMyPoules(): Observable<Poule[]> {
-    const url = `${environment.baseUrl}/poule/my`;
+    const url = `${environment.apiUrl}/poule/my`;
     return this.httpClient.get<Poule[]>(url);
   }
 
   deletePoule(poule: Poule): Observable<any> {
-    const url = `${environment.baseUrl}/poule/${poule.id}`;
+    const url = `${environment.apiUrl}/poule/${poule.id}`;
     return this.httpClient.delete(url);
   }
 }
