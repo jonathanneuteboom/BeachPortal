@@ -13,7 +13,8 @@ class TeamsViewSet(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        serializer = TeamSerializer(Team.objects.all(), many=True)
+        teams = Team.objects.all().order_by('categorie', 'naam')
+        serializer = TeamSerializer(teams, many=True)
         return Response(serializer.data)
 
 

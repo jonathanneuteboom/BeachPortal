@@ -1,4 +1,5 @@
 from BeachPortalApi.Categorie.models import Categorie
+from BeachPortalApi.Poule.Overlap import Overlap, OverlapSerializer
 from BeachPortalApi.Poule.Serializers import PouleSerializer
 from BeachPortalApi.Poule.models import Poule
 from BeachPortalApi.Speellocatie.models import Speellocatie
@@ -50,9 +51,33 @@ class NewPouleViewSet(generics.CreateAPIView):
 class OverlappingPouleViewSet(generics.RetrieveAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
+    queryset = Poule.objects.all()
 
     def get(self, request):
-        return Response([])
+        result = []
+
+        speelronde = Speelronde.getCurrentSpeelronde()
+        poules = self.queryset.filter(
+            speelronde=speelronde).prefetch_related('teams')
+        aantalPoules = poules.count()
+
+        for i, _ in enumerate(poules):
+            for j in range(i+1, aantalPoules):
+                spelersIdsTeam1 = poules[i].teams.values_list(
+                    'spelers__id', flat=True)
+                spelersIdsTeam2 = poules[j].teams.values_list(
+                    'spelers__id', flat=True)
+
+                overlappingItems = list(
+                    set(spelersIdsTeam1) & set(spelersIdsTeam2))
+                if len(overlappingItems) > 0:
+                    spelers = Speler.objects.filter(
+                        id__in=overlappingItems)
+                    newOverlap = Overlap(poules[i], poules[j], spelers)
+                    result.append(newOverlap)
+
+        serializer = OverlapSerializer(result, many=True)
+        return Response(serializer.data)
 
 
 class PouleViewSet(generics.RetrieveUpdateDestroyAPIView):
