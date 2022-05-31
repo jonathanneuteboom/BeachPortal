@@ -169,8 +169,4 @@ export class ManagementComponent implements OnInit {
       })
       .join(', ');
   }
-
-  getCategorieText(team: Team): String {
-    return Categorie[team.categorie];
-  }
 }

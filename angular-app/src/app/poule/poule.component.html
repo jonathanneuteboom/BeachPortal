@@ -2,7 +2,7 @@
     <mat-card class="card" *ngIf="poule"
         [ngClass]="{ heren: poule.categorie === heren, dames: poule.categorie === dames, mix: poule.categorie === mix }">
         <mat-card-header>
-            <mat-card-title class="poule-naam">Poule {{getCategorie(poule.categorie_diplay)}} {{poule.nummer}}
+            <mat-card-title class="poule-naam">Poule {{poule.nummer}} ({{poule.categorieValue}})
             </mat-card-title>
             <mat-card-subtitle>
                 <div class="datum">

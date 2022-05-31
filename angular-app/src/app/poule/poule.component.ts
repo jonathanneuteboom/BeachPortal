@@ -55,10 +55,6 @@ export class PouleComponent implements OnInit {
     });
   }
 
-  getCategorie(categorie: Categorie): string {
-    return Categorie[categorie];
-  }
-
   compareSpeellocaties = (a: Speellocatie, b: Speellocatie): boolean => a.id === b.id
 
   updateSpeeltijd(): void {

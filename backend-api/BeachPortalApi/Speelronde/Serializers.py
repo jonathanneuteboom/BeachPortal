@@ -11,5 +11,5 @@ class SpeelrondeSerializer(serializers.ModelSerializer):
         fields = ['id', 'nummer', 'poules']
 
     def get_poules(self, instance):
-        poules = instance.poules.order_by('categorie')
+        poules = instance.poules.order_by('categorie', 'nummer')
         return PouleSerializer(poules, many=True).data
