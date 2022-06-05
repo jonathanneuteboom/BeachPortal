@@ -32,7 +32,7 @@ export class PouleService {
   }
 
   deleteTeamFromPoule(poule: Poule, team: Team): Observable<any> {
-    const url = `${environment.apiUrl}/poule/${poule.id}/team/${team.id}`;
+    const url = `${environment.apiUrl}/poule/${poule.id}/team/${team.id}/`;
     return this.httpClient.delete(url);
   }
 
@@ -62,7 +62,7 @@ export class PouleService {
   }
 
   deletePoule(poule: Poule): Observable<any> {
-    const url = `${environment.apiUrl}/poule/${poule.id}`;
+    const url = `${environment.apiUrl}/poule/${poule.id}/`;
     return this.httpClient.delete(url);
   }
 }

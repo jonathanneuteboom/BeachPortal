@@ -16,7 +16,7 @@ export class TeamService {
   }
 
   getTeam(id: number): Observable<Team> {
-    const url = `${environment.apiUrl}/team/${id}`;
+    const url = `${environment.apiUrl}/team/${id}/`;
     return this.httpClient.get<Team>(url);
   }
 
@@ -26,7 +26,7 @@ export class TeamService {
   }
 
   deleteTeam(team: Team): Observable<any> {
-    const url = `${environment.apiUrl}/team/${team.id}`;
+    const url = `${environment.apiUrl}/team/${team.id}/`;
     return this.httpClient.delete(url);
   }
 }

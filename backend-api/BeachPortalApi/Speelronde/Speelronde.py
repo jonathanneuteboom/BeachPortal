@@ -16,7 +16,7 @@ class Speelronde(models.Model):
         ).prefetch_related('poules').first()
 
     def GetLaagstePoule(self, categorie):
-        self.poules.filter(
+        return self.poules.filter(
             categorie=categorie
         ).order_by('-nummer').first()
 
