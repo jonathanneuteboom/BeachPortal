@@ -1,4 +1,6 @@
-from BeachPortalApi.Poule.models import Poule
+from __future__ import annotations
+
+from BeachPortalApi.Poule.Poule import Poule
 from BeachPortalApi.Team.models import Team
 from django.db import models
 

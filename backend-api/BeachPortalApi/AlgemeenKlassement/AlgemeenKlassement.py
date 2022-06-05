@@ -1,5 +1,5 @@
 from BeachPortalApi.Categorie.models import Categorie
-from BeachPortalApi.Speelronde.models import Speelronde
+from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated

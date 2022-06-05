@@ -49,10 +49,10 @@ export class MailVerzendenComponent implements OnInit {
     if (this.teams.length === 0 || this.poules.length === 0) return;
 
     this.form = this.fb.group({
-      teams: null,
-      poules: null,
-      titel: null,
-      body: ''
+      teams: [],
+      poules: [],
+      title: null,
+      message: ''
     });
   }
 
@@ -79,9 +79,9 @@ export class MailVerzendenComponent implements OnInit {
   setTemplate(template: string): void {
     this.httpClient
       .get(`assets/mail-templates/${template}.txt`, { responseType: 'text' })
-      .subscribe((body) => {
-        this.form.get('body').setValue(body);
-        this.form.get('titel').setValue('Beachprogramma {{DATUM}}');
+      .subscribe((message) => {
+        this.form.get('message').setValue(message);
+        this.form.get('title').setValue('Beachprogramma speelronde {{SPEELRONDE}}');
       });
   }
 
@@ -96,10 +96,10 @@ export class MailVerzendenComponent implements OnInit {
   }
 
   addPlaceholder(placeholder: string): void {
-    const formControl = this.form.get('body');
-    let body = formControl.value;
-    body += `{{${placeholder}}}`;
-    formControl.setValue(body);
+    const formControl = this.form.get('message');
+    let message = formControl.value;
+    message += `{{${placeholder}}}`;
+    formControl.setValue(message);
   }
 
   private toggle(formControl: FormControl, items: any[]): void {

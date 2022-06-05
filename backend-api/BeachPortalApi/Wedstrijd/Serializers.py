@@ -1,5 +1,5 @@
 from BeachPortalApi.Team.Serializers import TeamSerializer
-from BeachPortalApi.Wedstrijd.models import Wedstrijd
+from BeachPortalApi.Wedstrijd.Wedstrijd import Wedstrijd
 from rest_framework import serializers
 
 

@@ -1,5 +1,5 @@
-from BeachPortalApi.Poule.Serializers import PouleSerializer
-from BeachPortalApi.Poule.models import Poule
+from BeachPortalApi.Poule.PouleSerializers import PouleSerializer
+from BeachPortalApi.Poule.Poule import Poule
 from BeachPortalApi.Speler.Serializers import UserSerializer
 from BeachPortalApi.Speler.Speler import Speler
 from rest_framework import serializers

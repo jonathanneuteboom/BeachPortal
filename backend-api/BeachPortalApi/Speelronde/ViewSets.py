@@ -1,11 +1,12 @@
-from BeachPortalApi.Poule.models import Poule
-from BeachPortalApi.Speelronde.Serializers import SpeelrondeSerializer
-from BeachPortalApi.Speelronde.models import Speelronde
-from BeachPortalApi.Wedstrijd.models import Wedstrijd
 from datetime import timedelta
+
+from BeachPortalApi.Poule.Poule import Poule
+from BeachPortalApi.Speelronde.Speelronde import Speelronde
+from BeachPortalApi.Speelronde.SpeelrondeSerializers import \
+    SpeelrondeSerializer
+from BeachPortalApi.Wedstrijd.Wedstrijd import Wedstrijd
 from django.db.models import Q
-from rest_framework import generics
-from rest_framework import status
+from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
@@ -18,7 +19,7 @@ class CreateSpeelrondeViewSet(generics.CreateAPIView):
     def create(self, request):
         currentSpeelronde = Speelronde.getCurrentSpeelronde()
         if currentSpeelronde == None:
-            Speelronde(nummer=1).save()
+            return
 
         pouleIds = currentSpeelronde.poules.values_list('id', flat=True)
         wedstrijden = Wedstrijd.objects.filter(poule_id__in=pouleIds)
@@ -61,6 +62,9 @@ class CreateSpeelrondeViewSet(generics.CreateAPIView):
                 categorie=poule.categorie,
                 speelronde=poule.speelronde
             ).order_by('-nummer').first()
+            if lastPouleInSpeelronde == None:
+                raise Exception()
+
             if lastPouleInSpeelronde.id != poule.id:
                 lastTeam = stand[-1].team
                 self.demote(poule, lastTeam)
@@ -110,6 +114,9 @@ class DeleteSpeelrondeViewSet(generics.DestroyAPIView):
 
     def delete(self, request):
         speelronde = Speelronde.getCurrentSpeelronde()
+        if speelronde == None:
+            return
+
         if speelronde.nummer == 1:
             return Response('De eerste speelronde kan niet worden verwijderd', status=status.HTTP_400_BAD_REQUEST)
 

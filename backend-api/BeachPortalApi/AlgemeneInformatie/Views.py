@@ -1,4 +1,4 @@
-from BeachPortalApi.AlgemeneInformatie.Models import Document
+from BeachPortalApi.AlgemeneInformatie.Document import Document
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated

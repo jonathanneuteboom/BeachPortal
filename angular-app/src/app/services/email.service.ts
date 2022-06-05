@@ -10,7 +10,7 @@ export class EmailService {
   constructor(private httpClient: HttpClient) {}
 
   EmailVersturen(mail): Observable<any> {
-    const url = `${environment.apiUrl}/email/versturen`;
+    const url = `${environment.apiUrl}/email/send`;
     return this.httpClient.post(url, mail);
   }
 }

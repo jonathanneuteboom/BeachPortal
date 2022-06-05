@@ -1,9 +1,9 @@
-from BeachPortalApi.Poule.models import Poule
+from BeachPortalApi.Poule.Poule import Poule
 from BeachPortalApi.Speellocatie.models import Speellocatie
-from BeachPortalApi.Speelronde.models import Speelronde
+from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from BeachPortalApi.Speler.Speler import Speler
 from BeachPortalApi.Team.models import Team
-from BeachPortalApi.Wedstrijd.models import Wedstrijd
+from BeachPortalApi.Wedstrijd.Wedstrijd import Wedstrijd
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 

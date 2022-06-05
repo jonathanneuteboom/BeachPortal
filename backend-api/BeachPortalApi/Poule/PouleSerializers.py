@@ -1,4 +1,4 @@
-from BeachPortalApi.Poule.models import Poule
+from BeachPortalApi.Poule.Poule import Poule
 from BeachPortalApi.Speellocatie.Serializer import SpeellocatieSerializer
 from BeachPortalApi.Stand.StandItem import StandItem
 from BeachPortalApi.Stand.StandItemSerializer import StandItemSerializer

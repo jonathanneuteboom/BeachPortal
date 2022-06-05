@@ -1,18 +1,19 @@
+from datetime import datetime, timedelta
+
 from BeachPortalApi.Categorie.models import Categorie
 from BeachPortalApi.Poule.Overlap import Overlap, OverlapSerializer
-from BeachPortalApi.Poule.Serializers import PouleSerializer
-from BeachPortalApi.Poule.models import Poule
+from BeachPortalApi.Poule.Poule import Poule
+from BeachPortalApi.Poule.PouleSerializers import PouleSerializer
 from BeachPortalApi.Speellocatie.models import Speellocatie
-from BeachPortalApi.Speelronde.models import Speelronde
+from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from BeachPortalApi.Speler.Speler import Speler
 from BeachPortalApi.Team.models import Team
-from BeachPortalApi.Wedstrijd.models import Wedstrijd
-from datetime import datetime, timedelta
+from BeachPortalApi.Wedstrijd.Wedstrijd import Wedstrijd
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 
@@ -24,9 +25,10 @@ class NewPouleViewSet(generics.CreateAPIView):
         categorie = request.data.get('categorie')
 
         speelronde = Speelronde.getCurrentSpeelronde()
-        laagstePoule = speelronde.poules.filter(
-            categorie=categorie
-        ).order_by('-nummer').first()
+        if speelronde is None:
+            return
+
+        laagstePoule = speelronde.GetLaagstePoule(categorie)
 
         if laagstePoule == None:
             speellocatie = Speellocatie.objects.first()

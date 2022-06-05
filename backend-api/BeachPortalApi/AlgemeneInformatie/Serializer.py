@@ -1,5 +1,5 @@
 
-from BeachPortalApi.AlgemeneInformatie.Models import Document
+from BeachPortalApi.AlgemeneInformatie.Document import Document
 from rest_framework import serializers
 
 

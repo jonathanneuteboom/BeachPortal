@@ -1,5 +1,5 @@
 from BeachPortalApi.Wedstrijd.Serializers import WedstrijdSerializer
-from BeachPortalApi.Wedstrijd.models import Wedstrijd
+from BeachPortalApi.Wedstrijd.Wedstrijd import Wedstrijd
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication

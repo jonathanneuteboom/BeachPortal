@@ -1,5 +1,5 @@
-from BeachPortalApi.Poule.Serializers import PouleSerializer
-from BeachPortalApi.Speelronde.models import Speelronde
+from BeachPortalApi.Poule.PouleSerializers import PouleSerializer
+from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from rest_framework import serializers
 
 
