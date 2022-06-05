@@ -56,7 +56,10 @@ class SendEmailsViewSet(generics.CreateAPIView):
             emails[0].sendTestMail()
             return Response("Test mail verzonden")
 
+        numberOfSentEmails = 0
         for email in emails:
-            email.send()
+            isSent = email.send()
+            if isSent:
+                numberOfSentEmails += 1
 
-        return Response(f"Alle {len(emails)} mails zijn verzonden")
+        return Response(f"Alle {numberOfSentEmails} mails zijn verzonden")

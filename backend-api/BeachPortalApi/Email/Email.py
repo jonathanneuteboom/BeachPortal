@@ -83,9 +83,12 @@ class Email(models.Model):
             html_message=self.getHtml()
         )
 
-    def send(self):
-        self.signature = self.calculateSignature()
-        self.save()
+    def send(self) -> bool:
+        try:
+            self.signature = self.calculateSignature()
+            self.save()
+        except:
+            return False
 
         send_mail(
             self.title,
@@ -96,3 +99,5 @@ class Email(models.Model):
         )
         self.sendDate = datetime.now()
         self.save()
+
+        return True
