@@ -37,8 +37,9 @@ export class PouleComponent implements OnInit {
 
   ngOnInit(): void {
     this.tijden = [];
+    const timeslotSize = 30
     for (let hours = 9; hours <= 23; hours++) {
-      for (let minutes = 0; minutes < 60; minutes += 5) {
+      for (let minutes = 0; minutes < 60; minutes += timeslotSize) {
         const h = this.padLeadingZeros(hours, 2);
         const m = this.padLeadingZeros(minutes, 2);
         this.tijden.push(`${h}:${m}`);
@@ -58,12 +59,15 @@ export class PouleComponent implements OnInit {
   compareSpeellocaties = (a: Speellocatie, b: Speellocatie): boolean => a.id === b.id
 
   updateSpeeltijd(): void {
-    const datum = this.form.get('datum').value as Date;
-    const newSpeeltijd = `${this.formatDate(datum)} ${this.form.value.tijd}:00`;
+    const [hours, minutes] = this.form.value.tijd.split(':')
+    const newSpeeltijd = this.form.get('datum').value as Date;
+    newSpeeltijd.setHours(hours)
+    newSpeeltijd.setMinutes(minutes)
+
     const speellocatie = this.form.get('speellocatie').value;
 
     const poule = Object.assign({}, this.poule);
-    poule.speeltijd = newSpeeltijd;
+    poule.speeltijd = newSpeeltijd.toISOString();
     poule.speellocatie = speellocatie
     this.pouleService
       .updatePoule(poule)

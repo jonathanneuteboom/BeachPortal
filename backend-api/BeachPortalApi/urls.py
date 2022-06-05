@@ -38,18 +38,18 @@ urlpatterns = [
     path('speellocaties', GetAllSpeellocatiesViewSet.as_view()),
 
     path('team', TeamViewSet.as_view()),
-    path('team/<int:teamId>', TeamViewSet.as_view()),
+    path('team/<int:teamId>/', TeamViewSet.as_view()),
     path('teams', TeamsViewSet.as_view()),
 
     path('poule', NewPouleViewSet.as_view()),
-    path('poule/<int:pouleId>', PouleViewSet.as_view()),
+    path('poule/<int:pouleId>/', PouleViewSet.as_view()),
     path('poule/my', MyPoulesView.as_view()),
     path('poule/overlap', OverlappingPouleViewSet.as_view()),
-    path('poule/<int:pouleId>/team/<int:teamId>', PouleTeamViewSet.as_view()),
+    path('poule/<int:pouleId>/team/<int:teamId>/', PouleTeamViewSet.as_view()),
 
     path('management/importeer-skc', ImporteerSkc.as_view()),
 
-    path('wedstrijd/<int:wedstrijdId>', WedstrijdViewSets.as_view()),
+    path('wedstrijd/<int:wedstrijdId>/', WedstrijdViewSets.as_view()),
 
     path('email/send', SendEmailsViewSet.as_view()),
 
