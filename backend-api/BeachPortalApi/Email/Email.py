@@ -74,14 +74,11 @@ class Email(models.Model):
         concatenatedText = f'{self.sender}{self.receiver}{self.title}{self.message}'
         return hashlib.md5(concatenatedText.encode('utf-8')).hexdigest()
 
-    def sendTestMail(self):
-        send_mail(
-            self.title,
-            self.message,
-            self.sender,
-            [self.receiver],
-            html_message=self.getHtml()
-        )
+    def sendTestMail(self, receiver) -> bool:
+        self.receiver = receiver
+        self.message = f'{self.message}\n\nDit is een test mail ({datetime.now()})'
+
+        return self.send()
 
     def send(self) -> bool:
         try:
@@ -90,7 +87,7 @@ class Email(models.Model):
         except:
             return False
 
-        send_mail(
+        numberOfSentMails = send_mail(
             self.title,
             self.message,
             self.sender,
@@ -100,4 +97,4 @@ class Email(models.Model):
         self.sendDate = datetime.now()
         self.save()
 
-        return True
+        return numberOfSentMails > 0

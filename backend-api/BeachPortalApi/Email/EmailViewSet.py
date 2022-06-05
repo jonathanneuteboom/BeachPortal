@@ -1,6 +1,10 @@
+from urllib import response
+
 from BeachPortalApi.Poule.Poule import Poule
 from BeachPortalApi.Team.models import Team
 from rest_framework import generics, serializers
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 
@@ -15,6 +19,9 @@ class SendMailSerializer(serializers.Serializer):
 
 
 class SendEmailsViewSet(generics.CreateAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
     placeholders = ["NAAM", "DATUM", "POULE",
                     "TIJD", "LOCATIE", "TEAMS", "SPEELRONDE"]
 
@@ -53,8 +60,11 @@ class SendEmailsViewSet(generics.CreateAPIView):
             return Response("Een van de emails is fout")
 
         if isTestMail:
-            emails[0].sendTestMail()
-            return Response("Test mail verzonden")
+            isSent = emails[0].sendTestMail(request.user.email)
+            if isSent:
+                return Response("Test mail verzonden")
+            else:
+                return Response("Er ging iets fout, geen test mail verzonden")
 
         numberOfSentEmails = 0
         for email in emails:
