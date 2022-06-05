@@ -1,14 +1,11 @@
 from BeachPortalApi.Categorie.models import Categorie
 from BeachPortalApi.Speelronde.Speelronde import Speelronde
-from rest_framework import generics
+from BeachPortalApi.Team.models import Team
+from BeachPortalApi.Team.Serializers import TeamSerializer
+from rest_framework import generics, serializers
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
-from BeachPortalApi.Team.models import Team
-
-from BeachPortalApi.Team.Serializers import TeamSerializer
-from rest_framework import serializers
 
 
 class AlgemeenKlassement():
@@ -74,7 +71,7 @@ class AlgemeenKlassementViewSet(generics.ListAPIView):
                 poules = speelronde.poules.filter(
                     categorie=categorie
                 ).order_by('-nummer')
-                for poule in reversed(poules):
+                for poule in poules:
                     standItems = poule.getStand()
                     firstPlace = standItems[0]
                     for standItem in reversed(standItems):
