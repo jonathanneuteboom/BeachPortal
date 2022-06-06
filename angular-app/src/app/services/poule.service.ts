@@ -19,7 +19,7 @@ export class PouleService {
   }
 
   addTeamToPoule(poule: Poule, team: Team): Observable<any> {
-    const url = `${environment.apiUrl}/poule/${poule.id}/team/${team.id}`;
+    const url = `${environment.apiUrl}/poule/${poule.id}/team/${team.id}/`;
     return this.httpClient.post(url, {});
   }
 
@@ -41,12 +41,12 @@ export class PouleService {
     return this.httpClient.get<Poule[]>(url);
   }
 
-  getAllSpeellocaties() : Observable<Speellocatie[]> {
+  getAllSpeellocaties(): Observable<Speellocatie[]> {
     const url = `${environment.apiUrl}/speellocaties`;
     return this.httpClient.get<Speellocatie[]>(url);
   }
 
-  getOverlappingPlayers() : Observable<OverlapItem[]> {
+  getOverlappingPlayers(): Observable<OverlapItem[]> {
     const url = `${environment.apiUrl}/poule/overlap`;
     return this.httpClient.get<OverlapItem[]>(url);
   }

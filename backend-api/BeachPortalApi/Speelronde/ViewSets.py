@@ -1,4 +1,5 @@
 from datetime import timedelta
+from unicodedata import category
 
 from BeachPortalApi.Poule.Poule import Poule
 from BeachPortalApi.Speelronde.Speelronde import Speelronde
@@ -45,52 +46,58 @@ class CreateSpeelrondeViewSet(generics.CreateAPIView):
                 speellocatie=poule.speellocatie
             )
             newPoule.save()
-            teams = Poule.objects.get(pk=poule.id).teams.all()
-            newPoule.teams.set(teams)
 
-        newPoules = newSpeelronde.poules.all()
-        for poule in newPoules:
+        for poule in oldPoules:
             stand = poule.getStand()
-            if len(stand) <= 1:
+            aantalTeams = len(stand)
+            if aantalTeams <= 1:
                 continue
 
-            if poule.nummer != 1:
-                firstTeam = stand[0].team
-                self.promote(poule, firstTeam)
-
-            lastPouleInSpeelronde = newSpeelronde.poules.filter(
+            newPoule = Poule.objects.get(
+                speelronde=newSpeelronde,
                 categorie=poule.categorie,
-                speelronde=poule.speelronde
-            ).order_by('-nummer').first()
+                nummer=poule.nummer
+            )
+
+            # promote first team
+            firstTeam = stand[0].team
+            if poule.nummer == 1:
+                newPoule.teams.add(firstTeam)
+            else:
+                higherPoule = Poule.objects.get(
+                    speelronde=newSpeelronde,
+                    categorie=poule.categorie,
+                    nummer=poule.nummer-1
+                )
+                higherPoule.teams.add(firstTeam)
+
+            # keep middle teams in the same place
+            for i in range(1, aantalTeams-1):
+                newPoule.teams.add(stand[i].team)
+
+            lastPouleInSpeelronde = newSpeelronde.poules.filter(categorie=poule.categorie).order_by('-nummer').first()
             if lastPouleInSpeelronde == None:
                 raise Exception()
 
-            if lastPouleInSpeelronde.id != poule.id:
-                lastTeam = stand[-1].team
-                self.demote(poule, lastTeam)
+            # demote last team
+            lastTeam = stand[-1].team
+            if lastPouleInSpeelronde.nummer == poule.nummer:
+                newPoule.teams.add(lastTeam)
+            else:
+                lowerPoule = Poule.objects.get(
+                    speelronde=newSpeelronde,
+                    categorie=poule.categorie,
+                    nummer=poule.nummer+1
+                )
+                lowerPoule.teams.add(lastTeam)
 
-        for poule in newPoules:
+        for poule in newSpeelronde.poules.all():
             self.addWedstrijden(poule)
 
         return Response()
 
-    def promote(self, poule, team):
-        poule.teams.remove(team)
-        higherPoule = Poule.objects.get(
-            speelronde=poule.speelronde,
-            categorie=poule.categorie,
-            nummer=poule.nummer-1
-        )
-        higherPoule.teams.add(team)
-
     def demote(self, poule, team):
         poule.teams.remove(team)
-        lowerPoule = Poule.objects.get(
-            speelronde=poule.speelronde,
-            categorie=poule.categorie,
-            nummer=poule.nummer+1
-        )
-        lowerPoule.teams.add(team)
 
     def addWedstrijden(self, poule):
         teams = Poule.objects.prefetch_related(
