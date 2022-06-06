@@ -1,5 +1,3 @@
-from urllib import response
-
 from BeachPortalApi.Poule.Poule import Poule
 from BeachPortalApi.Team.Team import Team
 from rest_framework import generics, serializers
@@ -21,9 +19,6 @@ class SendMailSerializer(serializers.Serializer):
 class SendEmailsViewSet(generics.CreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
-
-    placeholders = ["NAAM", "DATUM", "POULE",
-                    "TIJD", "LOCATIE", "TEAMS", "SPEELRONDE"]
 
     def post(self, request):
         serializer = SendMailSerializer(data=request.data)

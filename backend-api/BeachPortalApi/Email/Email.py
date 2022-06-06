@@ -6,6 +6,7 @@ from BeachPortalApi.Email.GetPlaceholderValue import IGetPlaceholderValue
 from BeachPortalApi.Speler.Speler import Speler
 from django.core.mail import send_mail
 from django.db import models
+from django.template import Context, Template
 
 
 class Email(models.Model):
@@ -43,25 +44,25 @@ class Email(models.Model):
         return re.match(r"[^@]+@[^@]+\.[^@]+", email) != None
 
     @staticmethod
-    def fillTemplate(entity: IGetPlaceholderValue, template: str) -> str:
-        matches = re.findall(r'{{[A-Z]*}}', template)
-        if matches is None:
-            return template
-
+    def fillTemplate(message: str, entities: 'list[IGetPlaceholderValue]') -> str:
+        data = {}
+        matches = re.findall(r'{{([A-Z]*)\|*.*}}', message)
         for placeholder in matches:
-            value = entity.getPlaceholderValue(placeholder)
-            if value == None:
-                continue
+            for entity in entities:
+                value = entity.getPlaceholderValue(placeholder)
+                if value == None:
+                    continue
 
-            template = template.replace(placeholder, value)
+                data[placeholder] = value
 
-        return template
+        template = Template(message)
+        context = Context(data)
+        return template.render(context)
 
     @staticmethod
     def generate(sender: Speler, receiver: Speler, title: str, message: str, entities: 'list[IGetPlaceholderValue]'):
-        for entity in entities:
-            title = Email.fillTemplate(entity, title)
-            message = Email.fillTemplate(entity, message)
+        title = Email.fillTemplate(title, entities)
+        message = Email.fillTemplate(message, entities)
 
         return Email(
             sender=sender.email,

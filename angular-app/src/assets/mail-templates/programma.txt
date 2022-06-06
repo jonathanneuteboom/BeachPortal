@@ -1,7 +1,7 @@
 Beste {{NAAM}},
 
-Aanstaande {{DATUM}} ben je ingedeeld om te spelen in de beachcompetitie.
-Jouw poule {{POULE}} speelt om {{TIJD}}.
+Aanstaande {{SPEELTIJD|date:"l j F Y"}} ben je ingedeeld om te spelen in de beachcompetitie.
+Jouw poule {{POULE}} speelt om {{SPEELTIJD|date:"H:i"}}.
 Locatie: {{LOCATIE}}
 
 Je zit in de poule met:
@@ -11,4 +11,4 @@ Om uitslagen in te vullen en voor meer informatie: <a target="_blank" href="http
 
 Met vriendelijke groet,
 
-De Beachcie
+De SKC Beachcie en Leython Beach

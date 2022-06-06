@@ -29,8 +29,8 @@
         </div>
         <div class="placeholders">
             <button *ngFor="let placeholder of placeholders" mat-raised-button color="accent"
-                (click)="addPlaceholder(placeholder)">
-                {{ placeholder }}
+                (click)="addPlaceholder(placeholder.value)">
+                {{ placeholder.tag }}
             </button>
         </div>
         <mat-form-field class="title">

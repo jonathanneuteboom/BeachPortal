@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Union
-
 from BeachPortalApi.Categorie.models import Categorie
 from BeachPortalApi.Email.Email import Email
 from BeachPortalApi.Email.GetPlaceholderValue import IGetPlaceholderValue
@@ -50,24 +48,17 @@ class Poule(models.Model, IGetPlaceholderValue):
 
         return stand
 
-    def getPlaceholderValue(self, placeholder) -> Union[str, None]:
-        if placeholder == "{{DATUM}}":
-            dagnaam = self.speeltijd.strftime('%A')
-            dagnummer = self.speeltijd.day
-            maand = self.speeltijd.strftime('%B')
-            jaar = self.speeltijd.strftime('%Y')
-            return f'{dagnaam} {dagnummer} {maand} {jaar}'
-        if placeholder == "{{POULE}}":
+    def getPlaceholderValue(self, placeholder):
+        if placeholder == "POULE":
             return f'{Categorie(self.categorie).label} {self.nummer}'
-        if placeholder == "{{TIJD}}":
-            return self.speeltijd.strftime("%H:%M")
-        if placeholder == "{{LOCATIE}}":
+        if placeholder == "SPEELTIJD":
+            return self.speeltijd
+        if placeholder == "LOCATIE":
             return self.speellocatie.naam
-        if placeholder == "{{TEAMS}}":
-            teams = list(map(lambda team: team.getPlaceholderValue(
-                "{{TEAMS}}"), self.teams.all()))
+        if placeholder == "TEAMS":
+            teams = list(map(lambda team: team.getPlaceholderValue("TEAM"), self.teams.all()))
             return "\n".join(teams)
-        if placeholder == "{{SPEELRONDE}}":
+        if placeholder == "SPEELRONDE":
             return f'{self.speelronde.nummer}'
 
         return None

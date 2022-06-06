@@ -26,9 +26,8 @@ class Team(models.Model, IGetPlaceholderValue):
         return emails
 
     def getPlaceholderValue(self, placeholder):
-        if placeholder == "{{TEAMS}}":
-            spelers = list(map(
-                lambda speler: f'{speler.first_name} {speler.last_name}', self.spelers.all()))
+        if placeholder == "TEAM":
+            spelers = list(map(lambda speler: f'{speler}', self.spelers.all()))
             return f'{self.naam} ({", ".join(spelers)})'
 
         return None

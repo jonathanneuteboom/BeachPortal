@@ -20,10 +20,10 @@ class Speler(AbstractUser, IGetPlaceholderValue):
     )
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.first_name} {self.last_name}'.strip()
 
     def getPlaceholderValue(self, placeholder):
-        if placeholder == "{{NAAM}}":
-            return f'{self.first_name} {self.last_name}'.strip()
+        if placeholder == "NAAM":
+            return f'{str(self)}'
 
         return None

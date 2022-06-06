@@ -20,7 +20,15 @@ export class MailVerzendenComponent implements OnInit {
   poules: Poule[] = [];
   form: FormGroup;
 
-  placeholders = ['NAAM', 'DATUM', 'POULE', 'TIJD', 'TEAMS', 'LOCATIE', 'SPEELRONDE'];
+  placeholders = [
+    { tag: 'NAAM', value: 'NAAM' },
+    { tag: 'SPEELTIJD', value: 'SPEELTIJD|date:"l j F Y"' },
+    { tag: 'POULE', value: 'POULE' },
+    { tag: 'SPEELTIJD', value: 'SPEELTIJD|date:"H:i"' },
+    { tag: 'TEAMS', value: 'TEAMS' },
+    { tag: 'LOCATIE', value: 'LOCATIE' },
+    { tag: 'SPEELRONDE', value: 'SPEELRONDE' }
+  ];
 
   constructor(
     private teamService: TeamService,
@@ -81,7 +89,9 @@ export class MailVerzendenComponent implements OnInit {
       .get(`assets/mail-templates/${template}.txt`, { responseType: 'text' })
       .subscribe((message) => {
         this.form.get('message').setValue(message);
-        this.form.get('title').setValue('Beachprogramma speelronde {{SPEELRONDE}}');
+        this.form
+          .get('title')
+          .setValue('Beachprogramma speelronde {{SPEELRONDE}}');
       });
   }
 
