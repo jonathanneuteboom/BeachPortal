@@ -1,7 +1,7 @@
 from urllib import response
 
 from BeachPortalApi.Poule.Poule import Poule
-from BeachPortalApi.Team.models import Team
+from BeachPortalApi.Team.Team import Team
 from rest_framework import generics, serializers
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAdminUser

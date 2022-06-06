@@ -1,5 +1,5 @@
 [client]
-database = deb105013n2_beach_portal
+database = deb105013n2_beachportal
 user = root
 password = volleybal
 default-character-set = utf8

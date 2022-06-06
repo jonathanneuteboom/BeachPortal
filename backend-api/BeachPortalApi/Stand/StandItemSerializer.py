@@ -1,4 +1,4 @@
-from BeachPortalApi.Team.Serializers import TeamSerializer
+from BeachPortalApi.Team.TeamSerializers import TeamSerializer
 from rest_framework import serializers
 
 

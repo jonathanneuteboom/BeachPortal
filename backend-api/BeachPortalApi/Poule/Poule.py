@@ -9,7 +9,7 @@ from BeachPortalApi.Speellocatie.models import Speellocatie
 from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from BeachPortalApi.Speler.Speler import Speler
 from BeachPortalApi.Stand.StandItem import StandItem
-from BeachPortalApi.Team.models import Team
+from BeachPortalApi.Team.Team import Team
 from django.db import models
 from django.db.models.manager import BaseManager
 

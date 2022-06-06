@@ -1,10 +1,9 @@
 from BeachPortalApi.Speler.Speler import Speler
-from BeachPortalApi.Team.Serializers import TeamSerializer
-from BeachPortalApi.Team.models import Team
-from rest_framework import generics
-from rest_framework import status
+from BeachPortalApi.Team.Team import Team
+from BeachPortalApi.Team.TeamSerializers import TeamSerializer
+from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 

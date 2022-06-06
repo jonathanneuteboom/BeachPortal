@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import urls
 
-from BeachPortalApi.AlgemeenKlassement.AlgemeenKlassement import \
+from BeachPortalApi.AlgemeenKlassement.AlgemeenKlassementViewSets import \
     AlgemeenKlassementViewSet
 from BeachPortalApi.AlgemeneInformatie.Views import AlgemeneInformatieViewSet
 from BeachPortalApi.Authenticatie.CustomTokenGenerators import (
@@ -17,7 +17,7 @@ from BeachPortalApi.Speelronde.ViewSets import (CreateSpeelrondeViewSet,
                                                 GetAllSpeelrondesViewSet,
                                                 GetCurrentSpeelrondeViewSet)
 from BeachPortalApi.Speler.ViewSets import CurrentUserView, GetSpelerByName
-from BeachPortalApi.Team.ViewSets import TeamsViewSet, TeamViewSet
+from BeachPortalApi.Team.TeamViewSets import TeamsViewSet, TeamViewSet
 from BeachPortalApi.Wedstrijd.ViewSets import WedstrijdViewSets
 
 urlpatterns = [

@@ -7,7 +7,7 @@ from BeachPortalApi.Poule.PouleSerializers import PouleSerializer
 from BeachPortalApi.Speellocatie.models import Speellocatie
 from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from BeachPortalApi.Speler.Speler import Speler
-from BeachPortalApi.Team.models import Team
+from BeachPortalApi.Team.Team import Team
 from BeachPortalApi.Wedstrijd.Wedstrijd import Wedstrijd
 from django.db.models import Q
 from django.shortcuts import get_object_or_404

@@ -2,7 +2,7 @@ from BeachPortalApi.Poule.Poule import Poule
 from BeachPortalApi.Speellocatie.Serializer import SpeellocatieSerializer
 from BeachPortalApi.Stand.StandItem import StandItem
 from BeachPortalApi.Stand.StandItemSerializer import StandItemSerializer
-from BeachPortalApi.Team.Serializers import TeamSerializer
+from BeachPortalApi.Team.TeamSerializers import TeamSerializer
 from BeachPortalApi.Wedstrijd.Serializers import WedstrijdSerializer
 from rest_framework import serializers
 

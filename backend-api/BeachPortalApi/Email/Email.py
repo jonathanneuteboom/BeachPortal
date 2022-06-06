@@ -58,7 +58,7 @@ class Email(models.Model):
         return template
 
     @staticmethod
-    def generate(sender: Speler, receiver: Speler, title: str, message: str, entities):
+    def generate(sender: Speler, receiver: Speler, title: str, message: str, entities: 'list[IGetPlaceholderValue]'):
         for entity in entities:
             title = Email.fillTemplate(entity, title)
             message = Email.fillTemplate(entity, message)

@@ -45,7 +45,7 @@ testem.log
 .DS_Store
 Thumbs.db
 php/vendor
-backend-api/env/
+backend-api/env-3-8-6
 *.pyc
 .vscode
 deployment.tar

@@ -1,4 +1,8 @@
+from BeachPortalApi.Team.Team import Team
+
+
 class StandItem():
+    team: Team
     puntenVoor = 0
     puntenTegen = 0
     quotient = 0
