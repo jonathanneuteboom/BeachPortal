@@ -9,7 +9,7 @@ from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from BeachPortalApi.Speler.Speler import Speler
 from BeachPortalApi.Team.Team import Team
 from BeachPortalApi.Wedstrijd.Wedstrijd import Wedstrijd
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
@@ -53,28 +53,26 @@ class NewPouleViewSet(generics.CreateAPIView):
 class OverlappingPouleViewSet(generics.RetrieveAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
-    queryset = Poule.objects.all()
+    queryset: QuerySet[Poule] = Poule.objects.all()
 
     def get(self, request):
         result = []
 
         speelronde = Speelronde.getCurrentSpeelronde()
-        poules = self.queryset.filter(
-            speelronde=speelronde).prefetch_related('teams')
+        poules = self.queryset.filter(speelronde=speelronde).prefetch_related('teams')
         aantalPoules = poules.count()
 
-        for i, _ in enumerate(poules):
+        for i in range(0, aantalPoules):
             for j in range(i+1, aantalPoules):
-                spelersIdsTeam1 = poules[i].teams.values_list(
-                    'spelers__id', flat=True)
-                spelersIdsTeam2 = poules[j].teams.values_list(
-                    'spelers__id', flat=True)
+                if poules[i].speeltijd.date() != poules[j].speeltijd.date():
+                    continue
 
-                overlappingItems = list(
-                    set(spelersIdsTeam1) & set(spelersIdsTeam2))
+                spelersIdsTeam1 = poules[i].teams.values_list('spelers__id', flat=True)
+                spelersIdsTeam2 = poules[j].teams.values_list('spelers__id', flat=True)
+
+                overlappingItems = list(set(spelersIdsTeam1) & set(spelersIdsTeam2))
                 if len(overlappingItems) > 0:
-                    spelers = Speler.objects.filter(
-                        id__in=overlappingItems)
+                    spelers = Speler.objects.filter(id__in=overlappingItems)
                     newOverlap = Overlap(poules[i], poules[j], spelers)
                     result.append(newOverlap)
 
