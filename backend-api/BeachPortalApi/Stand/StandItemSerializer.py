@@ -7,5 +7,4 @@ class StandItemSerializer(serializers.Serializer):
     puntenTegen = serializers.IntegerField()
     quotient = serializers.FloatField()
     gewonnenWedstrijden = serializers.IntegerField()
-
     team = TeamSerializer()

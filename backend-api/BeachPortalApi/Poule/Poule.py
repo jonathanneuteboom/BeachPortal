@@ -3,7 +3,7 @@ from __future__ import annotations
 from BeachPortalApi.Categorie.models import Categorie
 from BeachPortalApi.Email.Email import Email
 from BeachPortalApi.Email.GetPlaceholderValue import IGetPlaceholderValue
-from BeachPortalApi.Speellocatie.models import Speellocatie
+from BeachPortalApi.Speellocatie.Speellocatie import Speellocatie
 from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from BeachPortalApi.Speler.Speler import Speler
 from BeachPortalApi.Stand.StandItem import StandItem

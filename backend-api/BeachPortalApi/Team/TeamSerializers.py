@@ -1,4 +1,4 @@
-from BeachPortalApi.Speler.Serializers import UserSerializer
+from BeachPortalApi.Speler.SpelerSerializers import UserSerializer
 from BeachPortalApi.Team.Team import Team
 from rest_framework import serializers
 

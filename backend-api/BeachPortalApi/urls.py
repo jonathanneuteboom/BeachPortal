@@ -11,14 +11,14 @@ from BeachPortalApi.Email.EmailViewSet import SendEmailsViewSet
 from BeachPortalApi.Poule.PouleViewSets import (MyPoulesView, NewPouleViewSet,
                                                 OverlappingPouleViewSet,
                                                 PouleTeamViewSet, PouleViewSet)
-from BeachPortalApi.Speellocatie.ViewSets import GetAllSpeellocatiesViewSet
+from BeachPortalApi.Speellocatie.SpeellocatieViewSets import GetAllSpeellocatiesViewSet
 from BeachPortalApi.Speelronde.ViewSets import (CreateSpeelrondeViewSet,
                                                 DeleteSpeelrondeViewSet,
                                                 GetAllSpeelrondesViewSet,
                                                 GetCurrentSpeelrondeViewSet)
-from BeachPortalApi.Speler.ViewSets import CurrentUserView, GetSpelerByName
+from BeachPortalApi.Speler.SpelerViewSets import CurrentUserView, GetSpelerByName
 from BeachPortalApi.Team.TeamViewSets import TeamsViewSet, TeamViewSet
-from BeachPortalApi.Wedstrijd.ViewSets import WedstrijdViewSets
+from BeachPortalApi.Wedstrijd.WedstrijdViewSets import WedstrijdViewSets
 
 urlpatterns = [
     path('user/login', CustomAuthToken.as_view()),

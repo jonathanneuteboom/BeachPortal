@@ -1,5 +1,5 @@
 from BeachPortalApi.Poule.Poule import Poule
-from BeachPortalApi.Speellocatie.models import Speellocatie
+from BeachPortalApi.Speellocatie.Speellocatie import Speellocatie
 from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from BeachPortalApi.Speler.Speler import Speler
 from BeachPortalApi.Team.Team import Team

@@ -1,77 +1,89 @@
-import Slider from '@react-native-community/slider';
-import React, {useState} from 'react';
-import {Button, Text, View} from 'react-native';
-import {Match} from './Match';
+import Slider from '@react-native-community/slider'
+import React, { useState } from 'react'
+import { Button, Text, View } from 'react-native'
+import { Wedstrijd } from './Match'
 
 type Props = {
-  match: Match;
-  onPress: () => void;
-};
+  wedstrijd: Wedstrijd
+  onPress: (wedstrijd: Wedstrijd) => void
+}
 
-const WedstrijdWijzigen: React.FC<Props> = ({onPress, match}) => {
-  const [scoreTeam1, setScoreTeam1] = useState(match.scoreTeam1);
-  const [scoreTeam2, setScoreTeam2] = useState(match.scoreTeam2);
+const WedstrijdWijzigen: React.FC<Props> = ({ onPress, wedstrijd }) => {
+  const [puntenTeam1, setPuntenTeam1] = useState(wedstrijd.puntenTeam1)
+  const [puntenTeam2, setPuntenTeam2] = useState(wedstrijd.puntenTeam2)
 
-  if (!match) {
-    return null;
-  }
   return (
-    <View style={{margin: 40, padding: 20, backgroundColor: 'white'}}>
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+    <View
+      style={{
+        margin: 40,
+        padding: 20,
+        backgroundColor: 'white',
+        borderRadius: 10,
+      }}
+    >
+      <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
         <Text>Uitslag invoeren</Text>
       </View>
 
       <View>
-        <Text>{match.team1.name}</Text>
+        <Text>{wedstrijd.team1.name}</Text>
       </View>
-      <View style={{flexDirection: 'row', alignContent: 'center'}}>
+      <View style={{ flexDirection: 'row', alignContent: 'center' }}>
         <View>
           <Slider
-            style={{width: 200, height: 40}}
+            style={{ width: 200, height: 40 }}
             minimumValue={0}
             maximumValue={40}
-            value={scoreTeam1}
+            value={puntenTeam1}
             step={1}
             minimumTrackTintColor="#4287f5"
             maximumTrackTintColor="#000000"
             onValueChange={value => {
-              setScoreTeam1(value);
+              setPuntenTeam1(value)
             }}
           />
         </View>
-        <View style={{justifyContent: 'center'}}>
-          <Text>{scoreTeam1}</Text>
+        <View style={{ justifyContent: 'center' }}>
+          <Text>{puntenTeam1}</Text>
         </View>
       </View>
 
-      <View style={{height: 50}} />
+      <View style={{ height: 50 }} />
 
       <View>
-        <Text>{match.team2.name}</Text>
+        <Text>{wedstrijd.team2.name}</Text>
       </View>
-      <View style={{flexDirection: 'row', alignContent: 'center'}}>
+      <View style={{ flexDirection: 'row', alignContent: 'center' }}>
         <View>
           <Slider
-            style={{width: 200, height: 40}}
+            style={{ width: 200, height: 40 }}
             minimumValue={0}
             maximumValue={40}
-            value={scoreTeam2}
+            value={puntenTeam2}
             step={1}
             minimumTrackTintColor="#4287f5"
             maximumTrackTintColor="#000000"
-            onValueChange={value => setScoreTeam2(value)}
+            onValueChange={value => setPuntenTeam2(value)}
           />
         </View>
-        <View style={{justifyContent: 'center'}}>
-          <Text>{scoreTeam2}</Text>
+        <View style={{ justifyContent: 'center' }}>
+          <Text>{puntenTeam2}</Text>
         </View>
       </View>
 
       <View>
-        <Button title="Text" onPress={onPress} />
+        <Button
+          title="Text"
+          onPress={() => {
+            wedstrijd.puntenTeam1 = puntenTeam1
+            wedstrijd.puntenTeam2 = puntenTeam2
+
+            onPress(wedstrijd)
+          }}
+        />
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default WedstrijdWijzigen;
+export default WedstrijdWijzigen

@@ -4,7 +4,7 @@ from BeachPortalApi.Categorie.models import Categorie
 from BeachPortalApi.Poule.Overlap import Overlap, OverlapSerializer
 from BeachPortalApi.Poule.Poule import Poule
 from BeachPortalApi.Poule.PouleSerializers import PouleSerializer
-from BeachPortalApi.Speellocatie.models import Speellocatie
+from BeachPortalApi.Speellocatie.Speellocatie import Speellocatie
 from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from BeachPortalApi.Speler.Speler import Speler
 from BeachPortalApi.Team.Team import Team

@@ -1,15 +1,14 @@
-import {Person} from './Person';
+import { LoginResponse } from '../../Responses'
+import { Speler } from './Person'
 
-export class User extends Person {
+export class User extends Speler {
   constructor(
     public id: number,
     public username: string,
     public token: string,
   ) {
-    super(id, username);
+    super(id, username)
   }
-
-  static create = () => new User(0, '', '');
 }
 
-export default User;
+export default User

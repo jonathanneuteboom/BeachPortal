@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 import {
   Button,
@@ -8,31 +8,31 @@ import {
   Text,
   TextInput,
   View,
-} from 'react-native';
+} from 'react-native'
 
-import AppError from '../AppError';
-import {useStore} from '../Context';
-import {RootStackNavigationProp} from '../RootNavigation';
+import AppError from '../AppError'
+import { useStore } from '../Context'
+import { RootStackNavigationProp } from '../RootNavigation'
 
 type Props = {
-  navigation: RootStackNavigationProp<'Login'>;
-};
+  navigation: RootStackNavigationProp<'Login'>
+}
 
-const loginBackground = require('../images/loginBackground.jpg');
+const loginBackground = require('../images/loginBackground.jpg')
 
-const LoginScreen: React.FC<Props> = ({navigation}) => {
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [errorMessage, setErrorMesssage] = React.useState<string>();
+const LoginScreen: React.FC<Props> = ({ navigation }) => {
+  const [username, setUsername] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const [errorMessage, setErrorMesssage] = React.useState<string>()
 
-  const beachStore = useStore();
+  const beachStore = useStore()
 
   const Login = (): Promise<void> => {
     return beachStore
       .login(username, password)
-      .then(() => navigation.replace('Main'))
-      .catch((error: AppError) => setErrorMesssage(error.message));
-  };
+      .then(() => {})
+      .catch((error: AppError) => setErrorMesssage(error.message))
+  }
 
   return (
     <View style={styles.flex1}>
@@ -40,7 +40,8 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
         <ImageBackground
           source={Image.resolveAssetSource(loginBackground)}
           resizeMode="cover"
-          style={styles.flex1}>
+          style={styles.flex1}
+        >
           <View style={styles.loginContainer}>
             {errorMessage && (
               <View>
@@ -72,8 +73,8 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
         </ImageBackground>
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   flex1: {
@@ -90,6 +91,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: 'rgba(52, 52, 52, 0.2)',
   },
-});
+})
 
-export default LoginScreen;
+export default LoginScreen

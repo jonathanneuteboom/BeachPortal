@@ -1,26 +1,30 @@
-import React from 'react';
+import React from 'react'
 
-import {IconProp} from '@fortawesome/fontawesome-svg-core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import {
   faCalendarDays,
   faInfo,
+  faPerson,
   faSliders,
+  faTrophy,
+  faUser,
   faVolleyball,
-} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import AlgemeneInformatieScreen from '../AlgemeneInformatie/AlgemeneInformatieScreen';
-import BeheerScreen from '../Beheer/BeheerScreen';
-import MijnBeachScreen from '../MijnBeach/MijnBeachScreen';
-import SpeelrondesScreen from '../Speelrondes/SpeelrondesScreen';
+import AlgemeneInformatieScreen from '../AlgemeneInformatie/AlgemeneInformatieScreen'
+import ProfielScreen from '../Profiel/ProfielScreen'
+import MijnBeachScreen from '../MijnBeach/MijnBeachScreen'
+import SpeelrondesScreen from '../Speelrondes/SpeelrondesScreen'
+import AlgemeenKlassementScreen from '../AlgemeenKlassement/AlgemeenKlassementScreen'
 
-type MainNavigator = {
-  MijnBeach: undefined;
-  AlgemeneInformatie: undefined;
-  Speelrondes: undefined;
-  Beheer: undefined;
-};
+type MainMenu = {
+  MijnBeach: undefined
+  Speelrondes: undefined
+  AlgemeenKlassement: undefined
+  Profiel: undefined
+}
 
 const getOptions = (name: string): any => {
   return {
@@ -32,41 +36,37 @@ const getOptions = (name: string): any => {
     headerTitleStyle: {
       fontWeight: 'bold',
     },
-  };
-};
+  }
+}
 
-const BottomTab = createBottomTabNavigator<MainNavigator>();
+const BottomTab = createBottomTabNavigator<MainMenu>()
 
 const MainNavigator: React.FC = () => (
   <BottomTab.Navigator
     screenOptions={options => ({
+      headerShown: false,
       tabBarIcon: () => {
         switch (options.route.name) {
           case 'MijnBeach':
-            return <FontAwesomeIcon icon={faVolleyball as IconProp} />;
+            return <FontAwesomeIcon icon={faVolleyball as IconProp} />
           case 'Speelrondes':
-            return <FontAwesomeIcon icon={faCalendarDays as IconProp} />;
-          case 'Beheer':
-            return <FontAwesomeIcon icon={faSliders as IconProp} />;
+            return <FontAwesomeIcon icon={faCalendarDays as IconProp} />
+          case 'AlgemeenKlassement':
+            return <FontAwesomeIcon icon={faTrophy as IconProp} />
+          case 'Profiel':
+            return <FontAwesomeIcon icon={faUser as IconProp} />
         }
       },
-    })}>
+    })}
+  >
+    <BottomTab.Screen name="MijnBeach" component={MijnBeachScreen} />
+    <BottomTab.Screen name="Speelrondes" component={SpeelrondesScreen} />
     <BottomTab.Screen
-      name="MijnBeach"
-      component={MijnBeachScreen}
-      options={getOptions('Mijn Beach')}
+      name="AlgemeenKlassement"
+      component={AlgemeenKlassementScreen}
     />
-    <BottomTab.Screen
-      name="Speelrondes"
-      component={SpeelrondesScreen}
-      options={getOptions('Speelrondes')}
-    />
-    <BottomTab.Screen
-      name="Beheer"
-      component={BeheerScreen}
-      options={getOptions('Beheer')}
-    />
+    <BottomTab.Screen name="Profiel" component={ProfielScreen} />
   </BottomTab.Navigator>
-);
+)
 
-export default MainNavigator;
+export default MainNavigator
