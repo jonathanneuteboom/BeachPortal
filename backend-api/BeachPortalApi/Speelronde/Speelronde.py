@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from typing import Any, Optional
@@ -13,18 +12,25 @@ class Speelronde(models.Model):
     poules: BaseManager
 
     @staticmethod
-    def getCurrentSpeelronde() -> 'Optional[Speelronde]':
-        return Speelronde.objects.order_by('-nummer').prefetch_related('poules').first()
+    def getCurrentSpeelronde() -> "Optional[Speelronde]":
+        return (
+            Speelronde.objects.all()
+            .prefetch_related("poules")
+            .order_by("-nummer")
+            .first()
+        )
 
     @staticmethod
     def getAllSpeelrondes() -> QuerySet[Speelronde]:
-        return Speelronde.objects.prefetch_related('poules').order_by('nummer').all()
+        return Speelronde.objects.prefetch_related("poules").order_by("nummer")
 
     def getPoulesByCategorie(self, categorie) -> QuerySet[Any]:
-        return self.poules.filter(categorie=categorie)
+        return self.poules.prefetch_related("teams", "wedstrijden").filter(
+            categorie=categorie
+        )
 
     def GetLaagstePoule(self, categorie):
-        return self.poules.filter(categorie=categorie).order_by('-nummer').first()
+        return self.poules.filter(categorie=categorie).order_by("-nummer").first()
 
     def __str__(self):
-        return f'{self.nummer}'
+        return f"{self.nummer}"

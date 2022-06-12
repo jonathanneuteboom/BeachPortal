@@ -4,9 +4,15 @@ from rest_framework import serializers
 
 
 class WedstrijdSerializer(serializers.ModelSerializer):
-    team1 = TeamSerializer()
-    team2 = TeamSerializer()
+    team1 = serializers.SerializerMethodField()
+    team2 = serializers.SerializerMethodField()
 
     class Meta:
         model = Wedstrijd
-        fields = ['id', 'team1', 'team2', 'puntenTeam1', 'puntenTeam2']
+        fields = ["id", "team1", "team2", "puntenTeam1", "puntenTeam2"]
+
+    def get_team1(self, instance):
+        return instance.team1.naam
+
+    def get_team2(self, instance):
+        return instance.team2.naam

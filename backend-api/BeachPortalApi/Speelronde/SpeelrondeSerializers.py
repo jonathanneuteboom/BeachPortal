@@ -8,8 +8,12 @@ class SpeelrondeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Speelronde
-        fields = ['id', 'nummer', 'poules']
+        fields = ["id", "nummer", "poules"]
 
     def get_poules(self, instance):
-        poules = instance.poules.order_by('categorie', 'nummer')
+        poules = (
+            instance.poules.all()
+            .prefetch_related("teams", "wedstrijden")
+            .order_by("categorie", "nummer")
+        )
         return PouleSerializer(poules, many=True).data

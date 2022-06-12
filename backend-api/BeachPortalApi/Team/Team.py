@@ -18,23 +18,21 @@ class Team(models.Model, IGetPlaceholderValue):
         sender = Speler.objects.get(username="EmailUser")
         emails = []
         for speler in self.spelers.all():
-            newEmail = Email.generate(
-                sender, speler, title, message, [self, speler]
-            )
+            newEmail = Email.generate(sender, speler, title, message, [self, speler])
             emails.append(newEmail)
 
         return emails
 
     def getPlaceholderValue(self, placeholder):
         if placeholder == "TEAM":
-            spelers = list(map(lambda speler: f'{speler}', self.spelers.all()))
+            spelers = list(map(lambda speler: f"{speler}", self.spelers.all()))
             return f'{self.naam} ({", ".join(spelers)})'
 
         return None
 
     @staticmethod
     def getTeamsByCategorie(categorie: Categorie) -> QuerySet[Team]:
-        return Team.objects.filter(categorie=categorie)
+        return Team.objects.prefetch_related("spelers").filter(categorie=categorie)
 
     def __str__(self):
         return self.naam

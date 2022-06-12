@@ -8,6 +8,7 @@ from BeachPortalApi.Speellocatie.Speellocatie import Speellocatie
 from BeachPortalApi.Speelronde.Speelronde import Speelronde
 from BeachPortalApi.Speler.Speler import Speler
 from BeachPortalApi.Team.Team import Team
+from BeachPortalApi.Team.TeamSerializers import TeamSerializer
 from BeachPortalApi.Wedstrijd.Wedstrijd import Wedstrijd
 from django.db.models import Q, QuerySet
 from django.shortcuts import get_object_or_404
@@ -22,7 +23,7 @@ class NewPouleViewSet(generics.CreateAPIView):
     permission_classes = [IsAdminUser]
 
     def create(self, request):
-        categorie = request.data.get('categorie')
+        categorie = request.data.get("categorie")
 
         speelronde = Speelronde.getCurrentSpeelronde()
         if speelronde is None:
@@ -37,14 +38,14 @@ class NewPouleViewSet(generics.CreateAPIView):
         else:
             speellocatie = laagstePoule.speellocatie
             speeltijd = laagstePoule.speeltijd + timedelta(hours=1)
-            nummer = laagstePoule.nummer+1
+            nummer = laagstePoule.nummer + 1
 
         Poule(
             speelronde=speelronde,
             speellocatie=speellocatie,
             categorie=categorie,
             nummer=nummer,
-            speeltijd=speeltijd
+            speeltijd=speeltijd,
         ).save()
 
         return Response()
@@ -57,18 +58,19 @@ class OverlappingPouleViewSet(generics.RetrieveAPIView):
 
     def get(self, request):
         result = []
+        return Response(result)
 
         speelronde = Speelronde.getCurrentSpeelronde()
-        poules = self.queryset.filter(speelronde=speelronde).prefetch_related('teams')
+        poules = self.queryset.filter(speelronde=speelronde).prefetch_related("teams")
         aantalPoules = poules.count()
 
         for i in range(0, aantalPoules):
-            for j in range(i+1, aantalPoules):
+            for j in range(i + 1, aantalPoules):
                 if poules[i].speeltijd.date() != poules[j].speeltijd.date():
                     continue
 
-                spelersIdsTeam1 = poules[i].teams.values_list('spelers__id', flat=True)
-                spelersIdsTeam2 = poules[j].teams.values_list('spelers__id', flat=True)
+                spelersIdsTeam1 = poules[i].teams.values_list("spelers__id", flat=True)
+                spelersIdsTeam2 = poules[j].teams.values_list("spelers__id", flat=True)
 
                 overlappingItems = list(set(spelersIdsTeam1) & set(spelersIdsTeam2))
                 if len(overlappingItems) > 0:
@@ -87,16 +89,21 @@ class PouleViewSet(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PouleSerializer
 
     def get(self, request, pouleId):
-        serializer = PouleSerializer(
-            self.queryset.prefetch_related('wedstrijden').get(pk=pouleId))
+        poule = (
+            self.queryset.select_related("speelronde", "speellocatie")
+            .prefetch_related("wedstrijden", "teams")
+            .get(pk=pouleId)
+        )
+
+        serializer = PouleSerializer(poule)
 
         return Response(serializer.data)
 
     def put(self, request, pouleId):
         poule = self.queryset.get(pk=pouleId)
 
-        speeltijd = request.data.get('speeltijd')
-        speellocatieId = request.data.get('speellocatieId')
+        speeltijd = request.data.get("speeltijd")
+        speellocatieId = request.data.get("speellocatieId")
         speellocatie = Speellocatie.objects.get(pk=speellocatieId)
 
         poule.speeltijd = speeltijd
@@ -108,15 +115,19 @@ class PouleViewSet(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, pouleId):
         poule = self.queryset.get(pk=pouleId)
         laatstePoule = Poule.objects.filter(
-            speelronde=poule.speelronde,
-            categorie=poule.categorie
-        ).order_by('-nummer')[0]
-        if (laatstePoule.id != pouleId):
-            return Response('Alleen laatste poule kan verwijderd worden', status=status.HTTP_400_BAD_REQUEST)
+            speelronde=poule.speelronde, categorie=poule.categorie
+        ).order_by("-nummer")[0]
+        if laatstePoule.id != pouleId:
+            return Response(
+                "Alleen laatste poule kan verwijderd worden",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         poule = self.queryset.get(pk=pouleId)
         if poule.teams.count() > 0:
-            return Response('Poule is nog niet leeg', status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                "Poule is nog niet leeg", status=status.HTTP_400_BAD_REQUEST
+            )
 
         poule.delete()
 
@@ -126,15 +137,14 @@ class PouleViewSet(generics.RetrieveUpdateDestroyAPIView):
 class MyPoulesView(generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    queryset = Poule.objects.all()
 
     def get(self, request):
-        user = get_object_or_404(Speler, pk=request.user.id)
         speelronde = Speelronde.getCurrentSpeelronde()
 
         myTeams = Poule.objects.filter(
-            teams__spelers__in=[user],
-            speelronde=speelronde
-        ).order_by('categorie', 'nummer')
+            teams__spelers__in=[request.user], speelronde=speelronde
+        ).order_by("categorie", "nummer")
         serializer = PouleSerializer(myTeams, many=True)
         return Response(serializer.data)
 
@@ -146,28 +156,27 @@ class PouleTeamViewSet(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PouleSerializer
 
     def post(self, request, pouleId, teamId):
-        poule = Poule.objects.prefetch_related('teams').get(pk=pouleId)
+        poule = Poule.objects.prefetch_related("teams").get(pk=pouleId)
         newTeam = Team.objects.get(pk=teamId)
 
         for team in poule.teams.all():
             if team.id == newTeam.id:
-                return Response('Team zit al in deze poule', status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    "Team zit al in deze poule", status=status.HTTP_400_BAD_REQUEST
+                )
 
         anderePoule = Poule.objects.filter(
-            ~Q(id=poule.id),
-            Q(teams__in=[newTeam.id]),
-            speelronde=poule.speelronde
+            ~Q(id=poule.id), Q(teams__in=[newTeam.id]), speelronde=poule.speelronde
         ).first()
         if anderePoule:
-            return Response(f'Team zit al in Poule {anderePoule.nummer} ({Categorie(anderePoule.categorie).label})', status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                f"Team zit al in Poule {anderePoule.nummer} ({Categorie(anderePoule.categorie).label})",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         for team in poule.teams.all():
             Wedstrijd(
-                poule=poule,
-                team1=team,
-                team2=newTeam,
-                puntenTeam1=0,
-                puntenTeam2=0
+                poule=poule, team1=team, team2=newTeam, puntenTeam1=0, puntenTeam2=0
             ).save()
 
         poule.teams.add(newTeam)
@@ -179,13 +188,15 @@ class PouleTeamViewSet(generics.RetrieveUpdateDestroyAPIView):
         team = Team.objects.get(pk=teamId)
 
         wedstrijden = Wedstrijd.objects.filter(
-            Q(poule=poule),
-            Q(team1=team) | Q(team2=team)
+            Q(poule=poule), Q(team1=team) | Q(team2=team)
         )
 
         for wedstrijd in wedstrijden:
             if wedstrijd.puntenTeam1 > 0 or wedstrijd.puntenTeam2 > 0:
-                return Response('Team heeft gespeelde wedstrijden', status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    "Team heeft gespeelde wedstrijden",
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         wedstrijden.delete()
         poule.teams.remove(team)

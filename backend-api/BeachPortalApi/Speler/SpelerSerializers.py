@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Speler
-        fields = ['id', 'naam', 'is_staff']
+        fields = ["id", "naam", "is_staff"]
 
     def get_naam(self, instance):
-        return f'{instance.first_name} {instance.last_name}'
+        return f"{instance.first_name} {instance.last_name}"

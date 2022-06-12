@@ -3,8 +3,7 @@ from unicodedata import category
 
 from BeachPortalApi.Poule.Poule import Poule
 from BeachPortalApi.Speelronde.Speelronde import Speelronde
-from BeachPortalApi.Speelronde.SpeelrondeSerializers import \
-    SpeelrondeSerializer
+from BeachPortalApi.Speelronde.SpeelrondeSerializers import SpeelrondeSerializer
 from BeachPortalApi.Wedstrijd.Wedstrijd import Wedstrijd
 from django.db.models import Q
 from rest_framework import generics, status
@@ -22,7 +21,7 @@ class CreateSpeelrondeViewSet(generics.CreateAPIView):
         if currentSpeelronde == None:
             return
 
-        pouleIds = currentSpeelronde.poules.values_list('id', flat=True)
+        pouleIds = currentSpeelronde.poules.values_list("id", flat=True)
         wedstrijden = Wedstrijd.objects.filter(poule_id__in=pouleIds)
 
         gespeeldeWedstrijd = 0
@@ -31,7 +30,10 @@ class CreateSpeelrondeViewSet(generics.CreateAPIView):
                 gespeeldeWedstrijd += 1
 
         if gespeeldeWedstrijd == 0:
-            return Response('Er zijn nog geen wedstrijden gespeeld', status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                "Er zijn nog geen wedstrijden gespeeld",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         newSpeelronde = Speelronde(nummer=currentSpeelronde.nummer + 1)
         newSpeelronde.save()
@@ -43,7 +45,7 @@ class CreateSpeelrondeViewSet(generics.CreateAPIView):
                 categorie=poule.categorie,
                 nummer=poule.nummer,
                 speeltijd=poule.speeltijd + timedelta(weeks=1),
-                speellocatie=poule.speellocatie
+                speellocatie=poule.speellocatie,
             )
             newPoule.save()
 
@@ -54,9 +56,7 @@ class CreateSpeelrondeViewSet(generics.CreateAPIView):
                 continue
 
             newPoule = Poule.objects.get(
-                speelronde=newSpeelronde,
-                categorie=poule.categorie,
-                nummer=poule.nummer
+                speelronde=newSpeelronde, categorie=poule.categorie, nummer=poule.nummer
             )
 
             # promote first team
@@ -67,15 +67,19 @@ class CreateSpeelrondeViewSet(generics.CreateAPIView):
                 higherPoule = Poule.objects.get(
                     speelronde=newSpeelronde,
                     categorie=poule.categorie,
-                    nummer=poule.nummer-1
+                    nummer=poule.nummer - 1,
                 )
                 higherPoule.teams.add(firstTeam)
 
             # keep middle teams in the same place
-            for i in range(1, aantalTeams-1):
+            for i in range(1, aantalTeams - 1):
                 newPoule.teams.add(stand[i].team)
 
-            lastPouleInSpeelronde = newSpeelronde.poules.filter(categorie=poule.categorie).order_by('-nummer').first()
+            lastPouleInSpeelronde = (
+                newSpeelronde.poules.filter(categorie=poule.categorie)
+                .order_by("-nummer")
+                .first()
+            )
             if lastPouleInSpeelronde == None:
                 raise Exception()
 
@@ -87,7 +91,7 @@ class CreateSpeelrondeViewSet(generics.CreateAPIView):
                 lowerPoule = Poule.objects.get(
                     speelronde=newSpeelronde,
                     categorie=poule.categorie,
-                    nummer=poule.nummer+1
+                    nummer=poule.nummer + 1,
                 )
                 lowerPoule.teams.add(lastTeam)
 
@@ -100,18 +104,16 @@ class CreateSpeelrondeViewSet(generics.CreateAPIView):
         poule.teams.remove(team)
 
     def addWedstrijden(self, poule):
-        teams = Poule.objects.prefetch_related(
-            'teams'
-        ).get(pk=poule.pk).teams.all()
+        teams = Poule.objects.prefetch_related("teams").get(pk=poule.pk).teams.all()
         aantalTeams = teams.count()
         for i, _ in enumerate(teams):
-            for j in range(i+1, aantalTeams):
+            for j in range(i + 1, aantalTeams):
                 Wedstrijd(
                     poule=poule,
                     team1=teams[i],
                     team2=teams[j],
                     puntenTeam1=0,
-                    puntenTeam2=0
+                    puntenTeam2=0,
                 ).save()
 
 
@@ -125,16 +127,21 @@ class DeleteSpeelrondeViewSet(generics.DestroyAPIView):
             return
 
         if speelronde.nummer == 1:
-            return Response('De eerste speelronde kan niet worden verwijderd', status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                "De eerste speelronde kan niet worden verwijderd",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        pouleIds = speelronde.poules.values_list('id', flat=True)
+        pouleIds = speelronde.poules.values_list("id", flat=True)
         gespeeldeWedstrijden = Wedstrijd.objects.filter(
-            Q(poule_id__in=pouleIds),
-            Q(puntenTeam1__gt=0) | Q(puntenTeam2__gt=0)
+            Q(poule_id__in=pouleIds), Q(puntenTeam1__gt=0) | Q(puntenTeam2__gt=0)
         ).count()
 
         if gespeeldeWedstrijden > 0:
-            return Response('De poule heeft al gespeelde wedstrijden', status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                "De poule heeft al gespeelde wedstrijden",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         speelronde.delete()
 
@@ -146,8 +153,9 @@ class GetCurrentSpeelrondeViewSet(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        serializer = SpeelrondeSerializer(
-            Speelronde.getCurrentSpeelronde())
+        speelronde = Speelronde.getCurrentSpeelronde()
+
+        serializer = SpeelrondeSerializer(speelronde)
         return Response(serializer.data)
 
 
