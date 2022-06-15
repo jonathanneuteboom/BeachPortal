@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import {
-  faMinus,
-  faPen,
-  faPlus,
-  faPlusMinus,
-  faTrophy,
-} from '@fortawesome/free-solid-svg-icons'
+import { faMinus, faPen, faPlus, faPlusMinus, faTrophy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { BlurView } from '@react-native-community/blur'
@@ -19,27 +13,14 @@ import { useStore } from '../../Context'
 
 type Props = {
   poule: Poule
+  onUpdate: () => void
 }
 
-var months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-]
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-const getTime = (date: Date): string =>
-  date.toLocaleTimeString().substring(0, 5)
+const getTime = (date: Date): string => date.toLocaleTimeString().substring(0, 5)
 
-const PouleComponent: React.FC<Props> = ({ poule }) => {
+const PouleComponent: React.FC<Props> = ({ poule, onUpdate }) => {
   const beachStore = useStore()
   const [wedstrijd, setWedstrijd] = useState<Wedstrijd>()
 
@@ -57,12 +38,13 @@ const PouleComponent: React.FC<Props> = ({ poule }) => {
         <View style={{ flex: 1, justifyContent: 'center' }}>
           <WedstrijdWijzigen
             wedstrijd={wedstrijd!}
-            onPress={wedstrijd => {
+            onSave={wedstrijd => {
               beachStore.updateWedstrijd(wedstrijd).then(() => {
                 setWedstrijd(undefined)
-                beachStore.getMyPoules()
+                onUpdate()
               })
             }}
+            onClose={() => setWedstrijd(undefined)}
           />
         </View>
       </Modal>
@@ -98,22 +80,16 @@ const PouleComponent: React.FC<Props> = ({ poule }) => {
                 <Text style={{ color: 'white' }}>{rankingItem.team.name}</Text>
               </View>
               <View style={styles.flex1}>
-                <Text style={{ color: 'white' }}>
-                  {rankingItem.gewonnenWedstrijden}
-                </Text>
+                <Text style={{ color: 'white' }}>{rankingItem.gewonnenWedstrijden}</Text>
               </View>
               <View style={styles.flex1}>
                 <Text style={{ color: 'white' }}>{rankingItem.puntenVoor}</Text>
               </View>
               <View style={styles.flex1}>
-                <Text style={{ color: 'white' }}>
-                  {rankingItem.puntenTegen}
-                </Text>
+                <Text style={{ color: 'white' }}>{rankingItem.puntenTegen}</Text>
               </View>
               <View style={styles.flex1}>
-                <Text style={{ color: 'white' }}>
-                  {rankingItem.quotient.toFixed(2)}
-                </Text>
+                <Text style={{ color: 'white' }}>{rankingItem.quotient.toFixed(2)}</Text>
               </View>
             </View>
           )
@@ -128,7 +104,7 @@ const PouleComponent: React.FC<Props> = ({ poule }) => {
             <View key={wedstrijd.id} style={styles.matchContainer}>
               <View style={styles.flex2}>
                 <Text numberOfLines={1} style={{ color: 'white' }}>
-                  {wedstrijd.team1.name}
+                  {wedstrijd.team1}
                 </Text>
               </View>
               <View style={{ ...styles.flex1, flexDirection: 'row' }}>
@@ -155,7 +131,7 @@ const PouleComponent: React.FC<Props> = ({ poule }) => {
               <View style={styles.flex2}>
                 <View style={{ flexDirection: 'row-reverse' }}>
                   <Text numberOfLines={1} style={{ color: 'white' }}>
-                    {wedstrijd.team2.name}
+                    {wedstrijd.team2}
                   </Text>
                 </View>
               </View>

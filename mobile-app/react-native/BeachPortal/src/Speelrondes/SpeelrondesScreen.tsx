@@ -1,15 +1,20 @@
+import { ThemeProvider } from '@react-navigation/native'
 import { observer } from 'mobx-react-lite'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
   Image,
   ImageBackground,
   ScrollView,
   StyleSheet,
+  Text,
+  TouchableOpacity,
   View,
 } from 'react-native'
 
 import PouleComponent from '../Components/Poule/PouleComponent'
+import Speelronde from '../Components/Poule/Speelronde'
+import Spinner from '../Components/Poule/Spinner'
 import { useStore } from '../Context'
 
 const mainBackground = require('./../images/mainBackground.jpg')
@@ -17,13 +22,20 @@ const mainBackground = require('./../images/mainBackground.jpg')
 const SpeelrondesScreen: React.FC = () => {
   const beachStore = useStore()
 
-  useEffect(() => beachStore.getAllSpeelronde(), [])
+  const [selectedSpeelronde, setSelectedSpeelronde] = useState(0)
+  const [speelrondes, setSpeelrondes] = useState<Speelronde[]>()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { allSpeelrondes } = beachStore
-
-  const numberOfSpeelrondes = allSpeelrondes.length
-  const currentSpeelronde =
-    numberOfSpeelrondes >= 1 ? allSpeelrondes[numberOfSpeelrondes - 1] : null
+  useEffect(() => {
+    setIsLoading(true)
+    beachStore
+      .getAllSpeelronde()
+      .then(speelrondes => {
+        setSpeelrondes(speelrondes)
+        setSelectedSpeelronde(speelrondes.length - 1)
+      })
+      .finally(() => setIsLoading(false))
+  }, [])
 
   return (
     <View style={{ flex: 1 }}>
@@ -32,24 +44,72 @@ const SpeelrondesScreen: React.FC = () => {
         resizeMode="cover"
         style={{ flex: 1 }}
       >
-        <ScrollView>
-          {currentSpeelronde != null && (
-            <View>
-              {currentSpeelronde.poules.map(poule => (
+        {isLoading && <Spinner />}
+
+        {speelrondes && (
+          <>
+            <View style={styles.buttonContainer}>
+              {speelrondes.map((_, i) => (
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    i === selectedSpeelronde ? styles.selectedButton : {},
+                  ]}
+                  key={i}
+                  onPress={() => setSelectedSpeelronde(i)}
+                >
+                  <Text
+                    style={[
+                      styles.buttonText,
+                      i === selectedSpeelronde ? styles.selectedButtonText : {},
+                    ]}
+                  >
+                    {i + 1}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <ScrollView>
+              {speelrondes[selectedSpeelronde].poules.map(poule => (
                 <View key={poule.id} style={styles.pouleContainer}>
                   <PouleComponent poule={poule} />
                 </View>
               ))}
-            </View>
-          )}
-        </ScrollView>
+            </ScrollView>
+          </>
+        )}
       </ImageBackground>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  pouleContainer: { margin: 25 },
+  pouleContainer: {
+    margin: 25,
+  },
+  buttonContainer: {
+    margin: 25,
+    flexDirection: 'row',
+  },
+  button: {
+    flex: 1,
+    margin: 10,
+    backgroundColor: '#6c757d',
+    borderWidth: 1,
+  },
+  selectedButton: {
+    backgroundColor: '#007bff',
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  selectedButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+  },
 })
 
 export default observer(SpeelrondesScreen)

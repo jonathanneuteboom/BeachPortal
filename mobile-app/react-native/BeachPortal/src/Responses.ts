@@ -28,8 +28,8 @@ interface SpeellocatieResponse {
 type WedstrijdListResponse = WedstrijdResponse[]
 interface WedstrijdResponse {
   id: number
-  team1: TeamResponse
-  team2: TeamResponse
+  team1: string
+  team2: string
   puntenTeam1: number
   puntenTeam2: number
 }

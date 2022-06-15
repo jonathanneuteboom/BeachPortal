@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
+  ActivityIndicator,
   Image,
   ImageBackground,
   ScrollView,
@@ -9,18 +10,42 @@ import {
   Text,
   View,
 } from 'react-native'
+import Poule from '../Components/Poule/Poule'
 
 import PouleComponent from '../Components/Poule/PouleComponent'
+import Spinner from '../Components/Poule/Spinner'
 
 import { useStore } from '../Context'
 
 const mainBackground = require('./../images/mainBackground.jpg')
 
 const MijnBeachScreen: React.FC = () => {
-  const beachStore = useStore()
-  const { myPoules } = beachStore
+  const [isLoading, setIsLoading] = useState(false)
+  const [myPoules, setMyPoules] = useState<Poule[]>()
 
-  useEffect(() => beachStore.getMyPoules(), [])
+  const beachStore = useStore()
+
+  useEffect(() => {
+    setIsLoading(true)
+    beachStore
+      .getMyPoules()
+      .then(poules => setMyPoules(poules))
+      .catch(error => {
+        const { response } = error
+        if (response.status === 401) {
+          beachStore.logout()
+        }
+      })
+      .finally(() => setIsLoading(false))
+  }, [])
+
+  const wedstrijdUpdated = () => {
+    setIsLoading(true)
+    beachStore
+      .getMyPoules()
+      .then(poules => setMyPoules(poules))
+      .finally(() => setIsLoading(false))
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -30,24 +55,30 @@ const MijnBeachScreen: React.FC = () => {
         style={{ flex: 1 }}
       >
         <ScrollView>
-          {myPoules.map(poule => (
-            <View key={poule.id} style={styles.pouleContainer}>
-              <PouleComponent poule={poule} />
-            </View>
-          ))}
+          {isLoading && <Spinner />}
 
-          {myPoules.length === 0 && (
-            <View style={{ margin: 50 }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                }}
-              >
-                <View>
-                  <Text>Je zit niet in een poule</Text>
+          {myPoules && (
+            <View>
+              {myPoules.length === 0 && (
+                <View style={{ margin: 50 }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <View>
+                      <Text>Je zit niet in een poule</Text>
+                    </View>
+                  </View>
                 </View>
-              </View>
+              )}
+
+              {myPoules.map(poule => (
+                <View key={poule.id} style={styles.pouleContainer}>
+                  <PouleComponent poule={poule} onUpdate={wedstrijdUpdated} />
+                </View>
+              ))}
             </View>
           )}
         </ScrollView>

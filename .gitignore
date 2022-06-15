@@ -49,3 +49,5 @@ backend-api/env-3-8-6
 *.pyc
 .vscode
 deployment.tar
+*.aab
+*.apk
